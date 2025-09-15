@@ -8,18 +8,17 @@ LIBFT_FILE			=	42_libft/libft.a
 LDFLAGS     		=	-L 42_libft -l ft
 MAKE_LIB			=	make -C
 
-# LIST_SRC_DIR		=	list_operations
+LIST_SRC_DIR		=	list_operations
 # STACK_SRC_DIR		=	stack_operations
 # BASIC_SORT_SRC_DIR	=	basic_sorts
 # VALIDATION_SRC_DIR	=	validation
 
-MINISHELL_SRC		=	main.c
-# LIST_SRC			=	$(LIST_SRC_DIR)/ft_stackadd_back.c \
-# 						$(LIST_SRC_DIR)/ft_stackclear.c \
-# 						$(LIST_SRC_DIR)/ft_stacksize.c \
-# 						$(LIST_SRC_DIR)/ft_stackadd_front.c \
-# 						$(LIST_SRC_DIR)/ft_stacklast.c \
-# 						$(LIST_SRC_DIR)/ft_stacknew.c
+LIST_SRC			=	$(LIST_SRC_DIR)/ft_envadd_back.c \
+						$(LIST_SRC_DIR)/ft_envclear.c \
+						$(LIST_SRC_DIR)/ft_envsize.c \
+						$(LIST_SRC_DIR)/ft_envadd_front.c \
+						$(LIST_SRC_DIR)/ft_envlast.c \
+						$(LIST_SRC_DIR)/ft_envnew.c
 
 # STACK_SRC			=	$(STACK_SRC_DIR)/swap.c \
 # 						$(STACK_SRC_DIR)/push.c \
@@ -40,6 +39,8 @@ MINISHELL_SRC		=	main.c
 # 						$(PS_SRC) \
 # 						$(BASIC_SORT_SRC) \
 # 						$(VALIDATION_SRC) 
+MINISHELL_SRC		=	main.c blt.c \
+						$(LIST_SRC)
  
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
 
