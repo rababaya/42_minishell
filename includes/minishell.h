@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/15 18:25:03 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:01:44 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@
 
 typedef struct s_env
 {
-    char			*key;
-    char			*value;
-    struct s_env	*next;
-} t_env;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
+void	ft_envprint(t_env *env_list);
 t_env	*ft_envnew(void *key, void *value);
 void	ft_envadd_front(t_env **env, t_env *new);
 int		ft_envsize(t_env *env);
@@ -35,7 +36,6 @@ void	ft_envadd_back(t_env **env, t_env *new);
 void	ft_envdelone(t_env *env, void (*del)(void *));
 void	ft_envclear(t_env **env);
 void	ft_enviter(t_env *env, void (*f)(void *));
-
 t_env	*parse_env(char **env);
 
 #endif

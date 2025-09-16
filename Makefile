@@ -18,6 +18,7 @@ LIST_SRC			=	$(LIST_SRC_DIR)/ft_envadd_back.c \
 						$(LIST_SRC_DIR)/ft_envsize.c \
 						$(LIST_SRC_DIR)/ft_envadd_front.c \
 						$(LIST_SRC_DIR)/ft_envlast.c \
+						$(LIST_SRC_DIR)/ft_envprint.c \
 						$(LIST_SRC_DIR)/ft_envnew.c
 
 # STACK_SRC			=	$(STACK_SRC_DIR)/swap.c \
