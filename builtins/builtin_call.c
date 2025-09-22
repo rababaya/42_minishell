@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 17:35:58 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/17 17:37:00 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/09/22 18:38:09 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 int	call(char **args)
 {
-	
+	if (args[0] == "echo")
+		ft_echo(args);
 }

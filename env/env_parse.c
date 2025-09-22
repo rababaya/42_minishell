@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   blt.c                                              :+:      :+:    :+:   */
+/*   env_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:33 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/16 17:34:22 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/09/22 18:37:33 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	free_split(char ***s, size_t count)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < count)
+	{
+		free((*s)[i]);
+		++i;
+	}
+	free(*s);
+	*s = NULL;
+	return ;
+}
 
 t_env	*parse_env(char **env)
 {
@@ -39,4 +54,33 @@ t_env	*parse_env(char **env)
 		env++;
 	}
 	return (env_list);
+}
+
+char	**lst_to_str(t_env *env)
+{
+	int		size;
+	int		i;
+	t_env	*start;
+	char	*key_str;
+	char	**env_str;
+
+	size = ft_envsize(env);
+	env_str = (char **)malloc((size + 1) * sizeof(char *));
+	if (!env_str)
+		return (NULL);
+	i = -1;
+	start = env;
+	while (++i < size)
+	{
+		key_str = ft_strjoin(env->key, "=");
+		if (!key_str)
+			return (free_split(&env_str, i), NULL);
+		env_str[i] = ft_strjoin(key_str, env->value);
+		if (!env_str)
+			return (free_split(&env_str, i), free(key_str), NULL);
+		free(key_str);
+		env = env->next;
+	}
+	env_str[i] = NULL;
+	return (env = start, env_str);
 }

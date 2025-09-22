@@ -40,7 +40,7 @@ LIST_SRC			=	$(LIST_SRC_DIR)/ft_envadd_back.c \
 # 						$(PS_SRC) \
 # 						$(BASIC_SORT_SRC) \
 # 						$(VALIDATION_SRC) 
-MINISHELL_SRC		=	main.c blt.c builtins/echo.c \
+MINISHELL_SRC		=	main.c env/env_parse.c utils/print.c builtins/echo.c \
 						$(LIST_SRC)
  
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)

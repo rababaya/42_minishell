@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/17 17:11:17 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:36:05 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	ft_envdelone(t_env *env, void (*del)(void *));
 void	ft_envclear(t_env **env);
 void	ft_enviter(t_env *env, void (*f)(void *));
 t_env	*parse_env(char **env);
-void	ft_echo(char *str, int nl);
+void	ft_echo(char **args);
+char	**lst_to_str(t_env *env);
+void	print(char *str);
 
 #endif

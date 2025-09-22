@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 16:33:57 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/22 15:39:34 by rababaya         ###   ########.fr       */
+/*   Created: 2025/09/22 16:25:53 by rababaya          #+#    #+#             */
+/*   Updated: 2025/09/22 18:38:26 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlen(const char	*s)
+void	print(char *str)
 {
-	size_t	n;
-
-	n = 0;
-	if (!s)
-		return (0);
-	while (s[n])
-		++n;
-	return (n);
+	if (printf("%s", str) < 0)
+		perror("minishell");
 }
