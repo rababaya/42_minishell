@@ -6,14 +6,14 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 17:35:58 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/22 18:38:09 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:41:04 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	call(char **args)
-{
-	if (args[0] == "echo")
-		ft_echo(args);
-}
+// int	call(char **args)
+// {
+// 	if (args[0] == "echo")
+// 		ft_echo(args);
+// }

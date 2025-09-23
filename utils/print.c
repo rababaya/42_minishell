@@ -6,14 +6,15 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 16:25:53 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/22 18:38:26 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:40:31 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print(char *str)
+int	print(char *str)
 {
 	if (printf("%s", str) < 0)
-		perror("minishell");
+		return (perror("minishell"), -1);
+	return (0);
 }
