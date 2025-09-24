@@ -8,38 +8,31 @@ LIBFT_FILE			=	42_libft/libft.a
 LDFLAGS     		=	-L 42_libft -l ft
 MAKE_LIB			=	make -C
 
-# LIST_SRC_DIR		=	list_operations
-# STACK_SRC_DIR		=	stack_operations
-# BASIC_SORT_SRC_DIR	=	basic_sorts
-# VALIDATION_SRC_DIR	=	validation
+LIST_SRC_DIR		=	list_operations
+ENV_SRC_DIR			=	env
+UTILS_SRC_DIR		=	utils
+BUILTINS_SRC_DIR	=	builtins
+TKN_SRC_DIR			=	tokenisation
 
-MINISHELL_SRC		=	main.c
-# LIST_SRC			=	$(LIST_SRC_DIR)/ft_stackadd_back.c \
-# 						$(LIST_SRC_DIR)/ft_stackclear.c \
-# 						$(LIST_SRC_DIR)/ft_stacksize.c \
-# 						$(LIST_SRC_DIR)/ft_stackadd_front.c \
-# 						$(LIST_SRC_DIR)/ft_stacklast.c \
-# 						$(LIST_SRC_DIR)/ft_stacknew.c
+LIST_SRC			=	$(LIST_SRC_DIR)/ft_envadd_back.c \
+						$(LIST_SRC_DIR)/ft_envclear.c \
+						$(LIST_SRC_DIR)/ft_envsize.c \
+						$(LIST_SRC_DIR)/ft_envadd_front.c \
+						$(LIST_SRC_DIR)/ft_envlast.c \
+						$(LIST_SRC_DIR)/ft_envprint.c \
+						$(LIST_SRC_DIR)/ft_envnew.c
 
-# STACK_SRC			=	$(STACK_SRC_DIR)/swap.c \
-# 						$(STACK_SRC_DIR)/push.c \
-# 						$(STACK_SRC_DIR)/rotate.c \
-# 						$(STACK_SRC_DIR)/r_rotate.c
+BUILTINS_SRC		=	$(BUILTINS_SRC_DIR)/builtin_call.c \
+						$(BUILTINS_SRC_DIR)/echo.c 
 
-# BASIC_SORT_SRC		=	$(BASIC_SORT_SRC_DIR)/manual_sorting.c
+UTILS_SRC			=	$(UTILS_SRC_DIR)/print.c
 
-# VALIDATION_SRC		=	$(VALIDATION_SRC_DIR)/join_split.c \
-# 						$(VALIDATION_SRC_DIR)/validation.c
- 
-# PS_SRC				=	sorting/sorting.c \
-# 						sorting/utils.c
- 
-# PUSH_SWAP_SRC		=	main.c \
-# 						$(LIST_SRC) \
-# 						$(STACK_SRC) \
-# 						$(PS_SRC) \
-# 						$(BASIC_SORT_SRC) \
-# 						$(VALIDATION_SRC) 
+ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c
+
+TKN_SRC				=	$(TKN_SRC_DIR)/tokenise.c
+
+MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
+						$(LIST_SRC) $(TKN_SRC)
  
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
 
