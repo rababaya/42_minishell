@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_envfind.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/24 15:45:17 by rababaya         ###   ########.fr       */
+/*   Created: 2025/09/24 16:04:23 by rababaya          #+#    #+#             */
+/*   Updated: 2025/09/24 16:12:30 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+t_env	*ft_envfind(t_env *env_list, char *key)
 {
-	t_env	*env_list;
-	// char	*input;
-	
-	(void)argc;
-	// (void)env; 
-	env_list = parse_env(env);
-	// ft_envprint(env_list);
-	call(&argv[1], env_list);
-	// lst_to_str(env_list);
-	// ft_envclear(&env_list);
-	// while (1)
-	// {
-	// 	input = readline("<minishell>");
-	// 	if (!input)
-	// 		break ;
-	// 	add_history(input);
-	// 	free(input);
-	// }
+	while (env_list && ft_strncmp(env_list->key, key, 4))
+		env_list = env_list->next;
+	return (env_list);
 }

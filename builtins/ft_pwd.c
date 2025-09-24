@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/24 15:45:17 by rababaya         ###   ########.fr       */
+/*   Created: 2025/09/23 17:33:58 by rababaya          #+#    #+#             */
+/*   Updated: 2025/09/24 16:13:07 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+int	ft_pwd(t_env *env_list)
 {
-	t_env	*env_list;
-	// char	*input;
+	char	*pwd;
 	
-	(void)argc;
-	// (void)env; 
-	env_list = parse_env(env);
-	// ft_envprint(env_list);
-	call(&argv[1], env_list);
-	// lst_to_str(env_list);
-	// ft_envclear(&env_list);
-	// while (1)
-	// {
-	// 	input = readline("<minishell>");
-	// 	if (!input)
-	// 		break ;
-	// 	add_history(input);
-	// 	free(input);
-	// }
+	env_list = ft_envfind(env_list, "PWD");
+	if (env_list)
+	{
+		if (print(env_list->value) < 0)
+			return (-1);
+	}
+	else
+	{
+		pwd = getcwd(NULL, 0);
+		if (print(pwd) < 0)
+			return (free(pwd), -1);
+		free(pwd);
+	}
+	if (print("\n") < 0)
+		return (-1);
+	return (1);
 }

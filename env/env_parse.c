@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:33 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/22 18:37:33 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/09/23 17:48:16 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ char	**lst_to_str(t_env *env)
 {
 	int		size;
 	int		i;
-	t_env	*start;
 	char	*key_str;
 	char	**env_str;
 
@@ -69,7 +68,6 @@ char	**lst_to_str(t_env *env)
 	if (!env_str)
 		return (NULL);
 	i = -1;
-	start = env;
 	while (++i < size)
 	{
 		key_str = ft_strjoin(env->key, "=");
@@ -82,5 +80,5 @@ char	**lst_to_str(t_env *env)
 		env = env->next;
 	}
 	env_str[i] = NULL;
-	return (env = start, env_str);
+	return (env_str);
 }
