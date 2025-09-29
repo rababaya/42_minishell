@@ -17,7 +17,7 @@ int	main(int argc, char **argv, char **env)
 	//	t_env	*env_list;
 	char	*input;
 	//char **args = &argv[1];
-	t_env	*tkn;
+	t_tkn	*tkn;
 	
 	(void)argc;
 	(void)argv;
@@ -33,11 +33,12 @@ int	main(int argc, char **argv, char **env)
 		if (!input)
 			break ;
 		add_history(input);
-		tkn = tokenisation(input);
+		//tkn = tokenisation(input);
+		tkn = token_ape(input);
 		if (!tkn)
 			return (printf("chexav ape\n"), 0);
-		ft_envprint(tkn);
-		ft_envclear(&tkn);
+		ft_tknprint(tkn);
+		ft_tknclear(&tkn);
 		free(input);
 	}
 }

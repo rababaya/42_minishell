@@ -20,12 +20,25 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+enum Type {
+  EXEC,
+  ARG,
+  REDIR
+}; 
+
 typedef struct s_env
 {
 	char			*key;
 	char			*value;
 	struct s_env	*next;
 }	t_env;
+
+typedef struct s_tkn
+{
+	char			*token;
+	int				type;
+	struct s_tkn	*next;
+}	t_tkn;
 
 void	ft_envprint(t_env *env_list);
 t_env	*ft_envnew(void *key, void *value);
@@ -36,11 +49,23 @@ void	ft_envadd_back(t_env **env, t_env *new);
 void	ft_envdelone(t_env *env, void (*del)(void *));
 void	ft_envclear(t_env **env);
 void	ft_enviter(t_env *env, void (*f)(void *));
+
+void	ft_tknadd_back(t_tkn **tkn, t_tkn *new);
+void	ft_tknadd_front(t_tkn **tkn, t_tkn *new);
+void	ft_tknclear(t_tkn **tkn);
+void	ft_lstdelone(t_list *lst, void (*del)(void *));
+void	ft_tkniter(t_tkn *tkn, void (*f)(void *));
+t_tkn	*ft_tknlast(t_tkn *tkn);
+t_tkn	*ft_tknnew(char *token, int type);
+void	ft_tknprint(t_tkn *tkn_list);
+int		ft_tknsize(t_tkn *tkn);
+
 t_env	*parse_env(char **env);
 int		ft_echo(char **args);
 char	**lst_to_str(t_env *env);
 int		print(char *str);
 
-t_env	*tokenisation(char *str);
+t_tkn	*tokenisation(char *str);
+t_tkn *token_ape(char *str);
 
 #endif

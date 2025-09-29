@@ -1,5 +1,24 @@
 #include "minishell.h"
 
+
+// char	*ft_nexttkn(char *str, int *num)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	*res;
+
+// 	i = 0;
+// 	while (*str && (*str == ' ' || (*str >= 9 && *str <= 13)))
+// 	{
+// 		(*num)++;
+// 		str++;
+// 	}
+// }
+
+
+
+
+
 char	*ft_nexttkn(char *str, int *num)
 {
 	int		i;
@@ -26,6 +45,10 @@ char	*ft_nexttkn(char *str, int *num)
 	j = 0;
 	while (j < i)
 	{
+		// if (str[j] == '$')
+		// {
+		// 	res[]
+		// }
 		res[j] = str[j];
 		j++;
 	}
@@ -34,10 +57,10 @@ char	*ft_nexttkn(char *str, int *num)
 
 }
 
-t_env	*tokenisation(char *str)
+t_tkn	*tokenisation(char *str)
 {
-	t_env	*res;
-	t_env	*tmp;
+	t_tkn	*res;
+	t_tkn	*tmp;
 	int		i;
 	int		j;
 
@@ -52,10 +75,10 @@ t_env	*tokenisation(char *str)
 			j = 1;
 			while (str[i + j] && str[i + j] != '\'')
 				j++;
-			tmp = ft_envnew(ft_substr(str, i + 1, j - 1), NULL);
+			tmp = ft_tknnew(ft_substr(str, i + 1, j - 1), 0);
 			if (!tmp)
 				return (NULL);
-			ft_envadd_back(&res, tmp);
+			ft_tknadd_back(&res, tmp);
 			i += j + 1;
 			continue ;
 		}
@@ -64,17 +87,17 @@ t_env	*tokenisation(char *str)
 			j = 1;
 			while (str[i + j] && str[i + j] != '\"')
 				j++;
-			tmp = ft_envnew(ft_substr(str, i + 1, j - 1), NULL);
+			tmp = ft_tknnew(ft_substr(str, i + 1, j - 1), 0);
 			if (!tmp)
 				return (NULL);
-			ft_envadd_back(&res, tmp);
+			ft_tknadd_back(&res, tmp);
 			i += j + 1;
 			continue ;
 		}
-		tmp = ft_envnew(ft_nexttkn(str + i, &i), NULL);
+		tmp = ft_tknnew(ft_nexttkn(str + i, &i), 0);
 		if (!tmp)
 			return (NULL);
-		ft_envadd_back(&res, tmp);
+		ft_tknadd_back(&res, tmp);
 	}
 	return (res);
 }

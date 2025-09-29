@@ -9,10 +9,11 @@ LDFLAGS     		=	-L 42_libft -l ft
 MAKE_LIB			=	make -C
 
 LIST_SRC_DIR		=	list_operations
+TKN_SRC_DIR			=	tkn_operations
 ENV_SRC_DIR			=	env
 UTILS_SRC_DIR		=	utils
 BUILTINS_SRC_DIR	=	builtins
-TKN_SRC_DIR			=	tokenisation
+TKNSE_SRC_DIR		=	tokenisation
 
 LIST_SRC			=	$(LIST_SRC_DIR)/ft_envadd_back.c \
 						$(LIST_SRC_DIR)/ft_envclear.c \
@@ -22,6 +23,14 @@ LIST_SRC			=	$(LIST_SRC_DIR)/ft_envadd_back.c \
 						$(LIST_SRC_DIR)/ft_envprint.c \
 						$(LIST_SRC_DIR)/ft_envnew.c
 
+TKN_SRC				=	$(TKN_SRC_DIR)/ft_tknadd_back.c \
+						$(TKN_SRC_DIR)/ft_tknadd_front.c \
+						$(TKN_SRC_DIR)/ft_tknclear.c \
+						$(TKN_SRC_DIR)/ft_tknsize.c \
+						$(TKN_SRC_DIR)/ft_tknlast.c \
+						$(TKN_SRC_DIR)/ft_tknprint.c \
+						$(TKN_SRC_DIR)/ft_tknnew.c \
+
 BUILTINS_SRC		=	$(BUILTINS_SRC_DIR)/builtin_call.c \
 						$(BUILTINS_SRC_DIR)/echo.c 
 
@@ -29,10 +38,10 @@ UTILS_SRC			=	$(UTILS_SRC_DIR)/print.c
 
 ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c
 
-TKN_SRC				=	$(TKN_SRC_DIR)/tokenise.c
+TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c token_ape.c
 
 MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
-						$(LIST_SRC) $(TKN_SRC)
+						$(LIST_SRC) $(TKN_SRC) $(TKNSE_SRC)
  
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
 
