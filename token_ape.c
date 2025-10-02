@@ -54,23 +54,29 @@ int	is_red(char *str)
 int	crt_tkn(t_tkn **list, char *str, int *i, int *n, t_env *vars)
 {
 	int	j;
+	int	k;
 	char	*buf;
 	t_tkn	*tmp;
 
 	j = 0;
 	while (str[*i + j] && !is_whitespace(str[*i + j]))
 	{
-		if (str[*i + j] == '$')
+		if (str[*i + j] == '\'')
 		{
-			j += check_vars(&str[*i + j + 1], vars);
+			while (str[*i + j] != '\'')
+				j++;
 		}
-		j++;
+		else if (str[*i + j] == '$')
+			j += var_len(&str[*i + j + 1], vars);
+		else
+			j++;
 	}
 	if (str[*i + j])
 		j++;
 	buf = ft_substr(str, *i, j);
 	if (!buf)
 		return (0);
+	buf[j - 1] = 0;
 	tmp = ft_tknnew(buf, *n);
 	if (!tmp)
 		return (free(buf), 0);
@@ -105,4 +111,81 @@ t_tkn *token_ape(char *str, t_env *vars)
 			i++;
 	}
 	return (res);
+}
+
+char	*var_handler(char *str, t_env *vars)
+{
+	int	i;
+
+	while (!is_whitespace(str[i]))
+		i++;
+	while (vars && ft_strncmp(vars->key, str, i) && vars->key[i])
+		vars = vars->next;
+	if (vars)
+		return (vars->value);
+	return (NULL);
+}
+
+char	*single_q(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '\'')
+		i++;
+	if (!str[i])
+		return (NULL);
+	return (ft_substr(str, 0, i));
+}
+
+char	*double_q(char *str, t_env *vars)///////
+{
+	char	*res;
+	char	*buf;
+	int	prev;
+	int	i;
+
+	i = 0;
+	prev = 0;
+	while (str[i] && str[i] != '\"')
+	{
+		if (str[i] == '$')
+		{
+			buf = ft_substr(str, prev, i - prev);
+			if (!buf)// add Hiroshima later
+				return (NULL)
+			res = ft_strjoin(res, buf);//maybe leak
+			if (!res) // add Nagasaki later
+				return (NULL);
+			buf = var_handler(&str[i + 1], vars);
+			if (buf)
+			{
+				res = ft_strjoin(res, buf);
+				if (!res)
+					return (NULL);
+			}
+			i += 
+		}
+	}
+	if (!str[i])
+		return (NULL);
+	return (ft_substr(str, 0, i));
+}
+
+
+
+t_tkn	*nigga(char *str, t_env *vars)
+{
+	//char	*str;
+	char	*buf;
+	t_tkn	*tkn;
+	int		i;
+	int		j;
+
+	while (*str)
+	{
+		
+			
+	}
+
 }
