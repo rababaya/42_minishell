@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/24 15:45:17 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/02 17:27:50 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_env	*env_list;
+	//char	**export;
 	// char	*input;
 	
 	(void)argc;
-	// (void)env; 
+	// (void)env;
 	env_list = parse_env(env);
+	//export = lst_to_str(env_list);
 	// ft_envprint(env_list);
 	call(&argv[1], env_list);
 	// lst_to_str(env_list);

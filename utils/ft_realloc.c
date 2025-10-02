@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/23 16:43:03 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/29 13:31:46 by rababaya         ###   ########.fr       */
+/*   Created: 2025/09/29 18:28:42 by rababaya          #+#    #+#             */
+/*   Updated: 2025/10/03 00:18:08 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(char **args, t_env *env_list)
+void	*ft_my_realloc(void *ptr, size_t old_size, size_t new_size)
 {
-	if (args[1])
-		return (printf("env: ‘%s’: No such file or directory", args[1]), 127);
-	if (ft_envprint(env_list) < 0)
-		return (-1);
-	return (1);
+	void	*new;
+	size_t	copy_size;
+
+	new = malloc(new_size);
+	if (!new)
+		return (free(ptr), NULL);
+	if (old_size < new_size)
+		copy_size = old_size;
+	else
+		copy_size = new_size;
+	ft_memcpy(new, ptr, copy_size);
+	free(ptr);
+	return (new);
 }

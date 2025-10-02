@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 17:33:58 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/24 16:13:07 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/03 00:18:52 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_pwd(t_env *env_list)
 {
 	char	*pwd;
-	
+
 	env_list = ft_envfind(env_list, "PWD");
 	if (env_list)
 	{
