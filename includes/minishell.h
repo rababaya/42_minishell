@@ -21,7 +21,6 @@
 # include <readline/history.h>
 
 enum Type {
-  EXEC,
   ARG,
   REDIR
 }; 
@@ -60,12 +59,14 @@ t_tkn	*ft_tknnew(char *token, int type);
 void	ft_tknprint(t_tkn *tkn_list);
 int		ft_tknsize(t_tkn *tkn);
 
+char	*ft_strglue(char *s1, char *s2);
+
 t_env	*parse_env(char **env);
 int		ft_echo(char **args);
 char	**lst_to_str(t_env *env);
 int		print(char *str);
 
 t_tkn	*tokenisation(char *str);
-t_tkn *token_ape(char *str);
+t_tkn 	*tokenise(char *str);
 
 #endif

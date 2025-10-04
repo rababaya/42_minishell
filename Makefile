@@ -34,11 +34,12 @@ TKN_SRC				=	$(TKN_SRC_DIR)/ft_tknadd_back.c \
 BUILTINS_SRC		=	$(BUILTINS_SRC_DIR)/builtin_call.c \
 						$(BUILTINS_SRC_DIR)/echo.c 
 
-UTILS_SRC			=	$(UTILS_SRC_DIR)/print.c
+UTILS_SRC			=	$(UTILS_SRC_DIR)/print.c \
+						$(UTILS_SRC_DIR)/ft_strglue.c
 
 ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c
 
-TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c token_ape.c
+TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c
 
 MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
 						$(LIST_SRC) $(TKN_SRC) $(TKNSE_SRC)

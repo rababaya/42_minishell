@@ -1,103 +1,107 @@
 #include "minishell.h"
 
-
-// char	*ft_nexttkn(char *str, int *num)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*res;
-
-// 	i = 0;
-// 	while (*str && (*str == ' ' || (*str >= 9 && *str <= 13)))
-// 	{
-// 		(*num)++;
-// 		str++;
-// 	}
-// }
-
-
-
-
-
-char	*ft_nexttkn(char *str, int *num)
+int	is_whitespace(char c)
 {
-	int		i;
-	int		j;
-	char	*res;
-
-	i = 0;
-	while (*str && (*str == ' ' || (*str >= 9 && *str <= 13)))
-	{
-		(*num)++;
-		str++;
-	}
-	if (!*str)
-		return (NULL);
-	while (str[i] && str[i] != ' ' && !(str[i] >= 9 && str[i] <= 13))
-	{
-		(*num)++;
-		i++;
-	}
-	res = (char *)malloc(i + 1);
-	if (!res)
-		return (NULL);
-	res[i] = 0;
-	j = 0;
-	while (j < i)
-	{
-		// if (str[j] == '$')
-		// {
-		// 	res[]
-		// }
-		res[j] = str[j];
-		j++;
-	}
-	return (res);
-	
-
+	if (c == ' ' || (c >= 9 && c <= 13) || !c)
+		return (1);
+	return (0);
 }
 
-t_tkn	*tokenisation(char *str)
+int	is_red(char *str)
+{
+	if (!strncmp (str, "<<", 2))
+		return (2);
+	if (!strncmp (str, ">>", 2))
+		return (2);
+	if (*str == '<')
+		return (1);
+	if (*str == '>')
+		return (1);
+	if (*str == '|')
+		return (1);
+	if (!strncmp (str, "&&", 2))
+		return (2);
+	if (!strncmp (str, "||", 2))
+		return (2);
+	return (0);
+}
+
+t_tkn	*tkn_red(char **str)
+{
+	char	*tmp;
+	t_tkn	*res;
+
+	tmp = ft_substr(*str, 0, is_red(*str));
+	if (!tmp)
+		return (NULL);
+	(*str) += is_red(*str);
+	res = ft_tknnew(tmp, REDIR);
+	if (!res)
+		free(tmp);
+	return (res);
+}
+
+t_tkn	*tkn_arg(char **str)
 {
 	t_tkn	*res;
-	t_tkn	*tmp;
+	char	*buf;
 	int		i;
-	int		j;
-
+	
 	i = 0;
-	res = NULL;
-	while (str[i])
+	while ((*str)[i] && !is_whitespace((*str)[i]) && !is_red(&(*str)[i]))
 	{
-		while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		if ((*str)[i] == '\"')
+		{
 			i++;
-		if (str[i] == '\'')
-		{
-			j = 1;
-			while (str[i + j] && str[i + j] != '\'')
-				j++;
-			tmp = ft_tknnew(ft_substr(str, i + 1, j - 1), 0);
-			if (!tmp)
-				return (NULL);
-			ft_tknadd_back(&res, tmp);
-			i += j + 1;
-			continue ;
+			while ((*str)[i] && (*str)[i] != '\"')
+				i++;
+			if (!(*str)[i])
+				return (NULL); //add error message later
 		}
-		if (str[i] == '\"')
+		if ((*str)[i] == '\'')
 		{
-			j = 1;
-			while (str[i + j] && str[i + j] != '\"')
-				j++;
-			tmp = ft_tknnew(ft_substr(str, i + 1, j - 1), 0);
-			if (!tmp)
-				return (NULL);
-			ft_tknadd_back(&res, tmp);
-			i += j + 1;
-			continue ;
+			i++;
+			while ((*str)[i] && (*str)[i] != '\'')
+				i++;
+			if (!(*str)[i])
+				return (NULL); //add error message later 
 		}
-		tmp = ft_tknnew(ft_nexttkn(str + i, &i), 0);
-		if (!tmp)
-			return (NULL);
-		ft_tknadd_back(&res, tmp);
+		i++;
+	}
+	buf = ft_substr(*str, 0, i);
+	if (!buf)
+		return (NULL);
+	(*str) += i;
+	res = ft_tknnew(buf, ARG);
+	if (!res)
+		free(buf);
+	return (res);
+}
+
+t_tkn	*tokenise(char *str)
+{
+	t_tkn	*buf;
+	t_tkn	*res;
+
+	res = NULL;
+	while (*str)
+	{
+		if (is_red(str))
+		{
+			buf = tkn_red(&str);
+			if (!buf)
+				return (ft_tknclear(&res), NULL);
+			ft_tknadd_back(&res, buf);
+		}
+		else if (is_whitespace(*str))
+			str++;
+		else
+		{
+			buf = tkn_arg(&str);
+			if (!buf)
+				return (ft_tknclear(&res), NULL);
+			ft_tknadd_back(&res, buf);
+		}
 	}
 	return (res);
 }

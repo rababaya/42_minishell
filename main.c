@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **env)
 	// ft_envprint(env_list);
 	// lst_to_str(env_list);
 	// ft_envclear(&env_list);
+	tkn = NULL;
 	while (1)
 	{
 		input = readline("<minishell>");
@@ -34,9 +35,9 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		add_history(input);
 		//tkn = tokenisation(input);
-		tkn = token_ape(input);
-		if (!tkn)
-			return (printf("chexav ape\n"), 0);
+		tkn = tokenise(input);
+		// if (!tkn)
+		// 	return (printf("chexav ape\n"), 0);
 		ft_tknprint(tkn);
 		ft_tknclear(&tkn);
 		free(input);
