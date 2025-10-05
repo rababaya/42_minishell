@@ -28,16 +28,20 @@ int	main(int argc, char **argv, char **env)
 	// lst_to_str(env_list);
 	// ft_envclear(&env_list);
 	tkn = NULL;
+	(void)tkn;
 	while (1)
 	{
 		input = readline("<minishell>");
 		if (!input)
 			break ;
 		add_history(input);
-		//tkn = tokenisation(input);
+		// if (*input == '+')
+		// {
+		// 	free(input);
+		// 	return (0);
+		// }
 		tkn = tokenise(input);
-		// if (!tkn)
-		// 	return (printf("chexav ape\n"), 0);
+		expand(tkn, NULL);
 		ft_tknprint(tkn);
 		ft_tknclear(&tkn);
 		free(input);

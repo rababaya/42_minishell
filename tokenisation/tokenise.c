@@ -13,16 +13,16 @@ int	is_red(char *str)
 		return (2);
 	if (!strncmp (str, ">>", 2))
 		return (2);
+	if (!strncmp (str, "&&", 2))
+		return (2);
+	if (!strncmp (str, "||", 2))
+		return (2);
 	if (*str == '<')
 		return (1);
 	if (*str == '>')
 		return (1);
 	if (*str == '|')
 		return (1);
-	if (!strncmp (str, "&&", 2))
-		return (2);
-	if (!strncmp (str, "||", 2))
-		return (2);
 	return (0);
 }
 

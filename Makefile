@@ -14,6 +14,7 @@ ENV_SRC_DIR			=	env
 UTILS_SRC_DIR		=	utils
 BUILTINS_SRC_DIR	=	builtins
 TKNSE_SRC_DIR		=	tokenisation
+EXPND_SRC_DIR		=	expansion
 
 LIST_SRC			=	$(LIST_SRC_DIR)/ft_envadd_back.c \
 						$(LIST_SRC_DIR)/ft_envclear.c \
@@ -41,8 +42,10 @@ ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c
 
 TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c
 
+EXPND_SRC			=	$(EXPND_SRC_DIR)/expand.c
+
 MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
-						$(LIST_SRC) $(TKN_SRC) $(TKNSE_SRC)
+						$(LIST_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXPND_SRC)
  
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
 

@@ -21,8 +21,10 @@
 # include <readline/history.h>
 
 enum Type {
-  ARG,
-  REDIR
+	EXEC,
+	ARG,
+	REDIR,
+	HRDC
 }; 
 
 typedef struct s_env
@@ -66,7 +68,7 @@ int		ft_echo(char **args);
 char	**lst_to_str(t_env *env);
 int		print(char *str);
 
-t_tkn	*tokenisation(char *str);
 t_tkn 	*tokenise(char *str);
+void	expand(t_tkn *tkn, t_env *vars);
 
 #endif
