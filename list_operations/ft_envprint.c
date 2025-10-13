@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:58:44 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/03 00:18:32 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:28:09 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ int	ft_exportprint(t_env *export)
 {
 	while (export)
 	{
+		if (!ft_strncmp(export->key, "_", 2))
+		{
+			export = export->next;
+			continue ;
+		}
 		if (print("declare -x ") < 0)
 			return (-1);
 		if (print(export->key) < 0)

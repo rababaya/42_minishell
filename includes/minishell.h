@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/03 00:18:22 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/13 23:14:04 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,13 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include "builtins.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
 
 int		ft_envprint(t_env *env_list);
 int		ft_exportprint(t_env *export);
@@ -42,13 +37,8 @@ t_env	*ft_envfind(t_env *env_list, char *key);
 t_env	*parse_env(char **env);
 char	**lst_to_str(t_env *env);
 
-int		call(char **args, t_env	*env_list);
-int		ft_echo(char **args);
-int		ft_env(char **args, t_env *env_list);
-int		ft_export(char **args, t_env *env_list);
-int		ft_pwd(t_env *env_list);
-
 void	*ft_my_realloc(void *ptr, size_t old_size, size_t new_size);
+void	free_split(char ***s);
 int		print(char *str);
 
 #endif

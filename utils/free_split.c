@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print.c                                            :+:      :+:    :+:   */
+/*   free_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/22 16:25:53 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/13 15:20:05 by rababaya         ###   ########.fr       */
+/*   Created: 2025/10/13 14:33:48 by rababaya          #+#    #+#             */
+/*   Updated: 2025/10/13 15:19:58 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	print(char *str)
+void	free_split(char ***s)
 {
-	if (printf("%s", str) < 0)
-		return (perror("minishell"), -1);
-	return (0);
+	size_t	i;
+
+	if (!s || !*s)
+		return ;
+	i = 0;
+	while ((*s)[i])
+	{
+		free((*s)[i]);
+		i++;
+	}
+	free(*s);
+	*s = NULL;
 }

@@ -6,13 +6,13 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:33 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/02 16:21:04 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:42:48 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_split(char ***s, size_t count)
+static void	free_split_env(char ***s, size_t count)
 {
 	size_t	i;
 
@@ -72,10 +72,10 @@ char	**lst_to_str(t_env *env)
 	{
 		key_str = ft_strjoin(env->key, "=");
 		if (!key_str)
-			return (free_split(&env_str, i), NULL);
+			return (free_split_env(&env_str, i), NULL);
 		env_str[i] = ft_strjoin(key_str, env->value);
 		if (!env_str)
-			return (free_split(&env_str, i), free(key_str), NULL);
+			return (free_split_env(&env_str, i), free(key_str), NULL);
 		free(key_str);
 		env = env->next;
 	}

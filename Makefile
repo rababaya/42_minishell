@@ -26,14 +26,19 @@ BUILTINS_SRC		=	$(BUILTINS_SRC_DIR)/builtin_call.c \
 						$(BUILTINS_SRC_DIR)/ft_echo.c \
 						$(BUILTINS_SRC_DIR)/ft_env.c \
 						$(BUILTINS_SRC_DIR)/ft_export.c \
-						$(BUILTINS_SRC_DIR)/ft_pwd.c 
+						$(BUILTINS_SRC_DIR)/export_helper.c \
+						$(BUILTINS_SRC_DIR)/ft_pwd.c
 
-UTILS_SRC			=	$(UTILS_SRC_DIR)/print.c
+UTILS_SRC			=	$(UTILS_SRC_DIR)/print.c \
+						$(UTILS_SRC_DIR)/free_split.c
 
 ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c
 
 MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
 						$(LIST_SRC)
+
+VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp
+
  
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
 
@@ -63,6 +68,9 @@ clean:				lib_clean
  
 fclean:				clean lib_fclean
 					$(RM) $(NAME) $(CHECKER)
+
+val: $(NAME) clean
+	$(VALGRIND) ./$(NAME)
  
 re:					fclean all
  

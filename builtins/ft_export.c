@@ -6,13 +6,13 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 00:19:19 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/03 00:29:31 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:39:49 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_node_swap(t_env *a, t_env *b)
+static void	ft_node_swap(t_env *a, t_env *b)
 {
 	char	*tmp;
 
@@ -24,7 +24,7 @@ void	ft_node_swap(t_env *a, t_env *b)
 	b->value = tmp;
 }
 
-void	ft_sort_list(t_env *export)
+static void	ft_sort_list(t_env *export)
 {
 	t_env	*i;
 	t_env	*j;
@@ -45,63 +45,39 @@ void	ft_sort_list(t_env *export)
 	}
 }
 
-int	ft_export(char **args, t_env *export)
+static void	export_helper(char **args, t_env *export, int *ret)
 {
-	int		j;
-	char	*key;
-	char	*value;
-	t_env	*tmp;
 	char	*equal;
 
-	j = 0;
+	if (!ft_isalpha((*args)[0]) && (*args)[0] != '_')
+	{
+		*ret = 1;
+		printf("minishell: export: `%s': not a valid identifier", *args);
+	}
+	equal = ft_strchr(*args, '=');
+	if (!equal)
+	{
+		if (!no_equal(*args, export))
+			*ret = 2;
+	}
+	else if (equal && *(equal - 1) != '+')
+	{
+		if (!equal_only(*args, export, equal))
+			*ret = 2;
+	}
+	else
+		if (!equal_plus(*args, export, equal - 1))
+			*ret = 2;
+}
+
+int	ft_export(char **args, t_env *export)
+{
+	int		ret;
+
+	ret = 0;
 	if (!args[1])
 		return (ft_sort_list(export), ft_exportprint(export), 0);
 	while (*(++args))
-	{
-		if (!ft_isalpha((*args)[0]) && (*args)[0] != '_')
-			if (printf("minishell: export: `%s': not a valid identifier",
-					*args) < 0)
-				return (perror("minishell"), 1);
-		equal = ft_strchr(*args, '=');
-		if (!equal)
-		{
-			key = ft_strdup(*args);
-			if (!key)
-				return (ft_envclear(&export), 1);
-			value = NULL;
-		}
-		else if (equal && equal + 1 == '+')
-		{
-			j = equal - *args;
-			key = ft_substr(*args, 0, j);
-			if (!key)
-				return (ft_envclear(&export), 1);
-			tmp = ft_envfind(export, key);
-			if (tmp)
-			{
-				value = ft_substr(*args, j + 1, ft_strlen(*args) - j - 1);
-				if (!value)
-					return (free(key), ft_envclear(&export), 1);
-				tmp->value = ft_strjoin(tmp->value, value);
-			}
-		}
-		else
-		{
-			j = equal - *args;
-			key = ft_substr(*args, 0, j);
-			if (!key)
-				return (ft_envclear(&export), 1);
-			value = ft_substr(*args, j + 1, ft_strlen(*args) - j - 1);
-			if (!value)
-				return (free(key), ft_envclear(&export), 1);
-		}
-		tmp = ft_envnew(key, value);
-		if (!tmp)
-			return (free(key), free(value), ft_envclear(&export), 1);
-		ft_envadd_back(&export, tmp);
-	}
-	ft_exportprint(export);
-	printf("////////////////////////////////////////////////////");
-	ft_envprint(export);
-	return (1);
+		export_helper(args, export, &ret);
+	return (ret);
 }
