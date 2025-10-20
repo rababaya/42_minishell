@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 12:37:51 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/20 16:17:35 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:20:15 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_unset(char **args, t_env *export)
 {
-	int		ret;
+	int	ret;
 
 	ret = 0;
 	if (!args[1])
