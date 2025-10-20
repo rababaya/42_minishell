@@ -1,40 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_envdelone.c                                     :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/31 10:40:00 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/20 16:13:51 by rababaya         ###   ########.fr       */
+/*   Created: 2025/10/20 12:37:51 by rababaya          #+#    #+#             */
+/*   Updated: 2025/10/20 16:17:35 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_envdelone(t_env **env, char *key)
+int	ft_unset(char **args, t_env *export)
 {
-	t_env	*curr;
-	t_env	*prev;
+	int		ret;
 
-	if (!env || !*env || !key)
-		return ;
-	curr = *env;
-	prev = NULL;
-	while (curr)
-	{
-		if (ft_strncmp(curr->key, key, ft_strlen(key) + 1) == 0)
-		{
-			if (prev)
-				prev->next = curr->next;
-			else
-				*env = curr->next;
-			free(curr->key);
-			free(curr->value);
-			free(curr);
-			return ;
-		}
-		prev = curr;
-		curr = curr->next;
-	}
+	ret = 0;
+	if (!args[1])
+		return (ret);
+	while (*(++args))
+		ft_envdelone(&export, *args);
+	return (0);
 }

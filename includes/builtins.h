@@ -6,24 +6,17 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 16:10:55 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/13 16:14:53 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:09:11 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
-
-
 int		call(char **args, t_env	*env_list);
 int		ft_echo(char **args);
 int		ft_env(char **args, t_env *env_list);
+int		ft_unset(char **args, t_env *export);
 int		ft_pwd(t_env *env_list);
 
 int		equal_plus(char	*args, t_env *export, char *plus);

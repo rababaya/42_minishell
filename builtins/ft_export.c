@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 00:19:19 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/13 15:39:49 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:13:08 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ static void	export_helper(char **args, t_env *export, int *ret)
 
 int	ft_export(char **args, t_env *export)
 {
-	int		ret;
+	int	ret;
 
 	ret = 0;
 	if (!args[1])
-		return (ft_sort_list(export), ft_exportprint(export), 0);
+		return (ft_sort_list(export), ft_exportprint(export), ret);
 	while (*(++args))
 		export_helper(args, export, &ret);
 	return (ret);

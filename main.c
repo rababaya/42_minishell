@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/13 14:41:29 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/20 12:31:42 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ int	main(int argc, char **argv, char **env)
 	t_env	*env_list;
 	char	**args;
 	char	*input;
-	
+
 	(void)argc;
 	(void)argv;
-	// (void)env;
 	env_list = parse_env(env);
 	//export = lst_to_str(env_list);
 	// ft_envprint(env_list);
@@ -32,7 +31,7 @@ int	main(int argc, char **argv, char **env)
 		input = readline("<minishell>");
 		if (!input)
 			break ;
-		args = ft_split(input, ' '); 
+		args = ft_split(input, ' ');
 		call(args, env_list);
 		add_history(input);
 		free_split(&args);

@@ -19,6 +19,7 @@ LIST_SRC			=	$(LIST_SRC_DIR)/ft_envadd_back.c \
 						$(LIST_SRC_DIR)/ft_envadd_front.c \
 						$(LIST_SRC_DIR)/ft_envlast.c \
 						$(LIST_SRC_DIR)/ft_envprint.c \
+						$(LIST_SRC_DIR)/ft_envdelone.c \
 						$(LIST_SRC_DIR)/ft_envfind.c \
 						$(LIST_SRC_DIR)/ft_envnew.c
 
@@ -26,6 +27,7 @@ BUILTINS_SRC		=	$(BUILTINS_SRC_DIR)/builtin_call.c \
 						$(BUILTINS_SRC_DIR)/ft_echo.c \
 						$(BUILTINS_SRC_DIR)/ft_env.c \
 						$(BUILTINS_SRC_DIR)/ft_export.c \
+						$(BUILTINS_SRC_DIR)/ft_unset.c \
 						$(BUILTINS_SRC_DIR)/export_helper.c \
 						$(BUILTINS_SRC_DIR)/ft_pwd.c
 
@@ -69,8 +71,8 @@ clean:				lib_clean
 fclean:				clean lib_fclean
 					$(RM) $(NAME) $(CHECKER)
 
-val: $(NAME) clean
-	$(VALGRIND) ./$(NAME)
+val:				$(NAME) clean
+					$(VALGRIND) ./$(NAME)
  
 re:					fclean all
  
