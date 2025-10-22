@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/20 12:31:42 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:23:46 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	main(int argc, char **argv, char **env)
 		if (!input)
 			break ;
 		args = ft_split(input, ' ');
-		call(args, env_list);
+		if (call(args, env_list) == -1)
+			printf("lav ches ara");
 		add_history(input);
 		free_split(&args);
 		free(input);

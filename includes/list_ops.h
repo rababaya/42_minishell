@@ -6,12 +6,19 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 12:32:27 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/20 13:48:34 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/10/21 00:41:02 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_OPS_H
 # define LIST_OPS_H
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 int		ft_envprint(t_env *env_list);
 int		ft_exportprint(t_env *export);
