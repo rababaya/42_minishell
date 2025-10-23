@@ -18,6 +18,7 @@ EXPND_SRC_DIR		=	expansion
 
 LIST_SRC			=	$(LIST_SRC_DIR)/ft_envadd_back.c \
 						$(LIST_SRC_DIR)/ft_envclear.c \
+						$(LIST_SRC_DIR)/ft_envdelone.c \
 						$(LIST_SRC_DIR)/ft_envsize.c \
 						$(LIST_SRC_DIR)/ft_envadd_front.c \
 						$(LIST_SRC_DIR)/ft_envlast.c \
@@ -49,6 +50,8 @@ MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
  
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
 
+VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp
+
 all:				$(NAME)
 
 $(MINISHELL_OBJ):	obj/minishell/%.o: %.c
@@ -75,6 +78,10 @@ clean:				lib_clean
  
 fclean:				clean lib_fclean
 					$(RM) $(NAME) $(CHECKER)
+
+
+val:				$(NAME) clean
+					$(VALGRIND) ./$(NAME)
  
 re:					fclean all
  

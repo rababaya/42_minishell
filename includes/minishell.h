@@ -47,7 +47,7 @@ void	ft_envadd_front(t_env **env, t_env *new);
 int		ft_envsize(t_env *env);
 t_env	*ft_envlast(t_env *env);
 void	ft_envadd_back(t_env **env, t_env *new);
-void	ft_envdelone(t_env *env, void (*del)(void *));
+void	ft_envdelone(t_env *env);
 void	ft_envclear(t_env **env);
 void	ft_enviter(t_env *env, void (*f)(void *));
 
@@ -69,6 +69,6 @@ char	**lst_to_str(t_env *env);
 int		print(char *str);
 
 t_tkn 	*tokenise(char *str);
-void	expand(t_tkn *tkn, t_env *vars, t_env *env);
+int		expand(t_tkn *tkn, t_env *vars, t_env *env);
 
 #endif

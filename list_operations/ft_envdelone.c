@@ -1,23 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/31 10:40:00 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/15 16:21:21 by rababaya         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+void	ft_envdelone(t_env *env)
 {
-	if (del && lst)
+	if (env)
 	{
-		del(lst->content);
-		free(lst);
-		return ;
+		free(env->key);
+		if (env->value)
+			free(env->value);
+		free(env);
 	}
 }

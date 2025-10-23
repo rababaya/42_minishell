@@ -32,7 +32,7 @@ char	*handle_vars(char *tkn, t_env *vars, t_env *env)
 	return (NULL);
 }
 
-void	expand(t_tkn *tkn, t_env *vars, t_env *env)
+int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 {
 	char	*str;
 	char	*res;
@@ -43,7 +43,7 @@ void	expand(t_tkn *tkn, t_env *vars, t_env *env)
 	int		j;
 
 	if (!tkn)
-		return ;
+		return (0);
 	i = 0;
 	str = tkn->token;
 	res = NULL;
@@ -61,12 +61,11 @@ void	expand(t_tkn *tkn, t_env *vars, t_env *env)
 			i++;
 			double_q = !double_q;
 		}
-		else if (str[i] == '$' && !single_q && varname_len(str + i + 1))//sxala ashxatum
+		else if (str[i] == '$' && !single_q && varname_len(str + i + 1))
 		{
-			printf("\n\n%d\n\n", varname_len(str + i + 1));
 			res = ft_strglue(res, handle_vars(str + i + 1, vars, env));
 			if (!res)
-				return ; ///////////////////////////////////////////////////////leaki u errrorneri bun
+				return (127);
 			i += varname_len(str + i + 1) + 1;
 		}
 		else
@@ -76,14 +75,19 @@ void	expand(t_tkn *tkn, t_env *vars, t_env *env)
 				j++;
 			tmp = ft_substr(str, i, j - i);
 			if (!tmp)
-				return ;/////////////////////////////////////////////////////////nuyny stex
+			{
+				if (res)
+					free(res);
+				return (127);
+			}
 			res = ft_strglue(res, tmp);
 			free(tmp);
 			if (!res)
-				return ;/////////////////////////////////////////////////////////mek el stex
+				return (127);
 			i = j;
 		}
 	}
-	tkn->token = res;
 	free(str);
+	tkn->token = res;
+	return (0);
 }

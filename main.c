@@ -18,6 +18,8 @@ int	main(int argc, char **argv, char **env)
 	char	*input;
 	//char **args = &argv[1];
 	t_tkn	*tkn;
+	t_tkn	*tmp;
+	int		status;
 	
 	(void)argc;
 	(void)argv;
@@ -30,8 +32,10 @@ int	main(int argc, char **argv, char **env)
 	tkn = NULL;
 	t_env	*a;
 
-	a = ft_envnew("popox", "akan");
+	a = ft_envnew(ft_strdup("popox"), ft_strdup("akan"));
+	(void)a;
 	(void)tkn;
+	status = 0;
 	while (1)
 	{
 		input = readline("<minishell>");
@@ -40,16 +44,27 @@ int	main(int argc, char **argv, char **env)
 		if (!ft_strncmp(input, "exit", 5))
 			break ;
 		add_history(input);
-		// if (*input == '+')
-		// {
-		// 	free(input);
-		// 	return (0);
-		// }
-		tkn = tokenise(input);
+		tkn = tokenise(input);//224666
+		tmp = tkn;
 		// ft_tknprint(tkn);
-		expand(tkn, a, a);
+		while (tmp)
+		{
+			if (tmp->type == 1)
+			{
+				status = expand(tmp, a, a);
+				if (status)
+				{
+					ft_tknclear(&tkn);
+					free(input);
+					return (status);//replace with actual errno maybe?
+				}
+			}
+			tmp = tmp->next;
+		}
 		ft_tknprint(tkn);
 		ft_tknclear(&tkn);
 		free(input);
+		
 	}
+	ft_envdelone(a);
 }

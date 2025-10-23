@@ -13,7 +13,7 @@ char	*ft_strglue(char *s1, char *s2)
 		return (ft_strdup(s2));
 	res = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!res)
-		return (NULL);
+		return (free(s1), NULL);
 	start = res;
 	while (*s1)
 		*(res++) = *(s1++);
