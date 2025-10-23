@@ -84,6 +84,8 @@ t_tkn	*tokenise(char *str)
 	t_tkn	*res;
 
 	res = NULL;
+	if (!str)
+		return (NULL);
 	while (*str)
 	{
 		if (is_red(str))

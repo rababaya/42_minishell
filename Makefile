@@ -42,7 +42,7 @@ ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c
 
 TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c
 
-EXPND_SRC			=	$(EXPND_SRC_DIR)/expand.c
+EXPND_SRC			=	$(EXPND_SRC_DIR)/expansion.c
 
 MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
 						$(LIST_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXPND_SRC)

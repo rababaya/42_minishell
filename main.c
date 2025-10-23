@@ -28,11 +28,16 @@ int	main(int argc, char **argv, char **env)
 	// lst_to_str(env_list);
 	// ft_envclear(&env_list);
 	tkn = NULL;
+	t_env	*a;
+
+	a = ft_envnew("popox", "akan");
 	(void)tkn;
 	while (1)
 	{
 		input = readline("<minishell>");
 		if (!input)
+			break ;
+		if (!ft_strncmp(input, "exit", 5))
 			break ;
 		add_history(input);
 		// if (*input == '+')
@@ -41,7 +46,8 @@ int	main(int argc, char **argv, char **env)
 		// 	return (0);
 		// }
 		tkn = tokenise(input);
-		expand(tkn, NULL);
+		// ft_tknprint(tkn);
+		expand(tkn, a, a);
 		ft_tknprint(tkn);
 		ft_tknclear(&tkn);
 		free(input);

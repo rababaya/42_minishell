@@ -69,6 +69,6 @@ char	**lst_to_str(t_env *env);
 int		print(char *str);
 
 t_tkn 	*tokenise(char *str);
-void	expand(t_tkn *tkn, t_env *vars);
+void	expand(t_tkn *tkn, t_env *vars, t_env *env);
 
 #endif
