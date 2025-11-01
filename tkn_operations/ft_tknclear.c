@@ -17,7 +17,8 @@ void	ft_tknclear(t_tkn **tkn)
 	if (tkn && *tkn)
 	{
 		ft_tknclear(&(*tkn)->next);
-		free((*tkn)->token);
+		if ((*tkn)->token)
+			free((*tkn)->token);
 		free(*tkn);
 		*tkn = NULL;
 	}

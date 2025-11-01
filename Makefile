@@ -43,14 +43,13 @@ ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c
 
 TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c
 
-EXPND_SRC			=	$(EXPND_SRC_DIR)/expansion.c
+EXPND_SRC			=	$(EXPND_SRC_DIR)/expansion.c \
+						$(EXPND_SRC_DIR)/convertion.c
 
 MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
 						$(LIST_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXPND_SRC)
  
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
-
-VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp
 
 all:				$(NAME)
 
@@ -79,10 +78,9 @@ clean:				lib_clean
 fclean:				clean lib_fclean
 					$(RM) $(NAME) $(CHECKER)
 
-
 val:				$(NAME) clean
 					$(VALGRIND) ./$(NAME)
  
 re:					fclean all
  
-.PHONY:				all lib_clean lib_fclean clean fclean re
+.PHONY:				all lib_clean lib_fclean clean val fclean re

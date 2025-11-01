@@ -15,12 +15,16 @@
 int	ft_tknsize(t_tkn *tkn)
 {
 	int	i;
+	int	empties;
 
+	empties = 0;
 	i = 0;
 	while (tkn)
 	{
 		i++;
+		if (!tkn->token)
+			empties++;
 		tkn = tkn->next;
 	}
-	return (i);
+	return (i - empties);
 }

@@ -45,7 +45,7 @@ int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 	if (!tkn)
 		return (0);
 	i = 0;
-	str = tkn->token;
+	str = (tkn)->token;
 	res = NULL;
 	single_q = false;
 	double_q = false;
@@ -63,8 +63,9 @@ int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 		}
 		else if (str[i] == '$' && !single_q && varname_len(str + i + 1))
 		{
-			res = ft_strglue(res, handle_vars(str + i + 1, vars, env));
-			if (!res)
+			tmp = handle_vars(str + i + 1, vars, env);
+			res = ft_strglue(res, tmp);
+			if (!res && tmp)
 				return (127);
 			i += varname_len(str + i + 1) + 1;
 		}
@@ -87,7 +88,9 @@ int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 			i = j;
 		}
 	}
+	if (single_q || double_q)
+		return (-1);//replace with some code for unclosed quote
 	free(str);
-	tkn->token = res;
+	(tkn)->token = res;
 	return (0);
 }

@@ -7,8 +7,15 @@ void	ft_tkndelone(t_tkn **lst, ft_tkn *tkn)
 	if (lst && tkn)
 	{
 		tmp = *lst;
+		if (tmp == tkn)
+		{
+			*lst = *lst->next;
+			free(tkn->token);
+			free(tkn);
+			return ;
+		}
 		while (tmp->next && tmp->next != tkn)
-			tmp = tmmp->next;
+			tmp = tmp->next;
 		tmp->next = tkn->next;
 		free(tkn->token);
 		free(tkn);

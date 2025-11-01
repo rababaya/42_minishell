@@ -70,5 +70,6 @@ int		print(char *str);
 
 t_tkn 	*tokenise(char *str);
 int		expand(t_tkn *tkn, t_env *vars, t_env *env);
+char	**convertion(t_tkn *tkn);
 
 #endif
