@@ -5,7 +5,7 @@ NAME				=	minishell
 CHECKER				=	checker
 
 LIBFT_FILE			=	42_libft/libft.a
-LDFLAGS     		=	-L 42_libft -l ft
+LDFLAGS     		=	-L 42_libft -lft
 MAKE_LIB			=	make -C
 
 LIST_SRC_DIR		=	list_operations
@@ -54,9 +54,6 @@ $(MINISHELL_OBJ):	obj/minishell/%.o: %.c
 $(LIBFT_FILE):
 					$(MAKE_LIB) 42_libft
  
-$(CHECKER):			$(LIBFT_FILE)
-					$(CC) $(CFLAGS) $(LDFLAGS) -o $@
-
 $(NAME):			$(MINISHELL_OBJ) $(LIBFT_FILE) 
 					$(CC) $(CFLAGS) $(MINISHELL_OBJ) $(LDFLAGS) -lreadline -lncurses -o $@
  
@@ -72,9 +69,9 @@ clean:				lib_clean
 fclean:				clean lib_fclean
 					$(RM) $(NAME) $(CHECKER)
 
-val:				$(NAME) clean
+val:				$(NAME)
 					$(VALGRIND) ./$(NAME)
  
 re:					fclean all
  
-.PHONY:				all lib_clean lib_fclean clean fclean re
+.PHONY:				all lib_clean lib_fclean clean fclean re val
