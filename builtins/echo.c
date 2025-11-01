@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:40:11 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/23 15:47:32 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/01 17:05:13 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_echo(char **args)
 			nl = 0;
 			continue ;
 		}
-		if(print(args[i]) < 0)
+		if (print(args[i]) < 0)
 			return (1);
 		if (args[i + 1])
 			if (print(" "))
@@ -53,6 +53,6 @@ int	ft_echo(char **args)
 	}
 	if (nl)
 		if (print("\n"))
-				return (1);
+			return (1);
 	return (0);
 }

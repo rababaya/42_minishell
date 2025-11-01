@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
+/*   Updated: 2025/11/01 17:12:11 by dgrigor2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	varname_len(char *tkn)
@@ -38,8 +50,8 @@ int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 	char	*res;
 	char	*tmp;
 	int		i;
-	bool	single_q;
-	bool	double_q;
+	_Bool	single_q;
+	_Bool	double_q;
 	int		j;
 
 	if (!tkn)
@@ -47,8 +59,8 @@ int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 	i = 0;
 	str = (tkn)->token;
 	res = NULL;
-	single_q = false;
-	double_q = false;
+	single_q = 0;
+	double_q = 0;
 	while (str[i])
 	{
 		if (str[i] == '\'' && !double_q)
@@ -72,7 +84,7 @@ int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 		else
 		{
 			j = i;
-			while (str[j] && (str[j] != '\'' || double_q) && (str[j] != '\"' || single_q) && (str[j] != '$' || j == i || single_q))// str[j], str[j] isn't ' or inside ", str[j] isn't " or inside ', str[j] isn't $ or j == i or inside '
+			while (str[j] && (str[j] != '\'' || double_q) && (str[j] != '\"' || single_q) && (str[j] != '$' || j == i || single_q)) // str[j], str[j] isn't ' or inside ", str[j] isn't " or inside ', str[j] isn't $ or j == i or inside '
 				j++;
 			tmp = ft_substr(str, i, j - i);
 			if (!tmp)
@@ -89,7 +101,7 @@ int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 		}
 	}
 	if (single_q || double_q)
-		return (-1);//replace with some code for unclosed quote
+		return (-1);	//replace with some code for unclosed quote
 	free(str);
 	(tkn)->token = res;
 	return (0);

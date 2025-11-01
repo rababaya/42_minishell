@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/23 15:33:40 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/01 17:05:49 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-enum Type {
+enum e_type
+{
 	EXEC,
 	ARG,
 	REDIR,
 	HRDC
-}; 
+};
 
 typedef struct s_env
 {
@@ -68,7 +69,7 @@ int		ft_echo(char **args);
 char	**lst_to_str(t_env *env);
 int		print(char *str);
 
-t_tkn 	*tokenise(char *str);
+t_tkn	*tokenise(char *str);
 int		expand(t_tkn *tkn, t_env *vars, t_env *env);
 char	**convertion(t_tkn *tkn);
 
