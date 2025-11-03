@@ -46,6 +46,7 @@ VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=read
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
 
 all:				$(NAME)
+					curl ascii.live/rick
 
 $(MINISHELL_OBJ):	obj/minishell/%.o: %.c
 					@mkdir -p $(dir $@)
