@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_tknclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/05 15:15:40 by rababaya         ###   ########.fr       */
+/*   Created: 2025/01/31 10:53:13 by rababaya          #+#    #+#             */
+/*   Updated: 2025/09/15 19:20:17 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-# include "libft.h"
-# include "list_ops.h"
-# include "builtins.h"
-# include "utils.h"
-# include "tokenisation.h"
-
-t_env	*parse_env(char **env);
-char	**lst_to_str(t_env *env);
-
-
-#endif
+void	ft_tknclear(t_tkn **tkn)
+{
+	if (tkn && *tkn)
+	{
+		ft_tknclear(&(*tkn)->next);
+		if ((*tkn)->token)
+			free((*tkn)->token);
+		free(*tkn);
+		*tkn = NULL;
+	}
+	return ;
+}

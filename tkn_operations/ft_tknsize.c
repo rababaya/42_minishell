@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_tknsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/05 15:15:40 by rababaya         ###   ########.fr       */
+/*   Created: 2025/01/30 18:37:32 by rababaya          #+#    #+#             */
+/*   Updated: 2025/09/15 16:52:58 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+int	ft_tknsize(t_tkn *tkn)
+{
+	int	i;
+	int	empties;
 
-# include "libft.h"
-# include "list_ops.h"
-# include "builtins.h"
-# include "utils.h"
-# include "tokenisation.h"
-
-t_env	*parse_env(char **env);
-char	**lst_to_str(t_env *env);
-
-
-#endif
+	empties = 0;
+	i = 0;
+	while (tkn)
+	{
+		i++;
+		if (!tkn->token)
+			empties++;
+		tkn = tkn->next;
+	}
+	return (i - empties);
+}
