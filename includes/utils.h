@@ -6,10 +6,9 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:09:07 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/05 15:11:34 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/05 16:11:43 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef UTILS_H
 # define UTILS_H
