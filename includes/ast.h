@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/12 15:45:02 by dgrigor2         ###   ########.fr       */
+/*   Created: 2025/11/12 15:40:20 by dgrigor2          #+#    #+#             */
+/*   Updated: 2025/11/12 15:49:15 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef AST_H
+# define ASR_H
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+enum	e_node
+{
+	PIPE,
+	AND,
+	OR,
+	SUBSH,
+	CMD
+};
 
-# include "libft.h"
-# include "list_ops.h"
-# include "builtins.h"
-# include "utils.h"
-# include "tokenisation.h"
-# include "ast.h"
-
-t_env	*parse_env(char **env);
-char	**lst_to_str(t_env *env);
+typedef struct s_ast
+{
+	t_ast	*left;
+	t_ast	*right;
+	t_tkn	*tkn;
+	int		type;
+}	t_ast;
 
 #endif
