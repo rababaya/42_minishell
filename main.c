@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/05 16:11:06 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:45:16 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	remove_empties(t_tkn **tkn)
+{
+	t_tkn	*tmp;
+	t_tkn	*scnd;
+
+	tmp = *tkn;
+	while (tmp && !(tmp->token))
+	{
+		*tkn = tmp->next;
+		free(tmp);
+		tmp = *tkn;
+	}
+	while (tmp && tmp->next)
+	{
+		if (!(tmp->next->token))
+		{
+			scnd = tmp->next->next;
+			free(tmp->next);
+			tmp->next = scnd;
+		}
+		else
+		{
+			tmp = tmp->next;
+		}
+	}
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -19,21 +46,11 @@ int	main(int argc, char **argv, char **env)
 	t_tkn	*tkn;
 	t_tkn	*tmp;
 	int		status;
-
 	char	**args;
 
-	
 	(void)argc;
 	(void)argv;
-	//ft_echo(args);
-	// (void)env;
 	env_list = parse_env(env);
-	// ft_envprint(env_list);
-	// lst_to_str(env_list);
-	// ft_envclear(&env_list);
-	tkn = NULL;
-
-	(void)tkn;
 	status = 0;
 	while (1)
 	{
@@ -46,40 +63,56 @@ int	main(int argc, char **argv, char **env)
 		if (!*input)
 			continue ;
 		add_history(input);
-		tkn = tokenise(input);//224666
-		if (!tkn)//Dzyadz, ba vor tokend datark exav inch es anelu, hn? xosqi goyutuyun chunecox popoxakan
+		tkn = NULL;
+		if (tokenise(&tkn, input))
 		{
 			printf ("tokenisation issue\n");
 			ft_tknclear(&tkn);
 			free(input);
 			return (0);//errno
 		}
+		if (!tkn)
+		{
+			free(input);
+			continue ;
+		}
 		tmp = tkn;
 		while (tmp)
 		{
-			if (tmp->type == 1)
+			if (tmp->type == ARG)
 			{
+				
 				status = expand(tmp, env_list, env_list);
 				if (status)
 				{
 					ft_tknclear(&tkn);
 					free(input);
-					write(1, "nigga\n", 6);
+					printf("expansion issue\n");
 					return (status);//replace with actual errno maybe?
 				}
 			}
 			tmp = tmp->next;
 		}
+		// ft_tknprint(tkn);
+		remove_empties(&tkn);
+		if (!tkn)
+		{
+			free(input);
+			continue;
+		}
+		printf("fdsf\n");
 		args = convertion(tkn);
 		if (!args)
 		{
 			ft_tknclear(&tkn);
 			free(input);
+			printf("args issue\n");
 			return (0);//errno
 		}
 		if (call(args, env_list) == -1)
 			printf("lav ches ara");
 		//ft_tknprint(tkn);
+		printf("fdsf\n");
 		free(args);
 		ft_tknclear(&tkn);
 		free(input);

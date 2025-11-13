@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenisation.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:13:52 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/05 15:19:52 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:10:20 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct s_tkn
 
 enum e_type
 {
-	EXEC,
 	ARG,
 	REDIR,
 	HRDC
@@ -38,7 +37,7 @@ t_tkn	*ft_tknnew(char *token, int type);
 void	ft_tknprint(t_tkn *tkn_list);
 int		ft_tknsize(t_tkn *tkn);
 
-t_tkn	*tokenise(char *str);
+int		tokenise(t_tkn **tkn, char *str);
 int		expand(t_tkn *tkn, t_env *vars, t_env *env);
 char	**convertion(t_tkn *tkn);
 
