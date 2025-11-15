@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:09:07 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 15:15:29 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/15 19:05:36 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define UTILS_H
 
 void	*ft_my_realloc(void *ptr, size_t old_size, size_t new_size);
+t_data	*data_init(void);
 void	free_data(t_data *data);
 void	free_split(char ***s);
 char	*ft_strglue(char *s1, char *s2);

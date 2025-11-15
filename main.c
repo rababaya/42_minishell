@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 16:19:11 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/15 18:46:08 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	env_list = parse_env(env);
-	data = malloc(sizeof(t_data));
-	data->env_list = env_list;  ////////////////////
+	data = data_init();
+	data->env_list = env_list;                               ////////////////////
 	status = 0;
 	while (1)
 	{
@@ -61,7 +61,6 @@ int	main(int argc, char **argv, char **env)
 		if (!input)
 		{
 			free_data(data);
-			printf ("readline error\n");
 			break ;
 		}
 		if (!*input)
@@ -70,7 +69,7 @@ int	main(int argc, char **argv, char **env)
 		tkn = NULL;
 		if (tokenise(&tkn, input))
 		{
-			printf ("tokenisation issue\n");
+			ft_putstr_fd("tokenisation issue\n", 2);
 			ft_tknclear(&tkn);
 			free(input);
 			return (0);//errno
@@ -91,35 +90,35 @@ int	main(int argc, char **argv, char **env)
 				{
 					ft_tknclear(&tkn);
 					free(input);
-					printf("expansion issue\n");
+					ft_putstr_fd("expansion issue\n", 2);
 					return (status);//replace with actual errno maybe?
 				}
 			}
 			tmp = tmp->next;
 		}
-		// ft_tknprint(tkn);
 		remove_empties(&tkn);
 		if (!tkn)
 		{
 			free(input);
 			continue;
 		}
-		data->tkn_list = tkn;            ////////////////
+		data->tkn_list = tkn;                                  ////////////////
 		args = convertion(tkn);
 		if (!args)
 		{
 			free_data(data);
 			free(input);
-			printf("args issue\n");
+			ft_putstr_fd("args issue\n", 2);
 			return (0);//errno
 		}
-		data->args = args;   /////////////////////
+		data->args = args;                                 /////////////////////
+		ft_tknprint(data->tkn_list);
 		if (call(data) == -1)
-			printf("lav ches ara");
-		//ft_tknprint(tkn);
+			ft_putstr_fd("lav ches ara", 2);
 		free(args);
+		data->args = NULL;
 		ft_tknclear(&tkn);
+		data->tkn_list = NULL;
 		free(input);
 	}
-	ft_envclear(&env_list);
 }

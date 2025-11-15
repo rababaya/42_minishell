@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 19:50:48 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 16:06:46 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/15 18:07:50 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	is_numeric_arg(char *arg)
 
 int	ft_exit(t_data *data)
 {
-	ft_putstr_fd("exit\n", 1);
+	ft_putstr_fd("exit\n", 2);
 	if (!data->args[1])
 	{
 		free_data(data);

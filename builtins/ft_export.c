@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 00:19:19 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 16:04:50 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/15 19:06:08 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,41 @@ static void	ft_sort_list(t_env *export)
 	}
 }
 
+int	export_helper_helper(char *args)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(args[0]) && args[0] != '_')
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(args, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (1);
+	}
+	while (args[++i])
+	{
+		if ((args[i] == '+' && args[i + 1] == '=') || args[i] == '=')
+			break ;
+		if (!ft_isalnum(args[i]) && args[i] != '_')
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(args, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 static void	export_helper(char **args, t_env *export, int *ret)
 {
 	char	*equal;
 
-	if (!ft_isalpha((*args)[0]) && (*args)[0] != '_')
+	if (export_helper_helper(*args))
 	{
 		*ret = 1;
-		printf("minishell: export: `%s': not a valid identifier", *args);
+		return ;
 	}
 	equal = ft_strchr(*args, '=');
 	if (!equal)
