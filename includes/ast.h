@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 15:40:20 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/13 15:59:58 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:09:24 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_ast
 {
 	struct s_ast	*left;
 	struct s_ast	*right;
-	t_tkn	*tkn;
+	t_tkn	*cmd;
 	int		type;
 }	t_ast;
 

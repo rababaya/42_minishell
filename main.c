@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/13 17:45:16 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/11/15 15:05:29 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char **argv, char **env)
 			free(input);
 			return (0);//errno
 		}
-		if (!tkn)
+		if (!tkn)//wrong quote punctuation should not exit minishell
 		{
 			free(input);
 			continue ;
@@ -93,14 +93,14 @@ int	main(int argc, char **argv, char **env)
 			}
 			tmp = tmp->next;
 		}
-		// ft_tknprint(tkn);
 		remove_empties(&tkn);
 		if (!tkn)
 		{
 			free(input);
 			continue;
 		}
-		printf("fdsf\n");
+		ft_tknprint(tkn);
+		// printf("fdsf\n");
 		args = convertion(tkn);
 		if (!args)
 		{
@@ -112,7 +112,7 @@ int	main(int argc, char **argv, char **env)
 		if (call(args, env_list) == -1)
 			printf("lav ches ara");
 		//ft_tknprint(tkn);
-		printf("fdsf\n");
+		// printf("fdsf\n");
 		free(args);
 		ft_tknclear(&tkn);
 		free(input);

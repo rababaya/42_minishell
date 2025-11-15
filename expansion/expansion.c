@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/01 17:12:11 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/11/15 18:18:46 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ int	varname_len(char *tkn)
 	int	len;
 
 	len = 0;
-	if (!tkn[len] || !ft_isalpha(tkn[len]) || tkn[len] == '_')
+	if (!tkn[len] || !(ft_isalpha(tkn[len]) && tkn[len] != '_'))
 		return (1);
 	while (tkn[len] && (ft_isalnum(tkn[len]) || tkn[len] == '_'))
 		len++;
+	printf("varname len is %d\n", len);
 	return (len);
 }
 
@@ -44,6 +45,29 @@ char	*handle_vars(char *tkn, t_env *vars, t_env *env)
 	return (NULL);
 }
 
+int	handle_txt(int *i, _Bool single_q, _Bool double_q, char *str, char **res)
+{
+	int	j;
+	char	*tmp;
+	
+	j = *i;
+	while (str[j] && (str[j] != '\'' || double_q) && (str[j] != '\"' || single_q) && (str[j] != '$' || j == *i || single_q)) // str[j], str[j] isn't ' or inside ", str[j] isn't " or inside ', str[j] isn't $ or j == i or inside '
+		j++;
+	tmp = ft_substr(str, *i, j - *i);
+	if (!tmp)
+	{
+		if (res)
+			free(*res);
+		return (127);
+	}
+	*res = ft_strglue(*res, tmp);
+	free(tmp);
+	if (!(*res))
+		return (127);
+	*i = j;
+	return (0);
+}
+
 int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 {
 	char	*str;
@@ -52,7 +76,7 @@ int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 	int		i;
 	_Bool	single_q;
 	_Bool	double_q;
-	int		j;
+	// int		j;
 
 	if (!tkn)
 		return (0);
@@ -81,24 +105,8 @@ int	expand(t_tkn *tkn, t_env *vars, t_env *env)
 				return (127);
 			i += varname_len(str + i + 1) + 1;
 		}
-		else
-		{
-			j = i;
-			while (str[j] && (str[j] != '\'' || double_q) && (str[j] != '\"' || single_q) && (str[j] != '$' || j == i || single_q)) // str[j], str[j] isn't ' or inside ", str[j] isn't " or inside ', str[j] isn't $ or j == i or inside '
-				j++;
-			tmp = ft_substr(str, i, j - i);
-			if (!tmp)
-			{
-				if (res)
-					free(res);
-				return (127);
-			}
-			res = ft_strglue(res, tmp);
-			free(tmp);
-			if (!res)
-				return (127);
-			i = j;
-		}
+		else if (handle_txt(&i, single_q, double_q, str, &res))
+			return (127); //replace with malloc fail exit code
 	}
 	if (single_q || double_q)
 		return (-1);	//replace with some code for unclosed quote
