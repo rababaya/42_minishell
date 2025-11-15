@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/23 17:33:58 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 15:31:26 by rababaya         ###   ########.fr       */
+/*   Created: 2025/11/15 14:23:20 by rababaya          #+#    #+#             */
+/*   Updated: 2025/11/15 15:55:20 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(t_data *data)
+void	free_data(t_data *data)
 {
-	char	*pwd;
-
-	data->env_list = ft_envfind(data->env_list, "PWD");
+	if (data->args)
+		free(data->args);
 	if (data->env_list)
-	{
-		if (print(data->env_list->value) < 0)
-			return (-1);
-	}
-	else
-	{
-		pwd = getcwd(NULL, 0);
-		if (print(pwd) < 0)
-			return (free(pwd), -1);
-		free(pwd);
-	}
-	if (print("\n") < 0)
-		return (-1);
-	return (1);
+		ft_envclear(&(data->env_list));
+	if (data->tkn_list)
+		ft_tknclear(&(data->tkn_list));
+	if (data)
+		free(data);
 }

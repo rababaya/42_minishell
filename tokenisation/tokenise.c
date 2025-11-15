@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:03:05 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/01 17:03:07 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/11/15 14:56:54 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,22 +90,18 @@ t_tkn	*tkn_arg(char **str)
 	return (res);
 }
 
-t_tkn	*tokenise(char *str)
+int	tokenise(t_tkn **tkn, char *str)
 {
 	t_tkn	*buf;
-	t_tkn	*res;
 
-	res = NULL;
-	if (!str)
-		return (NULL);
 	while (*str)
 	{
 		if (is_red(str))
 		{
 			buf = tkn_red(&str);
 			if (!buf)
-				return (ft_tknclear(&res), NULL);
-			ft_tknadd_back(&res, buf);
+				return (ft_tknclear(tkn), -1);
+			ft_tknadd_back(tkn, buf);
 		}
 		else if (is_whitespace(*str))
 			str++;
@@ -113,9 +109,39 @@ t_tkn	*tokenise(char *str)
 		{
 			buf = tkn_arg(&str);
 			if (!buf)
-				return (ft_tknclear(&res), NULL);
-			ft_tknadd_back(&res, buf);
+				return (ft_tknclear(tkn), -1);
+			ft_tknadd_back(tkn, buf);
 		}
 	}
-	return (res);
+	return (0);
 }
+
+// t_tkn	*tokenise(char *str)
+// {
+// 	t_tkn	*buf;
+// 	t_tkn	*res;
+
+// 	res = NULL;
+// 	if (!str)
+// 		return (NULL);
+// 	while (*str)
+// 	{
+// 		if (is_red(str))
+// 		{
+// 			buf = tkn_red(&str);
+// 			if (!buf)
+// 				return (ft_tknclear(&res), NULL);
+// 			ft_tknadd_back(&res, buf);
+// 		}
+// 		else if (is_whitespace(*str))
+// 			str++;
+// 		else
+// 		{
+// 			buf = tkn_arg(&str);
+// 			if (!buf)
+// 				return (ft_tknclear(&res), NULL);
+// 			ft_tknadd_back(&res, buf);
+// 		}
+// 	}
+// 	return (res);
+// }
