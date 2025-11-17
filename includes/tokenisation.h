@@ -38,6 +38,7 @@ void	ft_tknprint(t_tkn *tkn_list);
 int		ft_tknsize(t_tkn *tkn);
 
 int		tokenise(t_tkn **tkn, char *str);
+int		check_punctuation(char *str);
 int		expand(t_tkn *tkn, t_env *vars, t_env *env);
 char	**convertion(t_tkn *tkn);
 

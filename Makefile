@@ -50,7 +50,8 @@ UTILS_SRC			=	$(UTILS_SRC_DIR)/print.c \
 
 ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c
 
-TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c
+TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c \
+						$(TKNSE_SRC_DIR)/punctuation.c
 
 EXPND_SRC			=	$(EXPND_SRC_DIR)/expansion.c \
 						$(EXPND_SRC_DIR)/convertion.c

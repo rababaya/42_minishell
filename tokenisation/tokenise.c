@@ -53,10 +53,23 @@ t_tkn	*tkn_red(char **str)
 	return (res);
 }
 
+t_tkn	*crt_tkn(char **str, int i)
+{
+	char	*buf;
+	t_tkn	*res;
+
+	buf = ft_substr(*str, 0, i);
+	if (!buf)
+		return (NULL);
+	(*str) += i;
+	res = ft_tknnew(buf, ARG);
+	if (!res)
+		free(buf);
+	return (res);
+}
+
 t_tkn	*tkn_arg(char **str)
 {
-	t_tkn	*res;
-	char	*buf;
 	int		i;
 
 	i = 0;
@@ -76,19 +89,14 @@ t_tkn	*tkn_arg(char **str)
 			while ((*str)[i] && (*str)[i] != '\'')
 				i++;
 			if (!(*str)[i])
-				return (NULL); //add error message later 
+				return (NULL); //add error message later
 		}
 		i++;
 	}
-	buf = ft_substr(*str, 0, i);
-	if (!buf)
-		return (NULL);
-	(*str) += i;
-	res = ft_tknnew(buf, ARG);
-	if (!res)
-		free(buf);
-	return (res);
+	
+	return (crt_tkn(str, i));
 }
+
 
 int	tokenise(t_tkn **tkn, char *str)
 {
@@ -115,33 +123,3 @@ int	tokenise(t_tkn **tkn, char *str)
 	}
 	return (0);
 }
-
-// t_tkn	*tokenise(char *str)
-// {
-// 	t_tkn	*buf;
-// 	t_tkn	*res;
-
-// 	res = NULL;
-// 	if (!str)
-// 		return (NULL);
-// 	while (*str)
-// 	{
-// 		if (is_red(str))
-// 		{
-// 			buf = tkn_red(&str);
-// 			if (!buf)
-// 				return (ft_tknclear(&res), NULL);
-// 			ft_tknadd_back(&res, buf);
-// 		}
-// 		else if (is_whitespace(*str))
-// 			str++;
-// 		else
-// 		{
-// 			buf = tkn_arg(&str);
-// 			if (!buf)
-// 				return (ft_tknclear(&res), NULL);
-// 			ft_tknadd_back(&res, buf);
-// 		}
-// 	}
-// 	return (res);
-// }

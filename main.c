@@ -10,6 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+			WHAT CAN GO WRONG or MY NIGHTMARE FUEL
+1. unclosed single/double quotes result in program exit, which should NOT happen
+2. $, $$ and other variations behave incorrectly
+3. expanded commands are not separated into tokens (ex. export a = "ls -l", calling $a SHOULD work but doesn't)
+			HAVE FUN WITH ALL THIS, CAUSE I'M NOT DOING IT
+*/
+
+
 #include "minishell.h"
 
 void	remove_empties(t_tkn **tkn)
@@ -64,6 +73,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		add_history(input);
 		tkn = NULL;
+		if ()
 		if (tokenise(&tkn, input))
 		{
 			printf ("tokenisation issue\n");
