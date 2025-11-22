@@ -12,13 +12,6 @@
 
 #include "minishell.h"
 
-int	is_whitespace(char c)
-{
-	if (c == ' ' || (c >= 9 && c <= 13) || !c)
-		return (1);
-	return (0);
-}
-
 int	is_red(char *str)
 {
 	if (!strncmp (str, "<<", 2))
@@ -73,7 +66,7 @@ t_tkn	*tkn_arg(char **str)
 	int		i;
 
 	i = 0;
-	while ((*str)[i] && !is_whitespace((*str)[i]) && !is_red(&(*str)[i]))
+	while ((*str)[i] && !ft_iswhitespace((*str)[i]) && !is_red(&(*str)[i]))
 	{
 		if ((*str)[i] == '\"')
 		{
@@ -111,7 +104,7 @@ int	tokenise(t_tkn **tkn, char *str)
 				return (ft_tknclear(tkn), -1);
 			ft_tknadd_back(tkn, buf);
 		}
-		else if (is_whitespace(*str))
+		else if (ft_iswhitespace(*str))
 			str++;
 		else
 		{

@@ -45,7 +45,8 @@ BUILTINS_SRC		=	$(BUILTINS_SRC_DIR)/builtin_call.c \
 
 UTILS_SRC			=	$(UTILS_SRC_DIR)/print.c \
 						$(UTILS_SRC_DIR)/free_split.c \
-						$(UTILS_SRC_DIR)/ft_strglue.c
+						$(UTILS_SRC_DIR)/ft_strglue.c \
+						$(UTILS_SRC_DIR)/ft_iswhitespace.c
 
 
 ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c

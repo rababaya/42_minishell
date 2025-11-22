@@ -17,5 +17,6 @@ void	*ft_my_realloc(void *ptr, size_t old_size, size_t new_size);
 void	free_split(char ***s);
 char	*ft_strglue(char *s1, char *s2);
 int		print(char *str);
+int		ft_iswhitespace(char c);
 
 #endif

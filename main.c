@@ -73,7 +73,11 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		add_history(input);
 		tkn = NULL;
-		if ()
+		if (!check_punctuation(input))
+		{
+			printf("wrong quote punctuation\n");
+			continue ;
+		}
 		if (tokenise(&tkn, input))
 		{
 			printf ("tokenisation issue\n");
@@ -92,7 +96,7 @@ int	main(int argc, char **argv, char **env)
 			if (tmp->type == ARG)
 			{
 				
-				status = expand(tmp, env_list, env_list);
+				status = expand(tmp, env_list);
 				if (status)
 				{
 					ft_tknclear(&tkn);

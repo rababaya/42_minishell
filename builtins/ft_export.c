@@ -52,7 +52,7 @@ static void	export_helper(char **args, t_env *export, int *ret)
 	if (!ft_isalpha((*args)[0]) && (*args)[0] != '_')
 	{
 		*ret = 1;
-		printf("minishell: export: `%s': not a valid identifier", *args);
+		printf("minishell: export: `%s': not a valid identifier\n", *args);
 	}
 	equal = ft_strchr(*args, '=');
 	if (!equal)
