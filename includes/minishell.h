@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 15:37:40 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/22 20:07:16 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "builtins.h"
 # include "utils.h"
 # include "tokenisation.h"
+# include "ast.h"
 
 typedef struct s_data
 {

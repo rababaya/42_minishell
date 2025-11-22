@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:13:52 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 14:58:01 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/22 20:07:40 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct s_tkn
 
 enum e_type
 {
-	EXEC,
 	ARG,
 	REDIR,
 	HRDC
