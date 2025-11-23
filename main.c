@@ -6,11 +6,13 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/22 20:09:17 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/23 19:49:53 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g_exit_status = 0;
 
 void	remove_empties(t_tkn **tkn)
 {
@@ -48,7 +50,9 @@ int	main(int argc, char **argv, char **env)
 	int		status;
 	char	**args;
 	t_data	*data;
-
+	
+	// signal(SIGINT, sigint_handler);
+	// signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
 	env_list = parse_env(env);
@@ -57,11 +61,14 @@ int	main(int argc, char **argv, char **env)
 	status = 0;
 	while (1)
 	{
+		signal(SIGINT, sigint_handler);
+		signal(SIGQUIT, SIG_IGN);
 		input = readline("<minishell>");
 		if (!input)
 		{
+			print("exit\n");
 			free_data(data);
-			break ;
+			exit(0);
 		}
 		if (!*input)
 			continue ;
