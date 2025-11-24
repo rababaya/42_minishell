@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/15 18:18:46 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/11/24 12:48:36 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,13 @@ int	splitting(int *i, t_env *env, t_tkn *tkn, char **res)
 	int		j;
 
 	j = 0;
+	printf("splitting vars\n");
 	next = tkn->next;
 	tkn->next = NULL;
 	var = find_vars(tkn->token + *i + 1, env);
-	*i += varname_len(tkn->token + *i + 1);
+	*i += varname_len(tkn->token + *i + 1) + 1;
+	if (!var)
+		return (0);
 	while (var[j])
 	{
 		while (var[j] && !ft_iswhitespace(var[j]))
@@ -136,44 +139,10 @@ int	splitting(int *i, t_env *env, t_tkn *tkn, char **res)
 }
 
 
-int	split_vars(int *i, t_env *env, t_tkn *tkn, char **res)
-{
-	char	*tmp;
-	char	*prev;
-	t_tkn	*next;
-	t_tkn	*new;
-	int		j;
-
-	printf("splitting vars\n");
-	tmp = find_vars(tkn->token + *i + 1, env);
-	*i += varname_len(tkn->token + *i + 2);
-	j = 0;
-	prev = *res;
-	next = tkn->next;
-	tkn->next = NULL;
-	while (tmp[j])
-	{
-		if (ft_iswhitespace(tmp[j]))
-		{
-			prev = ft_substr(tmp, 0, j);
-			if (!prev)
-				return (127);
-			*res = ft_strglue(*res, prev);
-			if (!*res)
-				return (127);
-			new = ft_tknnew(*res, ARG);
-			if (!new)
-				return (127);
-			ft_tknadd_back(&tkn, new);
-			*res = NULL;
-			tmp += j + 1;
-			j = -1;
-		}
-		j++;
-	}
-	ft_tknlast(tkn)->next = next;
-	return (0);
-}
+// int	split_vars(int *i, t_env *env, t_tkn *tkn, char **res)
+// {
+	
+// }
 
 int	expand(t_tkn *tkn, t_env *env)
 {
