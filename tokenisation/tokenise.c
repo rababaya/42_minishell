@@ -3,23 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:03:05 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/22 20:07:57 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/25 13:49:35 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_whitespace(char c)
-{
-	if (c == ' ' || (c >= 9 && c <= 13) || !c)
-		return (1);
-	return (0);
-}
-
-int	is_red(char *str)
+static int	is_red(char *str)
 {
 	if (!strncmp (str, "<<", 2))
 		return (2);
@@ -38,7 +31,7 @@ int	is_red(char *str)
 	return (0);
 }
 
-t_tkn	*tkn_red(char **str)
+static t_tkn	*tkn_red(char **str)
 {
 	char	*tmp;
 	t_tkn	*res;
@@ -53,14 +46,27 @@ t_tkn	*tkn_red(char **str)
 	return (res);
 }
 
-t_tkn	*tkn_arg(char **str)
+static t_tkn	*crt_tkn(char **str, int i)
 {
-	t_tkn	*res;
 	char	*buf;
+	t_tkn	*res;
+
+	buf = ft_substr(*str, 0, i);
+	if (!buf)
+		return (NULL);
+	(*str) += i;
+	res = ft_tknnew(buf, ARG);
+	if (!res)
+		free(buf);
+	return (res);
+}
+
+static t_tkn	*tkn_arg(char **str)
+{
 	int		i;
 
 	i = 0;
-	while ((*str)[i] && !is_whitespace((*str)[i]) && !is_red(&(*str)[i]))
+	while ((*str)[i] && !ft_iswhitespace((*str)[i]) && !is_red(&(*str)[i]))
 	{
 		if ((*str)[i] == '\"')
 		{
@@ -76,19 +82,14 @@ t_tkn	*tkn_arg(char **str)
 			while ((*str)[i] && (*str)[i] != '\'')
 				i++;
 			if (!(*str)[i])
-				return (NULL); //add error message later 
+				return (NULL); //add error message later
 		}
 		i++;
 	}
-	buf = ft_substr(*str, 0, i);
-	if (!buf)
-		return (NULL);
-	(*str) += i;
-	res = ft_tknnew(buf, ARG);
-	if (!res)
-		free(buf);
-	return (res);
+	
+	return (crt_tkn(str, i));
 }
+
 
 int	tokenise(t_tkn **tkn, char *str)
 {
@@ -103,7 +104,7 @@ int	tokenise(t_tkn **tkn, char *str)
 				return (ft_tknclear(tkn), -1);
 			ft_tknadd_back(tkn, buf);
 		}
-		else if (is_whitespace(*str))
+		else if (ft_iswhitespace(*str))
 			str++;
 		else
 		{
@@ -115,33 +116,3 @@ int	tokenise(t_tkn **tkn, char *str)
 	}
 	return (0);
 }
-
-// t_tkn	*tokenise(char *str)
-// {
-// 	t_tkn	*buf;
-// 	t_tkn	*res;
-
-// 	res = NULL;
-// 	if (!str)
-// 		return (NULL);
-// 	while (*str)
-// 	{
-// 		if (is_red(str))
-// 		{
-// 			buf = tkn_red(&str);
-// 			if (!buf)
-// 				return (ft_tknclear(&res), NULL);
-// 			ft_tknadd_back(&res, buf);
-// 		}
-// 		else if (is_whitespace(*str))
-// 			str++;
-// 		else
-// 		{
-// 			buf = tkn_arg(&str);
-// 			if (!buf)
-// 				return (ft_tknclear(&res), NULL);
-// 			ft_tknadd_back(&res, buf);
-// 		}
-// 	}
-// 	return (res);
-// }

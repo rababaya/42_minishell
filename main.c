@@ -3,43 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/23 19:49:53 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/25 13:54:22 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int g_exit_status = 0;
-
-void	remove_empties(t_tkn **tkn)
-{
-	t_tkn	*tmp;
-	t_tkn	*scnd;
-
-	tmp = *tkn;
-	while (tmp && !(tmp->token))
-	{
-		*tkn = tmp->next;
-		free(tmp);
-		tmp = *tkn;
-	}
-	while (tmp && tmp->next)
-	{
-		if (!(tmp->next->token))
-		{
-			scnd = tmp->next->next;
-			free(tmp->next);
-			tmp->next = scnd;
-		}
-		else
-		{
-			tmp = tmp->next;
-		}
-	}
-}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -74,12 +47,17 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		add_history(input);
 		tkn = NULL;
+		if (!check_punctuation(input))
+		{
+			printf("wrong quote punctuation\n");
+			continue ;
+		}
 		if (tokenise(&tkn, input))
 		{
 			ft_putstr_fd("tokenisation issue\n", 2);
 			ft_tknclear(&tkn);
-			free(input);
-			return (0);//errno
+			free(input);//shouldn't data be cleared?
+			return (127);
 		}
 		if (!tkn)
 		{
@@ -92,13 +70,13 @@ int	main(int argc, char **argv, char **env)
 			if (tmp->type == ARG)
 			{
 				
-				status = expand(tmp, env_list, env_list);
+				status = expand(tmp, env_list);
 				if (status)
 				{
 					ft_tknclear(&tkn);
-					free(input);
+					free(input);//data clear?
 					ft_putstr_fd("expansion issue\n", 2);
-					return (status);//replace with actual errno maybe?
+					return (status);//errno
 				}
 			}
 			tmp = tmp->next;
