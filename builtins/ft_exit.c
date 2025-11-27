@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 19:50:48 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 18:07:50 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:27:52 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static int	is_numeric_arg(char *arg)
 
 int	ft_exit(t_data *data)
 {
+	long long	exit_code;
+	
 	ft_putstr_fd("exit\n", 2);
 	if (!data->args[1])
 	{
@@ -78,6 +80,7 @@ int	ft_exit(t_data *data)
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (1);
 	}
+	exit_code = ft_atoi(data->args[1]) % 256;
 	free_data(data);
-	exit(ft_atoi(data->args[1]) % 256);
+	exit(exit_code);
 }

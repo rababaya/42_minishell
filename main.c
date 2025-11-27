@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/25 13:54:22 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:17:49 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	main(int argc, char **argv, char **env)
 			return (0);//errno
 		}
 		data->args = args;                                 /////////////////////
-		ft_tknprint(data->tkn_list);
+		// ft_tknprint(data->tkn_list);
 		if (call(data) == -1)
 			ft_putstr_fd("lav ches ara", 2);
 		free(args);

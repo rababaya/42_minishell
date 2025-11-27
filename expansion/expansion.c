@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/25 14:08:08 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:24:04 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static int	varname_len(char *tkn)
 		return (0);
 	while (tkn[len] && (ft_isalnum(tkn[len]) || tkn[len] == '_'))
 		len++;
-	// printf("varname len is %d\n", len);
 	return (len);
 }
 
@@ -89,7 +88,6 @@ static int	handle_vars(int *i, t_env *env, t_tkn *tkn, char **res)
 {
 	char	*tmp;
 
-	printf("pushing vars\n");
 	tmp = find_vars(tkn->token + *i + 1, env);
 	*i += varname_len(tkn->token + *i + 1) + 1;
 	if (!tmp)
@@ -109,7 +107,6 @@ static int	splitting(int *i, t_env *env, t_tkn *tkn, char **res)
 	int		j;
 
 	j = 0;
-	printf("splitting vars\n");
 	next = tkn->next;
 	tkn->next = NULL;
 	var = find_vars(tkn->token + *i + 1, env);
