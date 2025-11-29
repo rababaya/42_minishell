@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:40:11 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/29 13:27:56 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/29 13:38:40 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	is_newline(char	*str)
 		return (0);
 }
 
-int	ft_echo(char **args)
+int	ft_echo(t_data *data)
 {
 	int	i;
 	int	nl;
@@ -37,22 +37,22 @@ int	ft_echo(char **args)
 	i = 0;
 	is_printed = 0;
 	nl = 1;
-	while (args[++i])
+	while (data->args[++i])
 	{
-		if (is_newline(args[i]) && !is_printed)
+		if (is_newline(data->args[i]) && !is_printed)
 		{
 			nl = 0;
 			continue ;
 		}
-		if (print(args[i]) < 0)
+		if (print(data->args[i]) < 0)
 			return (1);
-		if (args[i + 1])
-			if (print(" "))
+		if (data->args[i + 1])
+			if (print(" ") < 0)
 				return (1);
 		is_printed = 1;
 	}
 	if (nl)
-		if (print("\n"))
+		if (print("\n") < 0)
 			return (1);
 	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:03:05 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/13 15:59:11 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/11/25 13:49:35 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_red(char *str)
+static int	is_red(char *str)
 {
 	if (!strncmp (str, "<<", 2))
 		return (2);
@@ -31,7 +31,7 @@ int	is_red(char *str)
 	return (0);
 }
 
-t_tkn	*tkn_red(char **str)
+static t_tkn	*tkn_red(char **str)
 {
 	char	*tmp;
 	t_tkn	*res;
@@ -46,7 +46,7 @@ t_tkn	*tkn_red(char **str)
 	return (res);
 }
 
-t_tkn	*crt_tkn(char **str, int i)
+static t_tkn	*crt_tkn(char **str, int i)
 {
 	char	*buf;
 	t_tkn	*res;
@@ -61,7 +61,7 @@ t_tkn	*crt_tkn(char **str, int i)
 	return (res);
 }
 
-t_tkn	*tkn_arg(char **str)
+static t_tkn	*tkn_arg(char **str)
 {
 	int		i;
 

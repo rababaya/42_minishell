@@ -7,23 +7,24 @@ LIBFT_FILE			=	42_libft/libft.a
 LDFLAGS     		=	-L 42_libft -lft
 MAKE_LIB			=	make -C
 
-LIST_SRC_DIR		=	list_operations
 TKN_SRC_DIR			=	tkn_operations
+ENV_OP_SRC_DIR		=	env_operations
 ENV_SRC_DIR			=	env
 UTILS_SRC_DIR		=	utils
 BUILTINS_SRC_DIR	=	builtins
 TKNSE_SRC_DIR		=	tokenisation
 EXPND_SRC_DIR		=	expansion
+SIGNALS_SRC_DIR		=	signals
 
-LIST_SRC			=	$(LIST_SRC_DIR)/ft_envadd_back.c \
-						$(LIST_SRC_DIR)/ft_envclear.c \
-						$(LIST_SRC_DIR)/ft_envsize.c \
-						$(LIST_SRC_DIR)/ft_envadd_front.c \
-						$(LIST_SRC_DIR)/ft_envlast.c \
-						$(LIST_SRC_DIR)/ft_envprint.c \
-						$(LIST_SRC_DIR)/ft_envdelone.c \
-						$(LIST_SRC_DIR)/ft_envfind.c \
-						$(LIST_SRC_DIR)/ft_envnew.c
+ENV_OP_SRC			=	$(ENV_OP_SRC_DIR)/ft_envadd_back.c \
+						$(ENV_OP_SRC_DIR)/ft_envclear.c \
+						$(ENV_OP_SRC_DIR)/ft_envsize.c \
+						$(ENV_OP_SRC_DIR)/ft_envadd_front.c \
+						$(ENV_OP_SRC_DIR)/ft_envlast.c \
+						$(ENV_OP_SRC_DIR)/ft_envprint.c \
+						$(ENV_OP_SRC_DIR)/ft_envdelone.c \
+						$(ENV_OP_SRC_DIR)/ft_envfind.c \
+						$(ENV_OP_SRC_DIR)/ft_envnew.c
 
 TKN_SRC				=	$(TKN_SRC_DIR)/ft_tknadd_back.c \
 						$(TKN_SRC_DIR)/ft_tknadd_front.c \
@@ -45,23 +46,25 @@ BUILTINS_SRC		=	$(BUILTINS_SRC_DIR)/builtin_call.c \
 
 UTILS_SRC			=	$(UTILS_SRC_DIR)/print.c \
 						$(UTILS_SRC_DIR)/free_split.c \
+						$(UTILS_SRC_DIR)/free_data.c \
 						$(UTILS_SRC_DIR)/ft_strglue.c \
 						$(UTILS_SRC_DIR)/ft_iswhitespace.c
-
 
 ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c
 
 TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c \
-						$(TKNSE_SRC_DIR)/punctuation.c
+						$(TKNSE_SRC_DIR)/punctuation.c \
+						$(TKNSE_SRC_DIR)/remove_empties.c
+
+SIGNALS_SRC			=	$(SIGNALS_SRC_DIR)/sigint.c
 
 EXPND_SRC			=	$(EXPND_SRC_DIR)/expansion.c \
 						$(EXPND_SRC_DIR)/convertion.c
 
 MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
-						$(LIST_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXPND_SRC)
+						$(ENV_OP_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXPND_SRC) $(SIGNALS_SRC)
 
 VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp
-
  
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
 

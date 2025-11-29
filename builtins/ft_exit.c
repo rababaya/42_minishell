@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 19:50:48 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/01 20:07:13 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/29 13:44:09 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ static int	is_in_longlong(const char *str, int pm)
 {
 	if (pm == -1)
 	{
-		if ((ft_strlen(str) == 19 && ft_strncmp(str, "9223372036854775808", 19) > 0)
+		if ((ft_strlen(str) == 19
+				&& ft_strncmp(str, "9223372036854775808", 19) > 0)
 			|| ft_strlen(str) > 19)
 			return (0);
 	}
 	else
 	{
-		if ((ft_strlen(str) == 19 && ft_strncmp(str, "9223372036854775807", 19) > 0)
+		if ((ft_strlen(str) == 19
+				&& ft_strncmp(str, "9223372036854775807", 19) > 0)
 			|| ft_strlen(str) > 19)
 			return (0);
 	}
@@ -31,7 +33,7 @@ static int	is_in_longlong(const char *str, int pm)
 
 static int	is_numeric_arg(char *arg)
 {
-	int i;
+	int	i;
 	int	pm;
 
 	i = 0;
@@ -55,26 +57,30 @@ static int	is_numeric_arg(char *arg)
 	return (1);
 }
 
-int	ft_exit(char **args, t_env *env)
+int	ft_exit(t_data *data)
 {
 	long long	exit_code;
-
-	(void)env;
+	
 	ft_putstr_fd("exit\n", 1);
-	if (!args[1])
-		exit(0);             ///////// handle global exit status /////////
-	if (!is_numeric_arg(args[1]))
+	if (!data->args[1])
+	{
+		free_data(data);
+		exit(0);
+	}
+	if (!is_numeric_arg(data->args[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(data->args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
+		free_data(data);
 		exit(255);
 	}
-	if (args[2])
+	if (data->args[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (1);
 	}
-	exit_code = ft_atoi(args[1]) % 256;
+	exit_code = ft_atoi(data->args[1]) % 256;
+	free_data(data);
 	exit(exit_code);
 }

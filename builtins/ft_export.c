@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 00:19:19 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/20 13:13:08 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/29 13:58:40 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,39 +45,67 @@ static void	ft_sort_list(t_env *export)
 	}
 }
 
+int	export_helper_helper(char *args)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(args[0]) && args[0] != '_')
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(args, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (1);
+	}
+	while (args[++i])
+	{
+		if ((args[i] == '+' && args[i + 1] == '=') || args[i] == '=')
+			break ;
+		if (!ft_isalnum(args[i]) && args[i] != '_')
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(args, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 static void	export_helper(char **args, t_env *export, int *ret)
 {
 	char	*equal;
 
-	if (!ft_isalpha((*args)[0]) && (*args)[0] != '_')
+	if (export_helper_helper(*args))
 	{
 		*ret = 1;
-		printf("minishell: export: `%s': not a valid identifier\n", *args);
+		return ;
 	}
 	equal = ft_strchr(*args, '=');
 	if (!equal)
 	{
 		if (!no_equal(*args, export))
-			*ret = 2;
+			*ret = 1;
 	}
 	else if (equal && *(equal - 1) != '+')
 	{
 		if (!equal_only(*args, export, equal))
-			*ret = 2;
+			*ret = 1;
 	}
 	else
 		if (!equal_plus(*args, export, equal - 1))
-			*ret = 2;
+			*ret = 1;
 }
 
-int	ft_export(char **args, t_env *export)
+int	ft_export(t_data *data)
 {
 	int	ret;
 
 	ret = 0;
-	if (!args[1])
-		return (ft_sort_list(export), ft_exportprint(export), ret);
-	while (*(++args))
-		export_helper(args, export, &ret);
+	if (!(data->args[1]))
+		return (ft_sort_list(data->env_list),
+			ft_exportprint(data->env_list), ret);
+	while (*(++(data->args)))
+		export_helper(data->args, data->env_list, &ret);
 	return (ret);
 }

@@ -3,24 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/25 13:40:02 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/11/29 14:30:32 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-			WHAT CAN GO WRONG or MY NIGHTMARE FUEL
-1. unclosed single/double quotes result in program exit, which should NOT happen
-2. $, $$ and other variations behave incorrectly
-3. expanded commands are not separated into tokens (ex. export a = "ls -l", calling $a SHOULD work but doesn't)
-			HAVE FUN WITH ALL THIS, CAUSE I'M NOT DOING IT
-*/
-
-
 #include "minishell.h"
 
+int g_exit_status = 0;
 
 int	main(int argc, char **argv, char **env)
 {
@@ -30,18 +22,26 @@ int	main(int argc, char **argv, char **env)
 	t_tkn	*tmp;
 	int		status;
 	char	**args;
-
+	t_data	*data;
+	
+	// signal(SIGINT, sigint_handler);
+	// signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
 	env_list = parse_env(env);
+	data = data_init();
+	data->env_list = env_list;                               ////////////////////
 	status = 0;
 	while (1)
 	{
+		signal(SIGINT, sigint_handler);
+		signal(SIGQUIT, SIG_IGN);
 		input = readline("<minishell>");
 		if (!input)
 		{
-			printf ("readline error\n");
-			break ;
+			print("exit\n");
+			free_data(data);
+			exit(0);
 		}
 		if (!*input)
 			continue ;
@@ -54,12 +54,12 @@ int	main(int argc, char **argv, char **env)
 		}
 		if (tokenise(&tkn, input))
 		{
-			printf ("tokenisation issue\n");
-			ft_tknclear(&tkn);
-			free(input);
-			return (0);//errno
+			ft_putstr_fd("tokenisation issue\n", 2);
+			free_data(data);
+			free(input);//shouldn't data be cleared?
+			return (127);
 		}
-		if (!tkn)//wrong quote punctuation should not exit minishell
+		if (!tkn)
 		{
 			free(input);
 			continue ;
@@ -73,10 +73,10 @@ int	main(int argc, char **argv, char **env)
 				status = expand(tmp, env_list);
 				if (status)
 				{
-					ft_tknclear(&tkn);
-					free(input);
-					printf("expansion issue\n");
-					return (status);//replace with actual errno maybe?
+					free_data(data);
+					free(input);//data clear?
+					ft_putstr_fd("expansion issue\n", 2);
+					return (127);//errno
 				}
 			}
 			tmp = tmp->next;
@@ -87,23 +87,22 @@ int	main(int argc, char **argv, char **env)
 			free(input);
 			continue;
 		}
-		ft_tknprint(tkn);
-		// printf("fdsf\n");
+		data->tkn_list = tkn;                                  ////////////////
 		args = convertion(tkn);
 		if (!args)
 		{
-			ft_tknclear(&tkn);
+			free_data(data);
 			free(input);
-			printf("args issue\n");
-			return (0);//errno
+			ft_putstr_fd("args issue\n", 2);
+			return (127);//errno
 		}
-		if (call(args, env_list) == -1)
-			printf("lav ches ara");
-		//ft_tknprint(tkn);
-		// printf("fdsf\n");
+		data->args = args;                                 /////////////////////
+		// ft_tknprint(data->tkn_list);
+		g_exit_status = call(data);
 		free(args);
+		data->args = NULL;
 		ft_tknclear(&tkn);
+		data->tkn_list = NULL;
 		free(input);
 	}
-	ft_envclear(&env_list);
 }

@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   sigint.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/20 12:37:51 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/29 14:06:04 by rababaya         ###   ########.fr       */
+/*   Created: 2025/11/22 20:59:51 by rababaya          #+#    #+#             */
+/*   Updated: 2025/11/22 21:00:35 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_unset(t_data *data)
+void	sigint_handler(int sig)
 {
-	int	i;
-
-	i = -1;
-	if (!(data->args[1]))
-		return (0);
-	while (data->args[++i])
-		ft_envdelone(&(data->env_list), data->args[i]);
-	return (0);
+	(void)sig;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	write(1, "\n", 1);
+	rl_redisplay();
+	g_exit_status = 130;
 }

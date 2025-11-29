@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/24 15:48:42 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/11/28 00:24:04 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	varname_len(char *tkn)
+static int	varname_len(char *tkn)
 {
 	int	len;
 
@@ -21,11 +21,10 @@ int	varname_len(char *tkn)
 		return (0);
 	while (tkn[len] && (ft_isalnum(tkn[len]) || tkn[len] == '_'))
 		len++;
-	// printf("varname len is %d\n", len);
 	return (len);
 }
 
-char	*find_vars(char *tkn, t_env *env)
+static char	*find_vars(char *tkn, t_env *env)
 {
 	int	len;
 
@@ -39,7 +38,7 @@ char	*find_vars(char *tkn, t_env *env)
 	return (NULL);
 }
 
-int	handle_str(int *i, int quote, char *str, char **res)
+static int	handle_str(int *i, int quote, char *str, char **res)
 {
 	int		j;
 	char	*tmp;
@@ -63,7 +62,7 @@ int	handle_str(int *i, int quote, char *str, char **res)
 	return (0);
 }
 
-int	handle_quotes(char c, int *quote)
+static int	handle_quotes(char c, int *quote)
 {
 	if (c == '\'' && *quote < 1)
 	{
@@ -85,11 +84,10 @@ int	handle_quotes(char c, int *quote)
 }
 
 
-int	handle_vars(int *i, t_env *env, t_tkn *tkn, char **res)
+static int	handle_vars(int *i, t_env *env, t_tkn *tkn, char **res)
 {
 	char	*tmp;
 
-	printf("pushing vars\n");
 	tmp = find_vars(tkn->token + *i + 1, env);
 	*i += varname_len(tkn->token + *i + 1) + 1;
 	if (!tmp)
@@ -100,7 +98,7 @@ int	handle_vars(int *i, t_env *env, t_tkn *tkn, char **res)
 	return (0);
 }
 
-int	splitting(int *i, t_env *env, t_tkn *tkn, char **res)
+static int	splitting(int *i, t_env *env, t_tkn *tkn, char **res)
 {
 	char	*var;
 	char	*prev;
@@ -109,7 +107,6 @@ int	splitting(int *i, t_env *env, t_tkn *tkn, char **res)
 	int		j;
 
 	j = 0;
-	printf("splitting vars\n");
 	next = tkn->next;
 	tkn->next = NULL;
 	var = find_vars(tkn->token + *i + 1, env);
