@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 19:50:48 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/28 00:27:52 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/29 13:44:09 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_exit(t_data *data)
 {
 	long long	exit_code;
 	
-	ft_putstr_fd("exit\n", 2);
+	ft_putstr_fd("exit\n", 1);
 	if (!data->args[1])
 	{
 		free_data(data);

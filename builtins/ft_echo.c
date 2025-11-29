@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 16:40:11 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 15:27:16 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/29 13:38:40 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int	ft_echo(t_data *data)
 		if (print(data->args[i]) < 0)
 			return (1);
 		if (data->args[i + 1])
-			if (print(" "))
+			if (print(" ") < 0)
 				return (1);
 		is_printed = 1;
 	}
 	if (nl)
-		if (print("\n"))
+		if (print("\n") < 0)
 			return (1);
 	return (0);
 }

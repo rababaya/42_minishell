@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/28 00:17:49 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/29 14:30:32 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int argc, char **argv, char **env)
 		if (tokenise(&tkn, input))
 		{
 			ft_putstr_fd("tokenisation issue\n", 2);
-			ft_tknclear(&tkn);
+			free_data(data);
 			free(input);//shouldn't data be cleared?
 			return (127);
 		}
@@ -73,10 +73,10 @@ int	main(int argc, char **argv, char **env)
 				status = expand(tmp, env_list);
 				if (status)
 				{
-					ft_tknclear(&tkn);
+					free_data(data);
 					free(input);//data clear?
 					ft_putstr_fd("expansion issue\n", 2);
-					return (status);//errno
+					return (127);//errno
 				}
 			}
 			tmp = tmp->next;
@@ -94,12 +94,11 @@ int	main(int argc, char **argv, char **env)
 			free_data(data);
 			free(input);
 			ft_putstr_fd("args issue\n", 2);
-			return (0);//errno
+			return (127);//errno
 		}
 		data->args = args;                                 /////////////////////
 		// ft_tknprint(data->tkn_list);
-		if (call(data) == -1)
-			ft_putstr_fd("lav ches ara", 2);
+		g_exit_status = call(data);
 		free(args);
 		data->args = NULL;
 		ft_tknclear(&tkn);

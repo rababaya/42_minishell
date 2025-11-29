@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 00:19:19 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 19:06:08 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/11/29 13:58:40 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,16 @@ static void	export_helper(char **args, t_env *export, int *ret)
 	if (!equal)
 	{
 		if (!no_equal(*args, export))
-			*ret = 2;
+			*ret = 1;
 	}
 	else if (equal && *(equal - 1) != '+')
 	{
 		if (!equal_only(*args, export, equal))
-			*ret = 2;
+			*ret = 1;
 	}
 	else
 		if (!equal_plus(*args, export, equal - 1))
-			*ret = 2;
+			*ret = 1;
 }
 
 int	ft_export(t_data *data)
