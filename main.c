@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/29 14:30:32 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/12/01 13:56:28 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char **argv, char **env)
 	data = data_init();
 	data->env_list = env_list;                               ////////////////////
 	status = 0;
+	printf("%d\n", access("Makefil", R_OK));
 	while (1)
 	{
 		signal(SIGINT, sigint_handler);
