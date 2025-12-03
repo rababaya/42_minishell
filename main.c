@@ -6,12 +6,18 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/12/01 13:56:28 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/12/03 16:09:02 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
+some error codes
+cmd not found 127
+is a file/isa directory 126
+no such file 1
 
+*/
 int g_exit_status = 0;
 
 int	main(int argc, char **argv, char **env)
@@ -100,6 +106,8 @@ int	main(int argc, char **argv, char **env)
 		data->args = args;                                 /////////////////////
 		// ft_tknprint(data->tkn_list);
 		g_exit_status = call(data);
+		if (g_exit_status == 1)
+			execution(data, tkn->token);
 		free(args);
 		data->args = NULL;
 		ft_tknclear(&tkn);

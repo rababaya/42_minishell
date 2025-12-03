@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/23 19:49:48 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/12/03 16:16:00 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+#include <sys/wait.h>
 
 # include "libft.h"
 # include "list_ops.h"
@@ -24,6 +25,7 @@
 # include "utils.h"
 # include "tokenisation.h"
 # include "ast.h"
+
 
 extern int	g_exit_status;
 
