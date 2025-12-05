@@ -83,7 +83,6 @@ static int	handle_quotes(char c, int *quote)
 	return (0);
 }
 
-
 static int	handle_vars(int *i, t_env *env, t_tkn *tkn, char **res)
 {
 	char	*tmp;
@@ -152,7 +151,7 @@ int	expand(t_tkn *tkn, t_env *env)
 		if (handle_quotes(tkn->token[i], &quote))
 			i++;
 		else if (tkn->token[i] == '$' && quote > -1
-				&& varname_len(tkn->token + i + 1))
+			&& varname_len(tkn->token + i + 1))
 		{
 			if (quote == 1 && handle_vars(&i, env, tkn, &res))
 				return (127);

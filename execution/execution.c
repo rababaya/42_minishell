@@ -43,14 +43,17 @@ int	path_join(char *cmd, char *path, char **res)
 	{
 		(*res)[i++] = *(cmd++);
 	}
-	return (0);	
+	(*res)[i] = 0;
+	return (0);
 }
 
 int	set_to_path(t_env *env, char *cmd, char **path)
 {
 	char	**paths;
 	char	*tmp;
-	
+	int		i;
+
+	tmp = NULL;
 	if (cmd[0] == '.' || cmd[0] == '/')
 	{
 		if (access(cmd, F_OK))
@@ -63,27 +66,29 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 	if (get_path(env))
 		paths = ft_split(get_path(env), ':');
 	else
-	 	return (127);//
+		return (127);//
 	if (!paths)
 		return (127);
-	while (*paths)
+	i = 0;
+	while (paths[i])
 	{
-		if (path_join(cmd, *paths, &tmp))
-			return (127);
+		if (path_join(cmd, paths[i], &tmp))
+			return (free_split(&paths), 127);
 		if (!access(tmp, F_OK) && !access(tmp, X_OK))
 		{
 			*path = tmp;
-			return (0);
+			return (free_split(&paths), 0);
 		}
 		free(tmp);
-		paths++;
+		i++;
 	}
-	return (127);
+	return (free_split(&paths), 127);
 }
 
-int	execution(t_data *data, char *cmd)
+int	execution(t_data *data, t_tkn *cmd)
 {
-	int	pid;
+	int		pid;
+	int		ret;
 	char	*path;
 	char	**argv;
 	char	**envp;
@@ -93,19 +98,25 @@ int	execution(t_data *data, char *cmd)
 		return (127);
 	if (pid == 0)
 	{
+		path = NULL;
 		argv = convertion(data->tkn_list);
 		if (!argv)
 			return (127);
 		envp = lst_to_str(data->env_list);
 		if (!envp)
-			return (free_split(&argv), 127);
-		if (set_to_path(data->env_list,
-			 cmd,
-			  &path))
-			return (free_split(&envp), free_split(&argv), 127);
+			return (free(argv), 127);
+		if (set_to_path(data->env_list, cmd->token, &path))
+		{
+			free(argv);
+			free_split(&envp);
+			if (path)
+				free(path);
+			free_data(data);///leave only if exiting from here istead of returning to main function
+			exit (127);
+		}
 		execve(path, argv, envp);
 		return (127);
 	}
-	wait(NULL);
-	return (0);
+	waitpid(pid, &ret, 0);
+	return (ret);
 }

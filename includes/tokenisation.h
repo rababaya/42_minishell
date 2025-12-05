@@ -43,5 +43,5 @@ void	remove_empties(t_tkn **tkn);
 
 int		expand(t_tkn *tkn, t_env *env);
 char	**convertion(t_tkn *tkn);
-int		execution(t_data *data, char *cmd);
+int		execution(t_data *data, t_tkn *cmd);
 #endif

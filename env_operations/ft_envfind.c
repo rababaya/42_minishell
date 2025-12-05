@@ -14,7 +14,7 @@
 
 t_env	*ft_envfind(t_env *env_list, char *key)
 {
-	while (env_list && ft_strncmp(env_list->key, key, ft_strlen(key)))
+	while (env_list && ft_strncmp(env_list->key, key, ft_strlen(key) + 1))
 		env_list = env_list->next;
 	return (env_list);
 }

@@ -17,6 +17,8 @@ t_data	*data_init(void)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
+	if (!data)
+		return (NULL);
 	data->args = NULL;
 	data->env_list = NULL;
 	data->tkn_list = NULL;

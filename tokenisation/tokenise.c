@@ -86,10 +86,8 @@ static t_tkn	*tkn_arg(char **str)
 		}
 		i++;
 	}
-	
 	return (crt_tkn(str, i));
 }
-
 
 int	tokenise(t_tkn **tkn, char *str)
 {

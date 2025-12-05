@@ -60,7 +60,7 @@ static int	is_numeric_arg(char *arg)
 int	ft_exit(t_data *data)
 {
 	long long	exit_code;
-	
+
 	ft_putstr_fd("exit\n", 1);
 	if (!data->args[1])
 	{

@@ -17,15 +17,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-#include <sys/wait.h>
-
+# include <sys/wait.h>
 # include "libft.h"
 # include "list_ops.h"
 # include "builtins.h"
 # include "utils.h"
 # include "tokenisation.h"
 # include "ast.h"
-
 
 extern int	g_exit_status;
 
