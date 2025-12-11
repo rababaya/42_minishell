@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/12/03 16:44:17 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:07:03 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	execution(t_data *data, t_tkn *cmd)
 {
 	int		pid;
 	int		ret;
+	int		fd;
 	char	*path;
 	char	**argv;
 	char	**envp;
@@ -99,7 +100,7 @@ int	execution(t_data *data, t_tkn *cmd)
 	if (pid == 0)
 	{
 		path = NULL;
-		argv = convertion(data->tkn_list);
+		argv = convertion(data->tkn_list);//or cmd??
 		if (!argv)
 			return (127);
 		envp = lst_to_str(data->env_list);

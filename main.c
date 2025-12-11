@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/12/03 16:09:02 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/12/10 16:14:59 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ int	main(int argc, char **argv, char **env)
 		data->args = convertion(data->tkn_list);
 		if (!data->args)
 		{
-			free_data(data);
 			ft_putstr_fd("args issue\n", 2);
+			free_data(data);
 			return (127);//errno
 		}                               /////////////////////
 		// ft_tknprint(data->tkn_list);

@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/12/03 16:16:00 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:06:24 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 # include "libft.h"
 # include "list_ops.h"
 # include "builtins.h"
