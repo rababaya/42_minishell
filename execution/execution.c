@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/12/11 16:07:03 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:32:36 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	execution(t_data *data, t_tkn *cmd)
 {
 	int		pid;
 	int		ret;
-	int		fd;
 	char	*path;
 	char	**argv;
 	char	**envp;
