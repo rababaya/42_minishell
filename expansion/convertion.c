@@ -6,26 +6,26 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:00:13 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/01 17:00:20 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/12/13 11:47:11 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**convertion(t_tkn *tkn)
+char	**convertion(t_tkn *tkn, int len)
 {
 	char	**res;
-	int		len;
 	int		i;
 
-	len = ft_tknsize(tkn);
+	if (len < 0)
+		len = ft_tknsize(tkn);
 	if (!len) /////////////
 		return (NULL);
 	res = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!res)
 		return (NULL);
 	i = 0;
-	while (tkn)
+	while (tkn && i < len)
 	{
 		if (tkn->token)
 		{

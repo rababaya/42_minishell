@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tknprint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:58:44 by rababaya          #+#    #+#             */
-/*   Updated: 2025/09/16 17:17:48 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/12/13 11:35:20 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	ft_tknprint(t_tkn *tkn_list)
 {
+	char	*type[] = {"Argument", "Output redirection", "Input redirection", "Output append", "Pipe", "Heredoc", NULL}; 
 	while (tkn_list)
 	{
 		printf("%s is ", tkn_list->token);
-		printf("%d\n", tkn_list->type);
+		printf("%s\n", type[tkn_list->type]);
 		tkn_list = tkn_list->next;
 	}
 }

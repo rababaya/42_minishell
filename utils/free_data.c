@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 14:23:20 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 19:05:20 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/12/13 14:02:01 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ t_data	*data_init(void)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
+	if (!data)
+		return (NULL);
 	data->args = NULL;
 	data->env_list = NULL;
 	data->tkn_list = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:03:05 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/25 13:49:35 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/12/13 14:01:38 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,35 @@ static int	is_red(char *str)
 		return (2);
 	if (!strncmp (str, ">>", 2))
 		return (2);
-	if (!strncmp (str, "&&", 2))
-		return (2);
-	if (!strncmp (str, "||", 2))
-		return (2);
+	// if (!strncmp (str, "&&", 2))
+	// 	return (2);
+	// if (!strncmp (str, "||", 2))
+	// 	return (2);
 	if (*str == '<')
 		return (1);
 	if (*str == '>')
 		return (1);
 	if (*str == '|')
 		return (1);
+	return (0);
+}
+
+static int	red_type(char *str)
+{
+	if (!strncmp (str, "<<", 2))
+		return (HRDC);
+	if (!strncmp (str, ">>", 2))
+		return (APPND);
+	// if (!strncmp (str, "&&", 2))
+	// 	return (2);
+	// if (!strncmp (str, "||", 2))
+	// 	return (2);
+	if (*str == '<')
+		return (RED_IN);
+	if (*str == '>')
+		return (RED_OUT);
+	if (*str == '|')
+		return (PIPE);
 	return (0);
 }
 
@@ -39,8 +58,8 @@ static t_tkn	*tkn_red(char **str)
 	tmp = ft_substr(*str, 0, is_red(*str));
 	if (!tmp)
 		return (NULL);
+	res = ft_tknnew(tmp, red_type(*str));
 	(*str) += is_red(*str);
-	res = ft_tknnew(tmp, REDIR);
 	if (!res)
 		free(tmp);
 	return (res);
@@ -86,7 +105,6 @@ static t_tkn	*tkn_arg(char **str)
 		}
 		i++;
 	}
-	
 	return (crt_tkn(str, i));
 }
 

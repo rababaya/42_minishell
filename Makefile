@@ -13,6 +13,7 @@ ENV_SRC_DIR			=	env
 UTILS_SRC_DIR		=	utils
 BUILTINS_SRC_DIR	=	builtins
 TKNSE_SRC_DIR		=	tokenisation
+EXEC_SRC_DIR		=	execution
 EXPND_SRC_DIR		=	expansion
 SIGNALS_SRC_DIR		=	signals
 
@@ -56,13 +57,17 @@ TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c \
 						$(TKNSE_SRC_DIR)/punctuation.c \
 						$(TKNSE_SRC_DIR)/remove_empties.c
 
+EXEC_SRC			=	$(EXEC_SRC_DIR)/execution.c \
+						$(EXEC_SRC_DIR)/redirection.c
+
 SIGNALS_SRC			=	$(SIGNALS_SRC_DIR)/sigint.c
 
 EXPND_SRC			=	$(EXPND_SRC_DIR)/expansion.c \
 						$(EXPND_SRC_DIR)/convertion.c
 
 MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
-						$(ENV_OP_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXPND_SRC) $(SIGNALS_SRC)
+						$(ENV_OP_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXEC_SRC)\
+						$(EXPND_SRC) $(SIGNALS_SRC)
 
 VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp
  
