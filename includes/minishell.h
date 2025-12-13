@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/12/11 16:06:24 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/12/13 10:26:41 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "utils.h"
 # include "tokenisation.h"
 # include "ast.h"
+# include "execution.h"
 
 extern int	g_exit_status;
 

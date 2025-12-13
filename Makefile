@@ -57,7 +57,8 @@ TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c \
 						$(TKNSE_SRC_DIR)/punctuation.c \
 						$(TKNSE_SRC_DIR)/remove_empties.c
 
-EXEC_SRC			=	$(EXEC_SRC_DIR)/execution.c
+EXEC_SRC			=	$(EXEC_SRC_DIR)/execution.c \
+						$(EXEC_SRC_DIR)/redirection.c
 
 SIGNALS_SRC			=	$(SIGNALS_SRC_DIR)/sigint.c
 

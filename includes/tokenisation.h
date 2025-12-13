@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:13:52 by rababaya          #+#    #+#             */
-/*   Updated: 2025/12/03 16:08:36 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/12/13 11:44:39 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ typedef struct s_tkn
 enum e_type
 {
 	ARG,
-	REDIR,
+	RED_OUT,
+	RED_IN,
+	APPND,
+	PIPE,
 	HRDC
 };
 
@@ -42,6 +45,5 @@ int		check_punctuation(char *str);
 void	remove_empties(t_tkn **tkn);
 
 int		expand(t_tkn *tkn, t_env *env);
-char	**convertion(t_tkn *tkn);
-int		execution(t_data *data, t_tkn *cmd);
+char	**convertion(t_tkn *tkn, int len);
 #endif
