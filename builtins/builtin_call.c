@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_call.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 17:35:58 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 16:13:15 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/12/20 14:06:10 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ int	call(t_data *data)
 		return (ft_cd(data));
 	else if (!ft_strncmp(data->args[0], "exit", 5))
 		return (ft_exit(data));
-	return (1);
+	return (2);
 }

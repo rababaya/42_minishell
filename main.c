@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/12/13 11:45:42 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2025/12/30 12:33:42 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ int	main(int argc, char **argv, char **env)
 			free_data(data);
 			exit(0);
 		}
-		if (!*input)
-			continue ;
 		add_history(input);
 		if (!check_punctuation(input))
 		{
@@ -62,7 +60,7 @@ int	main(int argc, char **argv, char **env)
 			free(input);
 			return (127);
 		}
-		ft_tknprint(data->tkn_list);
+		//ft_tknprint(data->tkn_list);
 		free(input);
 		if (!data->tkn_list)
 			continue ;
@@ -92,9 +90,7 @@ int	main(int argc, char **argv, char **env)
 			return (127);//errno
 		}                               /////////////////////
 		// ft_tknprint(data->tkn_list);
-		g_exit_status = call(data);
-		if (g_exit_status == 1)
-			g_exit_status = execution(data, data->tkn_list);
+		g_exit_status = execution(data, data->tkn_list);
 		free(data->args);
 		data->args = NULL;
 		ft_tknclear(&data->tkn_list);

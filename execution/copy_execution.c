@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/01 16:07:38 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/01 15:44:19 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	child_process(t_data *data, t_tkn *cmd)
 	return (127);
 }
 
-int	no_pipes(t_data *data, t_tkn *cmd)
+int	execution(t_data *data, t_tkn *cmd)
 {
 	int		pid;
 	int		ret;
@@ -145,18 +145,4 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 	}
 	waitpid(pid, &ret, 0);
 	return (ret);
-}
-
-int	execution(t_data *data, t_tkn *cmd)
-{
-	if (!next_pipe(cmd))
-	{
-		return (no_pipes(data, cmd));
-	}
-	else
-	{
-		pipes(data, cmd);
-		///
-	}
-	return (0);
 }

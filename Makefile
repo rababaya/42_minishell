@@ -66,7 +66,7 @@ EXPND_SRC			=	$(EXPND_SRC_DIR)/expansion.c \
 						$(EXPND_SRC_DIR)/convertion.c
 
 MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
-						$(ENV_OP_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXEC_SRC)\
+						$(ENV_OP_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXEC_SRC) \
 						$(EXPND_SRC) $(SIGNALS_SRC)
 
 VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp
