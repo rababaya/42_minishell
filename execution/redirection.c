@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:25:02 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/05 19:49:05 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/05 23:09:56 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	red_out(t_tkn *cmd)
 {
 	int		fd;
 	
-	fd = open(get_redir(cmd)->next->token, O_WRONLY | O_CREAT, 0644);
+	fd = open(get_redir(cmd)->next->token, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd < 0)
 		return (127);
 	if (dup2(fd, STDOUT_FILENO) < 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/12/29 22:20:58 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/06 01:37:25 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,3 +165,60 @@ int	expand(t_tkn *tkn, t_env *env)
 	tkn->token = res;
 	return (0);
 }
+
+
+
+
+
+
+
+/*
+static int	calculate(char *str)
+{
+	int		len;
+	char	quote;
+
+	len = 0;
+	quote = 0;
+	while(*str)
+	{
+		if ((*str == '\'' && !quote) || (*str == '\"' && !quote))
+			quote = *str;
+		else if (*str == quote)
+			quote = 0;
+		else
+			len++;
+		str++;
+	}
+	if (quote)
+		return (-1);
+	return (len);
+}
+char	*dequote(char *str)
+{
+	char	*res;
+	int		i;
+	char	quote;
+
+	i = calculate(str);
+	if (i < 0)
+		return (NULL);
+	res = (char *)malloc(i + 1);
+	if (!res)
+		return (NULL);
+	i = 0;
+	quote = 0;
+	while(*str)
+	{
+		if ((*str == '\'' && !quote) || (*str == '\"' && !quote))
+			quote = *str;
+		else if (*str == quote)
+			quote = 0;
+		else
+			res[i++] = *str;
+		str++;
+	}
+	res[i] = 0;
+	return (res);
+}
+*/

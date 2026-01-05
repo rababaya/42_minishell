@@ -46,13 +46,15 @@ int single_command(t_data *data, t_tkn *cmd)
 	{
 		return (127);
 	}
-	data->args = convertion(cmd, next_pipe_count(cmd));
+	data->args = convertion(cmd, arg_len(cmd));
 	if (!data->args)
 		return (127);
 	ret = child_process(data, cmd);
 		///
 	return (ret);
 }
+
+
 
 int pipes(t_data *data, t_tkn *tkn)
 {
@@ -78,6 +80,7 @@ int pipes(t_data *data, t_tkn *tkn)
 			return (127); ///////////////nicht
 		if (pid[i] == 0)
 		{
+			free(pid);
 			//ft_printf("%d:: fd0 is %d and fd1 is %d, while lastread is %d\n", i, fd[0], fd[1], lastread);
 			if (i != len)
 				close(fd[0]);
