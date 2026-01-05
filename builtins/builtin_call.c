@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 17:35:58 by rababaya          #+#    #+#             */
-/*   Updated: 2025/11/15 16:13:15 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/05 19:45:07 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ int	call(t_data *data)
 		return (ft_cd(data));
 	else if (!ft_strncmp(data->args[0], "exit", 5))
 		return (ft_exit(data));
-	return (1);
+	return (0);
 }

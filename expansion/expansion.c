@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/11/28 00:24:04 by rababaya         ###   ########.fr       */
+/*   Updated: 2025/12/29 22:20:58 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,6 @@ static int	handle_quotes(char c, int *quote)
 	return (0);
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/ast
 static int	handle_vars(int *i, t_env *env, t_tkn *tkn, char **res)
 {
 	char	*tmp;
@@ -155,11 +151,7 @@ int	expand(t_tkn *tkn, t_env *env)
 		if (handle_quotes(tkn->token[i], &quote))
 			i++;
 		else if (tkn->token[i] == '$' && quote > -1
-<<<<<<< HEAD
-				&& varname_len(tkn->token + i + 1))
-=======
 			&& varname_len(tkn->token + i + 1))
->>>>>>> origin/ast
 		{
 			if (quote == 1 && handle_vars(&i, env, tkn, &res))
 				return (127);
