@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/01 16:07:38 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/05 23:11:32 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,27 +101,84 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 int	child_process(t_data *data, t_tkn *cmd)
 {
 	char	*path;
-	char	**argv;
 	char	**envp;
 
 	path = NULL;
-	argv = convertion(cmd, arg_len(cmd));
-	if (!argv)
-		return (127);
 	envp = lst_to_str(data->env_list);
 	if (!envp)
-		return (free(argv), 127);
-	if (call(data) == 2 || set_to_path(data->env_list, cmd->token, &path))
+		return (127);
+	if (set_to_path(data->env_list, cmd->token, &path))
 	{
-		free(argv);
 		free_split(&envp);
 		if (path)
 			free(path);
 		free_data(data);///leave only if exiting from here istead of returning to main function
 		exit (127);
 	}
-	execve(path, argv, envp);
+	execve(path, data->args, envp);
 	return (127);
+}
+
+int	is_builtin(t_data *data)
+{
+	if (!ft_strncmp(data->args[0], "echo", 5))
+		return (1);
+	else if (!ft_strncmp(data->args[0], "pwd", 4))
+		return (1);
+	else if (!ft_strncmp(data->args[0], "env", 4))
+		return (1);
+	else if (!ft_strncmp(data->args[0], "export", 7))
+		return (1);
+	else if (!ft_strncmp(data->args[0], "unset", 6))
+		return (1);
+	else if (!ft_strncmp(data->args[0], "cd", 3))
+		return (1);
+	else if (!ft_strncmp(data->args[0], "exit", 5))
+		return (1);
+	return (0);
+}
+
+int	red_type(t_tkn *cmd)
+{
+	int	redout;
+	int	redin;
+	
+	redout = 0;
+	redin = 0;
+	while (cmd)
+	{
+		if (cmd->type == RED_OUT || cmd->type == APPND)
+			redout = 1;
+		if (cmd->type == RED_IN || cmd->type == HRDC)
+			redin = 2;
+		cmd = cmd->next;
+	}
+	return (redin + redout);
+}
+
+int	builtin_call(t_data *data, t_tkn *cmd)
+{
+	int	redtype;
+	int	fd_in;
+	int	fd_out;
+
+	redtype = red_type(cmd);
+	if (redtype == 1 || redtype == 3)
+		fd_out = dup(STDOUT_FILENO);
+	if (redtype == 2 || redtype == 3)
+		fd_in = dup(STDIN_FILENO);
+	if (redirection(data, cmd))
+		return (127);
+	data->status = call(data);
+	if ((redtype == 1 || redtype == 3) && dup2(fd_out, STDOUT_FILENO) < 0)
+		return (close(fd_out), 127);
+	if ((redtype == 2 || redtype == 3) && dup2(fd_in, STDIN_FILENO) < 0)
+		return (close(fd_in), 127);
+	if (redtype == 1 || redtype == 3)
+		close(fd_out);
+	if (redtype == 2 || redtype == 3)
+		close(fd_in);
+	return (0);
 }
 
 int	no_pipes(t_data *data, t_tkn *cmd)
@@ -149,14 +206,19 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 
 int	execution(t_data *data, t_tkn *cmd)
 {
+	int	ret;
+
 	if (!next_pipe(cmd))
 	{
-		return (no_pipes(data, cmd));
+		data->args = convertion(cmd, arg_len(cmd));
+		if (!data->args)
+			return (127);
+		if (is_builtin(data))
+			return (builtin_call(data, cmd));
+		else
+			return (no_pipes(data, cmd));
 	}
-	else
-	{
-		pipes(data, cmd);
-		///
-	}
-	return (0);
+	ret = pipes(data, cmd);
+	//////////////////////////////////////////////127
+	return (ret);
 }

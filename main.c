@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2025/12/30 12:33:42 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/02 14:38:36 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		remove_empties(&(data->tkn_list));
 		if (!data->tkn_list)
-			continue;                                ////////////////
+			continue ;                                ////////////////
 		data->args = convertion(data->tkn_list, -1);
 		if (!data->args)
 		{

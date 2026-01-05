@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 17:35:58 by rababaya          #+#    #+#             */
-/*   Updated: 2025/12/20 14:06:10 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/05 22:48:00 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ int	call(t_data *data)
 		return (ft_cd(data));
 	else if (!ft_strncmp(data->args[0], "exit", 5))
 		return (ft_exit(data));
-	return (2);
+	return (0);
 }

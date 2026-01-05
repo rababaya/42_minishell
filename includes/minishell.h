@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2025/12/13 10:26:41 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/05 22:49:52 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include "libft.h"
+# include "ft_printf.h"
 # include "list_ops.h"
 # include "builtins.h"
 # include "utils.h"
 # include "tokenisation.h"
-# include "ast.h"
 # include "execution.h"
 
 extern int	g_exit_status;
@@ -34,6 +34,7 @@ typedef struct s_data
 	t_env	*env_list;
 	t_tkn	*tkn_list;
 	char	**args;
+	int		status;
 }	t_data;
 
 t_env	*parse_env(char **env);
