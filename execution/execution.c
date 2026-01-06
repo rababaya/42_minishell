@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/05 23:28:03 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/06 15:57:09 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,23 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 	return (free_split(&paths), 127);
 }
 
+int print_err(char *s)
+{
+	char	*str;
+	int		len;
+	
+	len = ft_strlen(s);
+	str = (char *)malloc(32 + len);
+	if (!str)
+		return (1);
+	ft_memcpy(str, "minshell: ", 10);
+	ft_memcpy(str + 10, s, len);
+	ft_memcpy(str + 10 + len, ": command not found\n", 21);
+	write(2, str, len + 32);
+	free(str);
+	return (0);
+}
+
 int	child_process(t_data *data, t_tkn *cmd)
 {
 	char	*path;
@@ -109,9 +126,7 @@ int	child_process(t_data *data, t_tkn *cmd)
 		return (127);
 	if (set_to_path(data->env_list, cmd->token, &path))
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd->token, 2);
-		ft_putstr_fd(": command not found\n", 2);
+		print_err(cmd->token);
 		free_split(&envp);
 		if (path)
 			free(path);

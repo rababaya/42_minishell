@@ -54,7 +54,22 @@ int single_command(t_data *data, t_tkn *cmd)
 	return (ret);
 }
 
+void	mayday(int *pid, int i, int fd[2], int len)
+{
+	int	j;
 
+	j = 0;
+	if (i != len)
+	{
+		close(fd[0]);
+		close(fd[1]);
+	}
+	while(j < i)
+	{
+		waitpid(pid[j], NULL, 0);
+		j++;
+	}
+}
 
 int pipes(t_data *data, t_tkn *tkn)
 {
@@ -74,10 +89,16 @@ int pipes(t_data *data, t_tkn *tkn)
 	while (i <= len)
 	{
 		if (i != len && pipe(fd))
-			return (127); ///////////////nicht
+		{
+			mayday(pid, i, fd, i);
+			return (127);
+		}
 		pid[i] = fork();
 		if (pid[i] < 0)
-			return (127); ///////////////nicht
+		{
+			mayday(pid, i, fd, len);
+			return (127);
+		}
 		if (pid[i] == 0)
 		{
 			free(pid);
