@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 14:23:20 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/05 19:27:23 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/05 21:14:37 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_data	*data_init(void)
 	data->env_list = NULL;
 	data->tkn_list = NULL;
 	data->exit_status = 0;
-	data->heredeoc_fd = -1;
+	data->heredoc_fd = -1;
 	return (data);
 }
 

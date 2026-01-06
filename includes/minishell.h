@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/05 19:51:32 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/05 21:14:37 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ typedef struct s_data
 	t_tkn	*tkn_list;
 	char	**args;
 	int		exit_status;
-	int		heredeoc_fd;
+	int		heredoc_fd;
 }	t_data;
 
 t_env	*parse_env(char **env);
 char	**lst_to_str(t_env *env);
 
 void	sigint_handler(int sig);
+void	heredoc_sigint(int sig);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/05 20:09:52 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/06 17:36:44 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,18 +186,25 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 	int		pid;
 	int		ret;
 
-	ret = 0;		
-	// if (access(cmd->token, F_OK)) /////////////////
-	// 	return (127);
 	pid = fork();
 	if (pid < 0)
-		return (127);
+		return (perror("minishell"), 1);
+	// if (access(cmd->token, F_OK)) /////////////////
+	// 	return (127);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
+		// if (prepare_redirections(data, cmd))
+		// 	exit(1);
+		// else if (ret == 1)
+		// {
+		// 	ft_putstr_fd("minishell: syntax error near unexpected token\n", 2); ///TODO
+		// 	return (1);
+		// }
 		if (redirection(data, cmd))
+		{
 			return (127);
+		}
 		child_process(data, cmd);
 	}
 	waitpid(pid, &ret, 0);
@@ -221,9 +228,9 @@ int	execution(t_data *data, t_tkn *cmd)
 			return (builtin_call(data, cmd));
 		else
 			return (no_pipes(data, cmd));
-		return (0);
 	}
-	ret = pipes(data, cmd);
+	else
+		ret = pipes(data, cmd);
 	//////////////////////////////////////////////127
 	return (ret);
 }

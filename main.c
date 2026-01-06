@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/05 20:06:27 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/06 17:55:27 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
-		input = readline("<minishell>");
+		input = readline("<minishell> ");
 		if (!input)
 		{
 			print("exit\n");
@@ -57,17 +57,14 @@ int	main(int argc, char **argv, char **env)
 		tmp = data->tkn_list;
 		while (tmp)
 		{
-			if (tmp->type == HRDC)
-			{
-				heredoc(data, tmp);
-				tmp = tmp->next;
-			}
-			else if (tmp->type == ARG)
+			if (tmp->type == ARG)
 			{
 				status = expand(tmp, data->env_list);
 				if (status)
 					return (free_data(data), 127);
 			}
+			if (tmp->type == HRDC && tmp->next)
+				tmp = tmp->next;
 			tmp = tmp->next;
 		}
 		remove_empties(&(data->tkn_list));
