@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/06 21:36:44 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/06 21:50:17 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ cmd not found 127
 is a file/isa directory 126
 no such file 1
 */
-int g_sig_status = 0;
+int	g_sig_status = 0;
 
 int	main(int argc, char **argv, char **env)
 {
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	data->env_list = parse_env(env);
 	if (!data->env_list)
-		return(free_data(data), 1);
+		return (free_data(data), 1);
 	status = 0;
 	while (1)
 	{

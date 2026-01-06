@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenise.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:03:05 by dgrigor2          #+#    #+#             */
-/*   Updated: 2025/12/29 22:21:48 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/06 21:52:53 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ static int	is_red(char *str)
 		return (2);
 	if (!strncmp (str, ">>", 2))
 		return (2);
-	// if (!strncmp (str, "&&", 2))
-	// 	return (2);
-	// if (!strncmp (str, "||", 2))
-	// 	return (2);
 	if (*str == '<')
 		return (1);
 	if (*str == '>')
@@ -37,10 +33,6 @@ static int	red_type(char *str)
 		return (HRDC);
 	if (!strncmp (str, ">>", 2))
 		return (APPND);
-	// if (!strncmp (str, "&&", 2))
-	// 	return (2);
-	// if (!strncmp (str, "||", 2))
-	// 	return (2);
 	if (*str == '<')
 		return (RED_IN);
 	if (*str == '>')
