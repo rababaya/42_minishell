@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:13:52 by rababaya          #+#    #+#             */
-/*   Updated: 2025/12/29 23:10:51 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:54:49 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,5 @@ void	remove_empties(t_tkn **tkn);
 
 int		expand(t_tkn *tkn, t_env *env);
 char	**convertion(t_tkn *tkn, int len);
+
 #endif

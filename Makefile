@@ -60,6 +60,7 @@ TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c \
 EXEC_SRC			=	$(EXEC_SRC_DIR)/execution.c \
 						$(EXEC_SRC_DIR)/redirection.c \
 						$(EXEC_SRC_DIR)/pipes.c \
+						$(EXEC_SRC_DIR)/expand_heredoc.c \
 						$(EXEC_SRC_DIR)/heredoc.c
 
 SIGNALS_SRC			=	$(SIGNALS_SRC_DIR)/sigint.c
