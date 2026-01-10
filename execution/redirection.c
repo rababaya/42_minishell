@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:25:02 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/10 14:19:13 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:56:38 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	redirection(t_data *data, t_tkn *cmd)
 {
 	t_tkn	*redir;
 
-	redir = get_redir(cmd);	
+	redir = get_redir(cmd);
 	while (redir && redir->type != PIPE)
 	{
 		if (redir->type == HRDC)
