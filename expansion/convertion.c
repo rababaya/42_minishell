@@ -6,13 +6,13 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:00:13 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/10 14:37:11 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/10 22:31:03 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		arg_len(t_tkn *tkn)
+int	arg_len(t_tkn *tkn)
 {
 	int	i;
 
@@ -37,7 +37,7 @@ char	**convertion(t_tkn *tkn, int len)
 
 	if (len < 0)
 		len = arg_len(tkn);
-	if (!len) /////////////
+	if (!len)
 		return (NULL);
 	res = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!res)
@@ -48,7 +48,7 @@ char	**convertion(t_tkn *tkn, int len)
 		if (tkn->type == HRDC)
 		{
 			tkn = tkn->next->next;
-			continue;
+			continue ;
 		}
 		res[i] = tkn->token;
 		i++;

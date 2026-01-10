@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 14:23:20 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/05 21:14:37 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:36:21 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,12 @@ void	free_data(t_data *data)
 		ft_tknclear(&(data->tkn_list));
 	if (data)
 		free(data);
+}
+
+void	free_data_no_args(t_data *data)
+{
+	if (data->env_list != NULL)
+		ft_envclear(&(data->env_list));
+	if (data->tkn_list != NULL)
+		ft_tknclear(&(data->tkn_list));
 }

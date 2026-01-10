@@ -6,11 +6,23 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/10 16:54:23 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/10 17:01:27 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*get_cmd(t_tkn *cmd)
+{
+	while (cmd && cmd->type != PIPE)
+	{
+		if (cmd->type != ARG)
+			cmd = cmd->next->next;
+		else
+			return (cmd->token);
+	}
+	return (NULL);
+}
 
 char	*get_path(t_env *env)
 {
@@ -54,6 +66,8 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 	int		i;
 
 	tmp = NULL;
+	if (!cmd)
+		return (1);
 	if (cmd[0] == '.' || cmd[0] == '/')
 	{
 		if (access(cmd, F_OK))
@@ -108,37 +122,48 @@ int	child_process(t_data *data, t_tkn *cmd)
 	char	**envp;
 
 	path = NULL;
+	if (get_cmd(cmd) == NULL)
+		return (0);
 	envp = lst_to_str(data->env_list);
 	if (!envp)
 		return (127);
-	if (set_to_path(data->env_list, cmd->token, &path))
+	if (set_to_path(data->env_list, get_cmd(cmd), &path))
 	{
 		print_err(cmd->token);
 		free_split(&envp);
 		if (path)
 			free(path);
-		free_data(data);///leave only if exiting from here istead of returning to main function
-		exit (127);
+		return(127);
 	}
+	ft_tknprint(data->tkn_list);///////////////////
+	data->args = convertion(cmd, arg_len(cmd));
+	if (!data->args)
+		return (127);
+	// free_data_no_args(data);
 	execve(path, data->args, envp);
 	return (127);
 }
 
 int	is_builtin(t_data *data)
 {
-	if (!ft_strncmp(data->args[0], "echo", 5))
+	char	*cmd;
+
+	cmd = get_cmd(data->tkn_list);
+	if (!cmd)
+		return (0);
+	if (!ft_strncmp(cmd, "echo", 5))
 		return (1);
-	else if (!ft_strncmp(data->args[0], "pwd", 4))
+	else if (!ft_strncmp(cmd, "pwd", 4))
 		return (1);
-	else if (!ft_strncmp(data->args[0], "env", 4))
+	else if (!ft_strncmp(cmd, "env", 4))
 		return (1);
-	else if (!ft_strncmp(data->args[0], "export", 7))
+	else if (!ft_strncmp(cmd, "export", 7))
 		return (1);
-	else if (!ft_strncmp(data->args[0], "unset", 6))
+	else if (!ft_strncmp(cmd, "unset", 6))
 		return (1);
-	else if (!ft_strncmp(data->args[0], "cd", 3))
+	else if (!ft_strncmp(cmd, "cd", 3))
 		return (1);
-	else if (!ft_strncmp(data->args[0], "exit", 5))
+	else if (!ft_strncmp(cmd, "exit", 5))
 		return (1);
 	return (0);
 }
@@ -174,6 +199,9 @@ int	builtin_call(t_data *data, t_tkn *cmd)
 		fd_in = dup(STDIN_FILENO);
 	if (redirection(data, cmd))
 		return (127);
+	data->args = convertion(cmd, arg_len(cmd));
+	if (!data->args)
+		return (127);
 	data->exit_status = call(data);
 	if ((redtype == 1 || redtype == 3) && dup2(fd_out, STDOUT_FILENO) < 0)
 		return (close(fd_out), 127);
@@ -208,9 +236,12 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 		// }
 		if (redirection(data, cmd))
 		{
-			return (127);
+			ft_printf("Redirection error\n");
+			exit(1);
 		}
-		child_process(data, cmd);
+		ret = child_process(data, cmd);
+		free_data(data);
+		exit(ret);
 	}
 	waitpid(pid, &ret, 0);
 	if (WIFEXITED(ret))
@@ -226,9 +257,6 @@ int	execution(t_data *data, t_tkn *cmd)
 
 	if (!next_pipe(cmd))
 	{
-		data->args = convertion(cmd, arg_len(cmd));
-		if (!data->args)
-			return (127);
 		if (is_builtin(data))
 			return (builtin_call(data, cmd));
 		else
