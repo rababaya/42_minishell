@@ -6,24 +6,11 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/06 21:25:30 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/10 16:54:23 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	arg_len(t_tkn *tkn)
-{
-	int	i;
-
-	i = 0;
-	while (tkn && tkn->type == ARG)
-	{
-		i++;
-		tkn = tkn->next;
-	}
-	return (i);
-}
 
 char	*get_path(t_env *env)
 {
