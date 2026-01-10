@@ -33,6 +33,7 @@ TKN_SRC				=	$(TKN_SRC_DIR)/ft_tknadd_back.c \
 						$(TKN_SRC_DIR)/ft_tknsize.c \
 						$(TKN_SRC_DIR)/ft_tknlast.c \
 						$(TKN_SRC_DIR)/ft_tknprint.c \
+						$(TKN_SRC_DIR)/ft_tkndelone.c \
 						$(TKN_SRC_DIR)/ft_tknnew.c 
 
 BUILTINS_SRC		=	$(BUILTINS_SRC_DIR)/builtin_call.c \

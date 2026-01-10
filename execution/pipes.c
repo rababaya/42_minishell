@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/08 16:27:17 by rababaya          #+#    #+#             */
+/*   Updated: 2026/01/08 16:28:28 by rababaya         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_tkn *next_pipe(t_tkn *tkn)
@@ -54,6 +66,23 @@ int single_command(t_data *data, t_tkn *cmd)
 	return (ret);
 }
 
+void	mayday(int *pid, int i, int fd[2], int len)
+{
+	int	j;
+
+	j = 0;
+	if (i != len)
+	{
+		close(fd[0]);
+		close(fd[1]);
+	}
+	while(j < i)
+	{
+		waitpid(pid[j], NULL, 0);
+		j++;
+	}
+}
+
 int pipes(t_data *data, t_tkn *tkn)
 {
 	int fd[2];
@@ -72,12 +101,19 @@ int pipes(t_data *data, t_tkn *tkn)
 	while (i <= len)
 	{
 		if (i != len && pipe(fd))
-			return (127); ///////////////nicht
+		{
+			mayday(pid, i, fd, i);
+			return (127);
+		}
 		pid[i] = fork();
 		if (pid[i] < 0)
-			return (127); ///////////////nicht
+		{
+			mayday(pid, i, fd, len);
+			return (127);
+		}
 		if (pid[i] == 0)
 		{
+			free(pid);
 			//ft_printf("%d:: fd0 is %d and fd1 is %d, while lastread is %d\n", i, fd[0], fd[1], lastread);
 			if (i != len)
 				close(fd[0]);
