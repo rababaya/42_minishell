@@ -67,6 +67,7 @@ EXEC_SRC			=	$(EXEC_SRC_DIR)/execution.c \
 SIGNALS_SRC			=	$(SIGNALS_SRC_DIR)/sigint.c
 
 EXPND_SRC			=	$(EXPND_SRC_DIR)/expansion.c \
+						$(EXPND_SRC_DIR)/expansion_utils.c \
 						$(EXPND_SRC_DIR)/convertion.c
 
 MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \

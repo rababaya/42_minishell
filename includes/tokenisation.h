@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:13:52 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/06 13:54:49 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/11 16:09:26 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,20 @@ t_tkn	*ft_tknnew(char *token, int type);
 void	ft_tknprint(t_tkn *tkn_list);
 int		ft_tknsize(t_tkn *tkn);
 
+int		is_red(char *str);
+int		red_type(char *str);
+t_tkn	*tkn_red(char **str);
+t_tkn	*crt_tkn(char **str, int i);
+t_tkn	*tkn_arg(char **str);
 int		tokenise(t_tkn **tkn, char *str);
 int		check_punctuation(char *str);
 void	remove_empties(t_tkn **tkn);
 
+char	*find_vars(char *tkn, t_env *env);
+int		handle_str(int *i, int quote, char *str, char **res);
+int		handle_quotes(char c, int *quote);
+int		handle_vars(int *i, t_env *env, t_tkn *tkn, char **res);
+int		varname_len(char *tkn);
 int		expand(t_tkn *tkn, t_env *env);
 char	**convertion(t_tkn *tkn, int len);
 
