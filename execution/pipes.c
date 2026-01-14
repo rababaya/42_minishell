@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 16:27:17 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/08 16:28:28 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 11:51:32 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int single_command(t_data *data, t_tkn *cmd)
 	{
 		return (127);
 	}
-	data->args = convertion(cmd, next_pipe_count(cmd));
+	data->args = convertion(cmd, arg_len(cmd));
 	if (!data->args)
 		return (127);
 	ret = child_process(data, cmd);
@@ -113,6 +113,8 @@ int pipes(t_data *data, t_tkn *tkn)
 		}
 		if (pid[i] == 0)
 		{
+
+			signal(SIGINT, SIG_DFL);
 			free(pid);
 			//ft_printf("%d:: fd0 is %d and fd1 is %d, while lastread is %d\n", i, fd[0], fd[1], lastread);
 			if (i != len)

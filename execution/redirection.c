@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:25:02 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/10 16:56:38 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:43:00 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	red_out(t_tkn *cmd)
 {
 	int		fd;
 	
-	fd = open(get_redir(cmd)->next->token, O_WRONLY | O_CREAT, 0644);
+	fd = open(cmd->next->token, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd < 0)
 		return (127);
 	if (dup2(fd, STDOUT_FILENO) < 0)
@@ -34,48 +34,58 @@ int	red_out(t_tkn *cmd)
 	return (0);
 }
 
-// int	prepare_redirections(t_data *data, t_tkn *cmd)
-// {
-// 	t_tkn 	*r;
-// 	int		ret;
+int	appnd(t_tkn *cmd)
+{
+	int		fd;
 	
-// 	r = get_redir(cmd);
-// 	while (r && r->type != PIPE)
+	fd = open(cmd->next->token, O_WRONLY | O_TRUNC | O_CREAT | O_APPEND, 0644);
+	if (fd < 0)
+		return (127);
+	if (dup2(fd, STDOUT_FILENO) < 0)
+		return (127);
+	close(fd);
+	return (0);
+}
+
+int	red_in(t_tkn *cmd)
+{
+	int		fd;
+	
+	if (access(cmd->next->token, F_OK))
+		return (127);
+	if (access(cmd->next->token, R_OK))
+		return (126);
+	fd = open(cmd->next->token, O_RDONLY);
+	if (fd < 0)
+		return (127);
+	if (dup2(fd, STDIN_FILENO) < 0)
+		return (127);
+	close(fd);
+	return (0);
+}
+
+// void	cut_reds(t_data *data, t_tkn **cmd)
+// {
+// 	t_tkn *tmp;
+
+// 	if (data->tkn_list == *cmd)
 // 	{
-// 		if (r->type == HRDC)
-// 		{
-// 			ret = heredoc(data, r);
-// 			if (ret == 1)
-// 				return (1);
-// 		}
-// 		r = r->next;
+// 		data->tkn_list = (*cmd)->next->next;
+// 		free((*cmd)->next->token);
+// 		free((*cmd)->next);
+// 		free((*cmd)->token);
+// 		free((*cmd));
+// 		*cmd = data->tkn_list;
+// 		return ;
 // 	}
-// 	return (0);
+// 	tmp = data->tkn_list;
+// 	while (tmp && tmp->next != *cmd)
+// 		tmp = tmp->next;
+	
+	
 // }
 
-// int apply_redirections(t_tkn *cmd, t_data *data)
-// {
-// 	t_tkn *r;
-	
-// 	r = get_redir(cmd);
-// 	while (r && r->type != PIPE)
-// 	{
-// 		if (r->type == RED_OUT)
-// 		{
-// 			if (red_out(r))
-// 				return (1);
-// 		}		
-// 		if (r->type == HRDC)
-// 		{
-// 			if (heredoc(data, r))
-// 				return (1);
-// 		}
-// 		r = r->next;
-// 	}
-// 	return (0);
-// }
-
-int	redirection(t_data *data, t_tkn *cmd)
+int	redirection (t_data *data, t_tkn *cmd)
 {
 	t_tkn	*redir;
 
@@ -87,9 +97,19 @@ int	redirection(t_data *data, t_tkn *cmd)
 			if (heredoc(data, redir))
 				return (1);
 		}
-		if (redir->type == RED_OUT)
+		else if (redir->type == RED_OUT)
 		{
-			if (red_out(cmd))
+			if (red_out(redir))
+				return (1);
+		}
+		else if (redir->type == RED_IN)
+		{
+			if (red_in(redir))
+				return (1);
+		}
+		else if (redir->type == APPND)
+		{
+			if (appnd(redir))
 				return (1);
 		}
 		redir = redir->next;
@@ -98,8 +118,4 @@ int	redirection(t_data *data, t_tkn *cmd)
 	if (heredoc_execution(data))
 		return (1);
 	return (0);
-	// if (redir->type == RED_IN)
-	// {
-		
-	// }
 }

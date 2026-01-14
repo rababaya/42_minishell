@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/10 16:51:09 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:40:02 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,23 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 	return (free_split(&paths), 127);
 }
 
+int print_err(char *s)
+{
+	char	*str;
+	int		len;
+	
+	len = ft_strlen(s);
+	str = (char *)malloc(32 + len);
+	if (!str)
+		return (1);
+	ft_memcpy(str, "minshell: ", 10);
+	ft_memcpy(str + 10, s, len);
+	ft_memcpy(str + 10 + len, ": command not found\n", 21);
+	write(2, str, len + 32);
+	free(str);
+	return (0);
+}
+
 int	child_process(t_data *data, t_tkn *cmd)
 {
 	char	*path;
@@ -112,6 +129,7 @@ int	child_process(t_data *data, t_tkn *cmd)
 		return (127);
 	if (set_to_path(data->env_list, get_cmd(cmd), &path))
 	{
+		print_err(cmd->token);
 		free_split(&envp);
 		if (path)
 			free(path);
@@ -149,7 +167,7 @@ int	is_builtin(t_data *data)
 	return (0);
 }
 
-int	red_type(t_tkn *cmd)
+int	red_in_out(t_tkn *cmd)
 {
 	int	redout;
 	int	redin;
@@ -173,7 +191,7 @@ int	builtin_call(t_data *data, t_tkn *cmd)
 	int	fd_in;
 	int	fd_out;
 
-	redtype = red_type(cmd);
+	redtype = red_in_out(cmd);
 	if (redtype == 1 || redtype == 3)
 		fd_out = dup(STDOUT_FILENO);
 	if (redtype == 2 || redtype == 3)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/06 17:55:27 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 13:52:21 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,34 @@ cmd not found 127
 is a file/isa directory 126
 no such file 1
 */
-int g_sig_status = 0;
+int	g_sig_status = 0;
+
+int	start_expansion(t_data *data)
+{
+	t_tkn	*tmp;
+	t_tkn	*next;
+	int		status;
+
+	tmp = data->tkn_list;
+	while (tmp)
+	{
+		next = tmp->next;
+		if (tmp->type == ARG)
+		{
+			status = expand(tmp, data);
+			if (status)
+				return (free_data(data), 127);
+		}
+		if (tmp->type == HRDC && tmp->next)
+			tmp = tmp->next;
+		tmp = next;
+	}
+	return (0);
+}
 
 int	main(int argc, char **argv, char **env)
 {
 	char	*input;
-	t_tkn	*tmp;
-	int		status;
 	t_data	*data;
 	
 	(void)argc;
@@ -33,8 +54,7 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	data->env_list = parse_env(env);
 	if (!data->env_list)
-		return(free_data(data), 1);
-	status = 0;
+		return (free_data(data), 1);
 	while (1)
 	{
 		signal(SIGINT, sigint_handler);
@@ -54,19 +74,8 @@ int	main(int argc, char **argv, char **env)
 		free(input);
 		if (!data->tkn_list)
 			continue ;
-		tmp = data->tkn_list;
-		while (tmp)
-		{
-			if (tmp->type == ARG)
-			{
-				status = expand(tmp, data->env_list);
-				if (status)
-					return (free_data(data), 127);
-			}
-			if (tmp->type == HRDC && tmp->next)
-				tmp = tmp->next;
-			tmp = tmp->next;
-		}
+		if (start_expansion(data))
+			return (1);
 		remove_empties(&(data->tkn_list));
 		if (!data->tkn_list)
 			continue;
