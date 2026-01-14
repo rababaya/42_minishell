@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/05 21:14:37 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/10 18:43:48 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ typedef struct s_data
 	t_tkn	*tkn_list;
 	char	**args;
 	int		exit_status;
-	int		heredoc_fd;
+	int		in_fd;
+	int		out_fd;
 }	t_data;
 
 t_env	*parse_env(char **env);

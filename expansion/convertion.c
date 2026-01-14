@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:00:13 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/10 22:31:03 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/11 21:14:09 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	arg_len(t_tkn *tkn)
 	i = 0;
 	while (tkn && tkn->type != PIPE)
 	{
-		if (tkn->type == HRDC)
+		if (tkn->type != ARG)
 		{
 			tkn = tkn->next->next;
 			continue ;
@@ -45,7 +45,7 @@ char	**convertion(t_tkn *tkn, int len)
 	i = 0;
 	while (tkn && i < len)
 	{
-		if (tkn->type == HRDC)
+		if (tkn->type != ARG)
 		{
 			tkn = tkn->next->next;
 			continue ;

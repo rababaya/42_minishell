@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:09:56 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/10 16:45:45 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/11 11:08:59 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	heredoc(t_data *data, t_tkn *hrdc)
 	if (hrdc->next->token == NULL)
 		return (1);
 	eof = hrdc->next->token;
-	if (data->heredoc_fd != -1)
-		close(data->heredoc_fd);
+	if (data->in_fd != -1)
+		close(data->in_fd);
 	if (pipe(fd) == -1)
 		return (perror("minishell: heredoc"), 1);
 	g_sig_status = 0;
@@ -105,16 +105,17 @@ int	heredoc(t_data *data, t_tkn *hrdc)
 		free(line);
 	}
 	close(fd[1]);
-	data->heredoc_fd = fd[0];
+	// dup2(fd[0], STDIN_FILENO);
+	data->in_fd = fd[0];
 	return (0);
 }
 
 int heredoc_execution(t_data *data)
 {
-	if (data->heredoc_fd == -1)
+	if (data->in_fd == -1)
 		return (0);
-	if (dup2(data->heredoc_fd, STDIN_FILENO) < 0)
-		return (close(data->heredoc_fd), 1);
-	close(data->heredoc_fd);
+	if (dup2(data->in_fd, STDIN_FILENO) < 0)
+		return (close(data->in_fd), 1);
+	close(data->in_fd);
 	return (0);
 }

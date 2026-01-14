@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenisation.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:13:52 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/06 13:54:49 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 13:52:37 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		tokenise(t_tkn **tkn, char *str);
 int		check_punctuation(char *str);
 void	remove_empties(t_tkn **tkn);
 
-int		expand(t_tkn *tkn, t_env *env);
+int		expand(t_tkn *tkn, t_data *data);
 char	**convertion(t_tkn *tkn, int len);
 
 #endif

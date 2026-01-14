@@ -6,16 +6,14 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 14:58:44 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/10 22:32:10 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/10 18:36:13 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	ft_tknprint(t_tkn *tkn_list)
-{
-	char	*type[] = {"Argument", "Output redirection", "Input redirection", "Output append", "Pipe", "Heredoc", NULL};
-	
+{	
 	char	*type[] = {"Argument", "Output redirection", "Input redirection", "Output append", "Pipe", "Heredoc", NULL};
 
 	while (tkn_list)
