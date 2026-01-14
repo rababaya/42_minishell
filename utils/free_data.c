@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 14:23:20 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/14 14:46:30 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/15 00:29:46 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_data	*data_init(void)
 	data->env_list = NULL;
 	data->tkn_list = NULL;
 	data->exit_status = 0;
+	data->hrdc = NULL;
 	data->heredoc_fd = -1;
 	return (data);
 }

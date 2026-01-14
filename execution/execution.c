@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/14 16:38:09 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:13:46 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,8 +234,8 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 		free_data(data);
 		exit(ret);
 	}
-	waitpid(pid, &ret, 0);
-	return (ret);
+	waitpid(pid, &data->exit_status, 0);
+	return (0);
 }
 
 int	execution(t_data *data, t_tkn *cmd)
@@ -251,10 +251,9 @@ int	execution(t_data *data, t_tkn *cmd)
 	}
 	else
 		ret = pipes(data, cmd);
-	if (WIFEXITED(ret))
-		data->exit_status = WEXITSTATUS(ret);
-	if (WIFSIGNALED(ret))
-		data->exit_status = WTERMSIG(ret) + 128;
-	//////////////////////////////////////////////127
+	if (WIFEXITED(data->exit_status))
+		data->exit_status = WEXITSTATUS(data->exit_status);
+	if (WIFSIGNALED(data->exit_status))
+		data->exit_status = WTERMSIG(data->exit_status) + 128;
 	return (ret);
 }

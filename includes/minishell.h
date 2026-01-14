@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/14 14:41:49 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/15 00:36:49 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <errno.h>
 # include "libft.h"
 # include "ft_printf.h"
 # include "list_ops.h"
@@ -35,6 +36,7 @@ typedef struct s_data
 	t_tkn	*tkn_list;
 	char	**args;
 	int		exit_status;
+	t_hrdc	*hrdc;
 	int		heredoc_fd;
 }	t_data;
 

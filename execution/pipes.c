@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 16:27:17 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/14 11:51:32 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/14 16:50:29 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ int pipes(t_data *data, t_tkn *tkn)
 
 			signal(SIGINT, SIG_DFL);
 			free(pid);
-			//ft_printf("%d:: fd0 is %d and fd1 is %d, while lastread is %d\n", i, fd[0], fd[1], lastread);
 			if (i != len)
 				close(fd[0]);
 			if (i)
@@ -124,13 +123,11 @@ int pipes(t_data *data, t_tkn *tkn)
 				dup2(lastread, STDIN_FILENO);
 				close(lastread);
 			}
-			// ft_printf("i is %d, len is %d\n", i, len);
 			if (i != len)
 			{
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[1]);
 			}
-			// ft_printf("i is %d, len is %d\n", i, len);
 			exit(single_command(data, tkn));
 		}
 		if (i != len)
