@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/11 21:14:34 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/14 16:37:27 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,11 @@ int print_err(char *s)
 	str = (char *)malloc(32 + len);
 	if (!str)
 		return (1);
-	ft_memcpy(str, "minshell: ", 10);
-	ft_memcpy(str + 10, s, len);
-	ft_memcpy(str + 10 + len, ": command not found\n", 21);
-	write(2, str, len + 32);
+	ft_memcpy(str, "minishell: ", 11);
+	ft_memcpy(str + 11, s, len);
+	ft_memcpy(str + 11 + len, ": command not found\n", 20);
+	str[31 + len] = 0;
+	write(2, str, ft_strlen(str));
 	free(str);
 	return (0);
 }
@@ -221,18 +222,9 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 	pid = fork();
 	if (pid < 0)
 		return (perror("minishell"), 1);
-	// if (access(cmd->token, F_OK)) /////////////////
-	// 	return (127);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		// if (prepare_redirections(data, cmd))
-		// 	exit(1);
-		// else if (ret == 1)
-		// {
-		// 	ft_putstr_fd("minishell: syntax error near unexpected token\n", 2); ///TODO
-		// 	return (1);
-		// }
 		if (redirection(data, cmd))
 		{
 			ft_printf("Redirection error\n");
@@ -243,6 +235,7 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 		exit(ret);
 	}
 	waitpid(pid, &ret, 0);
+	data->exit_status = ret;
 	if (WIFEXITED(ret))
 		data->exit_status = WEXITSTATUS(ret);
 	if (WIFSIGNALED(ret))
