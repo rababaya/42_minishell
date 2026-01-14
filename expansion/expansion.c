@@ -3,79 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/01/11 16:02:29 by rababaya         ###   ########.fr       */
-=======
-/*   Updated: 2026/01/14 13:52:52 by dgrigor2         ###   ########.fr       */
->>>>>>> origin/Dawo
+/*   Updated: 2026/01/14 15:52:25 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-<<<<<<< HEAD
-static int	splitting(int *i, t_env *env, t_tkn *tkn, char **res)
-{
-	char	*var;
-	char	*prev;
-	t_tkn	*next;
-	t_tkn	*new;
-	int		j;
-
-	j = 0;
-	next = tkn->next;
-	tkn->next = NULL;
-	var = find_vars(tkn->token + *i + 1, env);
-	*i += varname_len(tkn->token + *i + 1) + 1;
-	if (!var)
-		return (0);
-	while (var[j])
-	{
-		while (var[j] && !ft_iswhitespace(var[j]))
-			j++;
-		prev = ft_substr(var, 0, j);
-		if (!prev)
-			return (127);
-		*res = ft_strglue(*res, prev);
-		free(prev);
-		if (!*res)
-			return (127);
-		new = ft_tknnew(*res, ARG);
-		if (!new)
-			return (free(*res), 127);
-		ft_tknadd_back(&tkn, new);
-		*res = NULL;
-		while (var[j] && ft_iswhitespace(var[j]))
-			j++;
-		var += j;
-		j = 0;
-	}
-	ft_tknlast(tkn)->next = next;
-	return (0);
-}
-
-int	expand(t_tkn *tkn, t_env *env)
-=======
-static int	varname_len(char *tkn)
-{
-	int	len;
-
-	len = 0;
-	if (tkn[len] == '?')
-		return (1);
-	if (!tkn[len] || (!ft_isalpha(tkn[len]) && tkn[len] != '_'))
-		return (0);
-	while (tkn[len] && (ft_isalnum(tkn[len]) || tkn[len] == '_'))
-		len++;
-	return (len);
-}
-
 static char	*find_vars(char *tkn, t_data *data)
 {
-	int	len;
+	int		len;
 	t_env	*env;
 
 	env = data->env_list;
@@ -103,12 +42,12 @@ static int	handle_str(int *i, int quote, char *str, char **res)
 	{
 		if (res)
 			free(*res);
-		return (127);
+		return (1);
 	}
 	*res = ft_strglue(*res, tmp);
 	free(tmp);
 	if (!(*res))
-		return (127);
+		return (1);
 	*i = j;
 	return (0);
 }
@@ -151,7 +90,7 @@ static int	handle_vars(int *i, t_data *data, t_tkn *tkn, char **res)
 		tmp = find_vars(tkn->token + *i + 1, data);
 	*i += varname_len(tkn->token + *i + 1) + 1;
 	if (!tmp)
-		return (0);
+		return (1);
 	*res = ft_strglue(*res, tmp);
 	if (free_tmp)
 		free(tmp);
@@ -161,7 +100,6 @@ static int	handle_vars(int *i, t_data *data, t_tkn *tkn, char **res)
 }
 
 int	expand(t_tkn *tkn, t_data *data)
->>>>>>> origin/Dawo
 {
 	char	*res;
 	int		quote;

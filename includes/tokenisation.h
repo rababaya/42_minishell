@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:13:52 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/14 14:32:45 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:52:37 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,8 @@ int		tokenise(t_tkn **tkn, char *str);
 int		check_punctuation(char *str);
 void	remove_empties(t_tkn **tkn);
 
-char	*find_vars(char *tkn, t_env *env);
-int		handle_str(int *i, int quote, char *str, char **res);
-int		handle_quotes(char c, int *quote);
-int		handle_vars(int *i, t_env *env, t_tkn *tkn, char **res);
 int		varname_len(char *tkn);
-int		expand(t_tkn *tkn, t_env *env);
+int		expand(t_tkn *tkn, t_data *data);
 char	**convertion(t_tkn *tkn, int len);
 
 #endif

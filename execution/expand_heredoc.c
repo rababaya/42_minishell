@@ -6,23 +6,11 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/06 17:21:21 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 14:58:51 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	varname_len(char *tkn)
-{
-	int	len;
-
-	len = 0;
-	if (!tkn[len] || (!ft_isalpha(tkn[len]) && tkn[len] != '_'))
-		return (0);
-	while (tkn[len] && (ft_isalnum(tkn[len]) || tkn[len] == '_'))
-		len++;
-	return (len);
-}
 
 static char	*find_vars(char *tkn, t_env *env)
 {
@@ -61,21 +49,33 @@ static int	handle_str(int *i, char *str, char **res)
 	return (0);
 }
 
-static int	handle_vars(int *i, t_env *env, char **line, char **res)
+static int	handle_vars(int *i, t_data *data, char **line, char **res)
 {
 	char	*tmp;
+	int		free_tmp;
 
-	tmp = find_vars(*line + *i + 1, env);
+	free_tmp = 0;
+	if (*(*line + *i + 1) == '?')
+	{
+		tmp = ft_itoa(data->exit_status);
+		if (!tmp)
+			return (1);
+		free_tmp = 1;
+	}
+	else
+		tmp = find_vars(*line + *i + 1, data->env_list);
 	*i += varname_len(*line + *i + 1) + 1;
 	if (!tmp)
 		return (0);
 	*res = ft_strglue(*res, tmp);
-	if (!*res && tmp)
-		return (127);
+	if (free_tmp)
+		free(tmp);
+	if (!*res)
+		return (1);
 	return (0);
 }
 
-int	expand_heredoc(char **line, t_env *env)
+int	expand_heredoc(char **line, t_data *data)
 {
 	char	*res;
 	int		i;
@@ -86,7 +86,7 @@ int	expand_heredoc(char **line, t_env *env)
 	{
 		if ((*line)[i] == '$' && varname_len(*line + i + 1))
 		{
-			if (handle_vars(&i, env, line, &res))
+			if (handle_vars(&i, data, line, &res))
 				return (127);
 		}
 		else if (handle_str(&i, *line, &res))

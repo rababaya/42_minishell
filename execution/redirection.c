@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:25:02 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/14 14:43:00 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 15:42:17 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,6 @@ int	red_in(t_tkn *cmd)
 	close(fd);
 	return (0);
 }
-
-// void	cut_reds(t_data *data, t_tkn **cmd)
-// {
-// 	t_tkn *tmp;
-
-// 	if (data->tkn_list == *cmd)
-// 	{
-// 		data->tkn_list = (*cmd)->next->next;
-// 		free((*cmd)->next->token);
-// 		free((*cmd)->next);
-// 		free((*cmd)->token);
-// 		free((*cmd));
-// 		*cmd = data->tkn_list;
-// 		return ;
-// 	}
-// 	tmp = data->tkn_list;
-// 	while (tmp && tmp->next != *cmd)
-// 		tmp = tmp->next;
-	
-	
-// }
 
 int	redirection (t_data *data, t_tkn *cmd)
 {

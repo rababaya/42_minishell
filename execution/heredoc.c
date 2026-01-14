@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:09:56 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/14 14:42:25 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 15:08:44 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	heredoc_cycle(t_data *data, const char *eof, int fd[2], int expand)
 			break ;
 		}
 		if (expand)
-			if (expand_heredoc(&line, data->env_list))
+			if (expand_heredoc(&line, data))
 				return (close(fd[0]), close(fd[1]), 1);
 		write(fd[1], line, ft_strlen(line));
 		write(fd[1], "\n", 1);
@@ -115,7 +115,6 @@ int	heredoc(t_data *data, t_tkn *hr)
 	if (heredoc_cycle(data, eof, fd, expand))
 		return (1);
 	close(fd[1]);
-	// dup2(fd[0], STDIN_FILENO);
 	data->heredoc_fd = fd[0];
 	return (0);
 }
