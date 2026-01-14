@@ -6,17 +6,12 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/14 16:13:02 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/14 18:30:45 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-some error codes
-cmd not found 127
-is a file/isa directory 126
-no such file 1
-*/
+
 int	g_sig_status = 0;
 
 int	start_expansion(t_data *data)
@@ -42,6 +37,15 @@ int	start_expansion(t_data *data)
 	return (0);
 }
 
+void	check_exit_status(t_data *data)
+{
+	if (g_sig_status != 0)
+	{
+		data->exit_status = g_sig_status;
+		g_sig_status = 0;
+	}
+}
+
 int	check_input(char *input)
 {
 	int	i;
@@ -65,6 +69,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char	*input;
 	t_data	*data;
+	int		status;
 	
 	(void)argc;
 	(void)argv;
@@ -79,9 +84,11 @@ int	main(int argc, char **argv, char **env)
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 		input = readline("<minishell> ");
+		check_exit_status(data);
 		if (!input)
 		{
 			print("exit\n");
+			status = data->exit_status;
 			free_data(data);
 			break ;
 		}
@@ -92,18 +99,16 @@ int	main(int argc, char **argv, char **env)
 		}
 		add_history(input);
 		if (!check_punctuation(input))
+		{
+			free(input);
 			continue ;
+		}
 		if (tokenise(&(data->tkn_list), input))
 			return (free_data(data), free(input), 1);
 		free(input);
-		if (!data->tkn_list)
-			continue ;
 		if (start_expansion(data))
-			return (1);
+			return (free_data(data), 1);
 		remove_empties(&(data->tkn_list));
-		if (!data->tkn_list)
-			continue;
-		// ft_tknprint(data->tkn_list);
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		execution(data, data->tkn_list);
@@ -116,5 +121,5 @@ int	main(int argc, char **argv, char **env)
 		ft_tknclear(&data->tkn_list);
 	}
 	rl_clear_history();
-	return (0);
+	return (status);
 }
