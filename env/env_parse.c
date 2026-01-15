@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:33 by rababaya          #+#    #+#             */
-/*   Updated: 2025/10/13 14:42:48 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:13:45 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	**lst_to_str(t_env *env)
 		if (!key_str)
 			return (free_split_env(&env_str, i), NULL);
 		env_str[i] = ft_strjoin(key_str, env->value);
-		if (!env_str)
+		if (!env_str[i])
 			return (free_split_env(&env_str, i), free(key_str), NULL);
 		free(key_str);
 		env = env->next;

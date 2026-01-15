@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 14:40:23 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:24:26 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,9 @@ int	main(int argc, char **argv, char **env)
 		free(data->args);
 		data->args = NULL;
 		ft_tknclear(&data->tkn_list);
+		data->tkn_list = NULL;
 		free(data->hrdc);
+		data->hrdc = NULL;
 	}
 	rl_clear_history();
 	return (status);

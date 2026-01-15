@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 14:10:27 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 17:21:41 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,8 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 		return (1);
 	if (cmd[0] == '.' || cmd[0] == '/')
 	{
-		if (access(cmd, F_OK))
-			return (127);//errno of no such file
-		if (access(cmd, X_OK))
-			return (126);//errno of permission denied
+		if (access(cmd, F_OK) || access(cmd, X_OK))
+			return (errno);
 		*path = cmd;
 		return (0);
 	}
@@ -117,29 +115,57 @@ int print_err(char *s)
 	return (0);
 }
 
+void	tkn_cleanup(t_tkn *tkn_list, char **cmd)
+{
+	if (!tkn_list)
+		return ;
+	if (cmd && tkn_list->token == *cmd)
+	{
+		tkn_list->token = NULL;
+		cmd++;
+	}
+	tkn_cleanup(tkn_list->next, cmd);
+	if (tkn_list->token)
+		free(tkn_list->token);
+	free(tkn_list);
+}
+
+void	cleanup(t_data *data, char **cmd)
+{
+	tkn_cleanup(data->tkn_list, cmd);
+	if (data->env_list != NULL)
+		ft_envclear(&(data->env_list));
+	if (data->hrdc)
+		free(data->hrdc);
+	if (data)
+		free(data);
+}
+
 int	child_process(t_data *data, t_tkn *cmd)
 {
 	char	*path;
 	char	**envp;
+	char	**args;
+	int		ret;
 
 	path = NULL;
-	if (get_cmd(cmd) == NULL)
+	if (!get_cmd(cmd))
 		return (0);
 	envp = lst_to_str(data->env_list);
 	if (!envp)
 		return (1);
-	if (set_to_path(data->env_list, get_cmd(cmd), &path))
+	ret = set_to_path(data->env_list, get_cmd(cmd), &path);
+	if (ret)
 	{
-		print_err(cmd->token);
-		free_split(&envp);
 		if (path)
 			free(path);
-		return(127);
+		return(print_err(cmd->token), free_split(&envp), ret);
 	}
-	data->args = convertion(cmd, arg_len(cmd));
-	if (!data->args)
-		return (127);
-	execve(path, data->args, envp);
+	args = convertion(cmd, arg_len(cmd));
+	if (!args)
+		return (free(path), free_split(&envp), 1);
+	cleanup(data, args);
+	execve(path, args, envp);
 	return (127);
 }
 
@@ -224,10 +250,12 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		if (redirection(data, cmd))
+		ret = redirection(data, cmd);
+		if (ret)
 		{
-			ft_printf("Redirection error\n");
-			exit(1);
+			free_data(data);
+			write(2, "Redirection error\n", 18);
+			exit(ret);
 		}
 		ret = child_process(data, cmd);
 		free_data(data);
