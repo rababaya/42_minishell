@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 16:07:29 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/11 16:08:59 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/15 22:55:28 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_tkn	*tkn_arg(char **str)
 			while ((*str)[i] && (*str)[i] != '\"')
 				i++;
 			if (!(*str)[i])
-				return (NULL); //add error message later
+				return (NULL);
 		}
 		if ((*str)[i] == '\'')
 		{
@@ -93,7 +93,7 @@ t_tkn	*tkn_arg(char **str)
 			while ((*str)[i] && (*str)[i] != '\'')
 				i++;
 			if (!(*str)[i])
-				return (NULL); //add error message later
+				return (NULL);
 		}
 		i++;
 	}

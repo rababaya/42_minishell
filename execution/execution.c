@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 22:10:12 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/15 23:09:42 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,22 +216,24 @@ int	builtin_call(t_data *data, t_tkn *cmd)
 	int	redtype;
 	int	fd_in;
 	int	fd_out;
+	int	ret;
 
 	redtype = red_in_out(cmd);
 	if (redtype == 1 || redtype == 3)
 		fd_out = dup(STDOUT_FILENO);
 	if (redtype == 2 || redtype == 3)
 		fd_in = dup(STDIN_FILENO);
-	if (redirection(data, cmd))
-		return (1);
+	ret = redirection(data, cmd);
+	if (ret)
+		return (ret);
 	data->args = convertion(cmd, arg_len(cmd));
 	if (!data->args)
 		return (1);
 	data->exit_status = call(data);
 	if ((redtype == 1 || redtype == 3) && dup2(fd_out, STDOUT_FILENO) < 0)
-		return (close(fd_out), 1);
+		return (close(fd_out), errno);
 	if ((redtype == 2 || redtype == 3) && dup2(fd_in, STDIN_FILENO) < 0)
-		return (close(fd_in), 1);
+		return (close(fd_in), errno);
 	if (redtype == 1 || redtype == 3)
 		close(fd_out);
 	if (redtype == 2 || redtype == 3)
@@ -250,6 +252,7 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		ret = redirection(data, cmd);
 		if (ret)
 		{

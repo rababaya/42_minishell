@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 16:27:17 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 22:23:33 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/15 23:09:54 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int pipes(t_data *data, t_tkn *tkn)
 	int fd[2];
 	int *pid;
 	int len;
-	int status;
 	int lastread;
 	int i;
 
@@ -113,7 +112,7 @@ int pipes(t_data *data, t_tkn *tkn)
 		}
 		if (pid[i] == 0)
 		{
-
+			signal(SIGQUIT, SIG_DFL);
 			signal(SIGINT, SIG_DFL);
 			free(pid);
 			if (i != len)
@@ -149,5 +148,5 @@ int pipes(t_data *data, t_tkn *tkn)
 	}
 	waitpid(pid[i], &data->exit_status, 0);
 	free(pid);
-	return (status);
+	return (data->exit_status);
 }
