@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 10:21:52 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 13:38:50 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 21:12:56 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
-typedef struct	s_hrdc
+typedef struct s_hrdc
 {
 	t_tkn	*tkn;
 	int		fd;
-} t_hrdc;
+}	t_hrdc;
 
 int		execution(t_data *data, t_tkn *cmd);
 int		child_process(t_data *data, t_tkn *cmd);

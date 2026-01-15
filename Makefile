@@ -32,7 +32,6 @@ TKN_SRC				=	$(TKN_SRC_DIR)/ft_tknadd_back.c \
 						$(TKN_SRC_DIR)/ft_tknclear.c \
 						$(TKN_SRC_DIR)/ft_tknsize.c \
 						$(TKN_SRC_DIR)/ft_tknlast.c \
-						$(TKN_SRC_DIR)/ft_tknprint.c \
 						$(TKN_SRC_DIR)/ft_tkndelone.c \
 						$(TKN_SRC_DIR)/ft_tknnew.c 
 
@@ -63,6 +62,7 @@ EXEC_SRC			=	$(EXEC_SRC_DIR)/execution.c \
 						$(EXEC_SRC_DIR)/redirection.c \
 						$(EXEC_SRC_DIR)/pipes.c \
 						$(EXEC_SRC_DIR)/expand_heredoc.c \
+						$(EXEC_SRC_DIR)/heredoc_exec.c \
 						$(EXEC_SRC_DIR)/heredoc.c \
 						$(EXEC_SRC_DIR)/heredoc_setup.c
 

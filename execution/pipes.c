@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 16:27:17 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 14:42:58 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 22:23:33 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int pipes(t_data *data, t_tkn *tkn)
 	{
 		waitpid(pid[i++], NULL, 0);
 	}
-	waitpid(pid[i], &status, 0);
+	waitpid(pid[i], &data->exit_status, 0);
 	free(pid);
 	return (status);
 }

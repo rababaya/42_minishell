@@ -1,4 +1,16 @@
-#include	"minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_setup.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/01/15 21:16:08 by rababaya          #+#    #+#             */
+/*   Updated: 2026/01/15 22:02:06 by rababaya         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 int	count_heredocs(t_data *data)
 {
@@ -25,6 +37,31 @@ int	count_heredocs(t_data *data)
 		len++;
 	return (len);
 }
+
+// int open_heredocs_helper(t_data *data, t_tkn *tkn, int *init, int *i)
+// {
+// 	int 	ret;
+
+// 	while (tkn)
+// 	{
+// 		if (tkn->type == PIPE && *init)
+// 		{
+// 			data->hrdc[(*i)++].tkn = tkn;
+// 			*init = 0;
+// 		}
+// 		else if (tkn->type == HRDC)
+// 		{
+// 			if (*init && (data->hrdc)[*i].fd != 0)
+// 				close((data->hrdc)[*i].fd);
+// 			ret = heredoc(data, tkn, *i);
+// 			if (ret)
+// 				return (ret);
+// 			*init = 1;
+// 		}
+// 		tkn = tkn->next;
+// 	}
+// 	return (0);
+// }
 
 int	open_heredocs(t_data *data)
 {

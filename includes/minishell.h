@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 14:40:27 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 21:35:51 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
+# include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
 # include "libft.h"
@@ -42,7 +44,9 @@ typedef struct s_data
 t_env	*parse_env(char **env);
 char	**lst_to_str(t_env *env);
 
-void	sigint_handler(int sig);
 void	heredoc_sigint(int sig);
+void	setup_heredoc_signals(void);
+void	setup_prompt_signals(void);
+void	sigint_handler(int sig);
 
 #endif

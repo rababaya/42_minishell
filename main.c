@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 17:24:26 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 21:48:39 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **env)
 	char	*input;
 	t_data	*data;
 	int		status;
-	
+
 	(void)argc;
 	(void)argv;
 	data = data_init();
@@ -111,7 +111,7 @@ int	main(int argc, char **argv, char **env)
 		remove_empties(&(data->tkn_list));
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
-		execution(data, data->tkn_list);
+		data->exit_status = execution(data, data->tkn_list);
 		if (data->exit_status == 130)
 			write(1, "\n", 1);
 		if (data->exit_status == 131)

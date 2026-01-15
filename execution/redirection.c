@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:25:02 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 17:04:23 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 22:06:12 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_tkn	*get_redir(t_tkn *cmd)
 int	red_out(t_tkn *cmd)
 {
 	int		fd;
+
 	fd = open(cmd->next->token, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (fd < 0)
 		return (errno);
@@ -36,7 +37,7 @@ int	red_out(t_tkn *cmd)
 int	appnd(t_tkn *cmd)
 {
 	int		fd;
-	
+
 	fd = open(cmd->next->token, O_WRONLY | O_TRUNC | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 		return (errno);
@@ -49,7 +50,7 @@ int	appnd(t_tkn *cmd)
 int	red_in(t_tkn *cmd)
 {
 	int		fd;
-	
+
 	if (access(cmd->next->token, F_OK))
 		return (127);
 	if (access(cmd->next->token, R_OK))
@@ -63,7 +64,7 @@ int	red_in(t_tkn *cmd)
 	return (0);
 }
 
-int	redirection (t_data *data, t_tkn *cmd)
+int	redirection(t_data *data, t_tkn *cmd)
 {
 	t_tkn	*redir;
 	int		ret;
@@ -84,6 +85,5 @@ int	redirection (t_data *data, t_tkn *cmd)
 			return (ret);
 		redir = redir->next;
 	}
-	signal(SIGQUIT, SIG_DFL);
 	return (0);
 }

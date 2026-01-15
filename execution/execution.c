@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 17:21:41 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 22:10:12 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,15 +223,15 @@ int	builtin_call(t_data *data, t_tkn *cmd)
 	if (redtype == 2 || redtype == 3)
 		fd_in = dup(STDIN_FILENO);
 	if (redirection(data, cmd))
-		return (127);
+		return (1);
 	data->args = convertion(cmd, arg_len(cmd));
 	if (!data->args)
-		return (127);
+		return (1);
 	data->exit_status = call(data);
 	if ((redtype == 1 || redtype == 3) && dup2(fd_out, STDOUT_FILENO) < 0)
-		return (close(fd_out), 127);
+		return (close(fd_out), 1);
 	if ((redtype == 2 || redtype == 3) && dup2(fd_in, STDIN_FILENO) < 0)
-		return (close(fd_in), 127);
+		return (close(fd_in), 1);
 	if (redtype == 1 || redtype == 3)
 		close(fd_out);
 	if (redtype == 2 || redtype == 3)
@@ -270,12 +270,16 @@ int	execution(t_data *data, t_tkn *cmd)
 	int	ret;
 
 	ret = open_heredocs(data);
+	setup_prompt_signals();
 	if (ret)
 		return (ret);
 	if (!next_pipe(cmd))
 	{
 		if (is_builtin(data))
+		{
 			ret = builtin_call(data, cmd);
+			return (ret);
+		}
 		else
 			ret = no_pipes(data, cmd);
 	}
@@ -285,5 +289,5 @@ int	execution(t_data *data, t_tkn *cmd)
 		data->exit_status = WEXITSTATUS(data->exit_status);
 	if (WIFSIGNALED(data->exit_status))
 		data->exit_status = WTERMSIG(data->exit_status) + 128;
-	return (ret);
+	return (data->exit_status);
 }
