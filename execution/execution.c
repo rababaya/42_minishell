@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/14 18:13:46 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:10:27 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	path_join(char *cmd, char *path, char **res)
 		len++;
 	*res = (char *)malloc(len);
 	if (!*res)
-		return (127);
+		return (1);
 	i = 0;
 	while (*path)
 		(*res)[i++] = *(path++);
@@ -80,14 +80,14 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 	if (get_path(env))
 		paths = ft_split(get_path(env), ':');
 	else
-		return (127);//
-	if (!paths)
 		return (127);
+	if (!paths)
+		return (1);
 	i = 0;
 	while (paths[i])
 	{
 		if (path_join(cmd, paths[i], &tmp))
-			return (free_split(&paths), 127);
+			return (free_split(&paths), 1);
 		if (!access(tmp, F_OK) && !access(tmp, X_OK))
 		{
 			*path = tmp;
@@ -127,7 +127,7 @@ int	child_process(t_data *data, t_tkn *cmd)
 		return (0);
 	envp = lst_to_str(data->env_list);
 	if (!envp)
-		return (127);
+		return (1);
 	if (set_to_path(data->env_list, get_cmd(cmd), &path))
 	{
 		print_err(cmd->token);
@@ -139,7 +139,6 @@ int	child_process(t_data *data, t_tkn *cmd)
 	data->args = convertion(cmd, arg_len(cmd));
 	if (!data->args)
 		return (127);
-	// free_data_no_args(data);
 	execve(path, data->args, envp);
 	return (127);
 }
@@ -242,6 +241,9 @@ int	execution(t_data *data, t_tkn *cmd)
 {
 	int	ret;
 
+	ret = open_heredocs(data);
+	if (ret)
+		return (ret);
 	if (!next_pipe(cmd))
 	{
 		if (is_builtin(data))

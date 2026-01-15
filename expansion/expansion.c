@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/14 15:52:25 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/15 13:59:17 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	handle_vars(int *i, t_data *data, t_tkn *tkn, char **res)
 		tmp = find_vars(tkn->token + *i + 1, data);
 	*i += varname_len(tkn->token + *i + 1) + 1;
 	if (!tmp)
-		return (1);
+		return (0);
 	*res = ft_strglue(*res, tmp);
 	if (free_tmp)
 		free(tmp);

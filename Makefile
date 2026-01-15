@@ -63,7 +63,8 @@ EXEC_SRC			=	$(EXEC_SRC_DIR)/execution.c \
 						$(EXEC_SRC_DIR)/redirection.c \
 						$(EXEC_SRC_DIR)/pipes.c \
 						$(EXEC_SRC_DIR)/expand_heredoc.c \
-						$(EXEC_SRC_DIR)/heredoc.c
+						$(EXEC_SRC_DIR)/heredoc.c \
+						$(EXEC_SRC_DIR)/heredoc_setup.c
 
 SIGNALS_SRC			=	$(SIGNALS_SRC_DIR)/sigint.c
 

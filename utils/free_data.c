@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 14:23:20 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 00:29:46 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:00:45 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_data	*data_init(void)
 	data->tkn_list = NULL;
 	data->exit_status = 0;
 	data->hrdc = NULL;
-	data->heredoc_fd = -1;
 	return (data);
 }
 
@@ -36,14 +35,19 @@ void	free_data(t_data *data)
 		ft_envclear(&(data->env_list));
 	if (data->tkn_list != NULL)
 		ft_tknclear(&(data->tkn_list));
+	if (data->hrdc)
+		free(data->hrdc);
+	data->hrdc = NULL;
 	if (data)
 		free(data);
 }
 
-void	free_data_no_args(t_data *data)
+void	clear_data(t_data *data)
 {
-	if (data->env_list != NULL)
-		ft_envclear(&(data->env_list));
+	if (data->args != NULL)
+		free(data->args);
+	data->args = NULL;
 	if (data->tkn_list != NULL)
 		ft_tknclear(&(data->tkn_list));
+	data->tkn_list = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:25:02 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 00:21:30 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:41:04 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	redirection (t_data *data, t_tkn *cmd)
 	while (redir && redir->type != PIPE)
 	{
 		if (redir->type == HRDC)
-			ret = heredoc(data, redir);
+			ret = heredoc_execution(data, redir);
 		else if (redir->type == RED_OUT)
 			ret = red_out(redir);
 		else if (redir->type == RED_IN)
@@ -85,7 +85,5 @@ int	redirection (t_data *data, t_tkn *cmd)
 		redir = redir->next;
 	}
 	signal(SIGQUIT, SIG_DFL);
-	if (heredoc_execution(data))
-		return (1);
 	return (0);
 }

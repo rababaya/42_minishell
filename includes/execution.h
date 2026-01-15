@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 10:21:52 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 00:27:19 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 13:38:50 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int		pipes(t_data *data, t_tkn *tkn);
 int		arg_len(t_tkn *tkn);
 int		heredoc_exec(t_data *data);
 int		expand_heredoc(char **line, t_data *data);
-int		heredoc_execution(t_data *data);
-int		heredoc(t_data *data, t_tkn *hrdc);
+int		heredoc_execution(t_data *data, t_tkn *tkn);
+int		open_heredocs(t_data *data);
+int		heredoc(t_data *data, t_tkn *hrdc, int i);
 
 #endif

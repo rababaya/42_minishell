@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 00:36:49 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:40:27 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_data
 	char	**args;
 	int		exit_status;
 	t_hrdc	*hrdc;
-	int		heredoc_fd;
 }	t_data;
 
 t_env	*parse_env(char **env);

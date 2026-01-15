@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:09:56 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/14 15:08:44 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/15 14:33:11 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	heredoc_cycle(t_data *data, const char *eof, int fd[2], int expand)
 	return (0);
 }
 
-int	heredoc(t_data *data, t_tkn *hr)
+int	heredoc(t_data *data, t_tkn *hr, int i)
 {
 	char	*eof;
 	int		fd[2];
@@ -107,24 +107,58 @@ int	heredoc(t_data *data, t_tkn *hr)
 	if (hr->next->token == NULL)
 		return (1);
 	eof = hr->next->token;
-	if (data->heredoc_fd != -1)
-		close(data->heredoc_fd);
 	if (pipe(fd) == -1)
 		return (perror("minishell: heredoc"), 1);
 	g_sig_status = 0;
 	if (heredoc_cycle(data, eof, fd, expand))
 		return (1);
 	close(fd[1]);
-	data->heredoc_fd = fd[0];
+	(data->hrdc)[i].fd = fd[0];
 	return (0);
 }
 
-int	heredoc_execution(t_data *data)
+t_tkn	*get_last_tkn(t_tkn *tkn)
 {
-	if (data->heredoc_fd == -1)
+	while (tkn && tkn->type != PIPE)
+		tkn = tkn->next;
+	return (tkn);
+}
+
+int	is_last_hrdc(t_tkn *tkn)
+{
+	tkn = tkn->next;
+	while (tkn && tkn->type != PIPE)
+	{
+		if (tkn->type == HRDC)
+			return (0);
+		tkn = tkn->next;
+	}
+	return (1);
+}
+
+int	get_proper_fd(t_data *data, t_tkn *tkn)
+{
+	int		i;
+	t_tkn	*last;
+
+	i = 0;
+	last = get_last_tkn(tkn);
+	while ((data->hrdc)[i].tkn != last)
+		i++;
+	return ((data->hrdc)[i].fd);
+}
+
+int	heredoc_execution(t_data *data, t_tkn *tkn)
+{
+	int	fd;
+
+	if (!is_last_hrdc(tkn))
 		return (0);
-	if (dup2(data->heredoc_fd, STDIN_FILENO) < 0)
-		return (close(data->heredoc_fd), 1);
-	close(data->heredoc_fd);
+	fd = get_proper_fd(data, tkn);
+	if (fd == 0)
+		return (0);
+	if (dup2(fd, STDIN_FILENO) < 0)
+		return (close(fd), errno);
+	close(fd);
 	return (0);
 }
