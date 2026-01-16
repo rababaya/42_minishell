@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 17:24:26 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/16 17:46:57 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		add_history(input);
 		if (!check_punctuation(input))
-		{
+		{	
 			free(input);
 			continue ;
 		}
@@ -108,7 +108,12 @@ int	main(int argc, char **argv, char **env)
 		free(input);
 		if (start_expansion(data))
 			return (free_data(data), 1);
-		remove_empties(&(data->tkn_list));
+		if (syntax_check(data->tkn_list))
+		{
+			ft_tknclear(&(data->tkn_list));
+			continue;
+		}
+		// remove_empties(&(data->tkn_list));
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		execution(data, data->tkn_list);
