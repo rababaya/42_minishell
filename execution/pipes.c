@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_tkn *next_pipe(t_tkn *tkn)
+t_tkn	*next_pipe(t_tkn *tkn)
 {
 	while (tkn && tkn->type != PIPE)
 	{
@@ -21,9 +21,9 @@ t_tkn *next_pipe(t_tkn *tkn)
 	return (tkn);
 }
 
-int pipe_count(t_tkn *tkn)
+int	pipe_count(t_tkn *tkn)
 {
-	int c;
+	int	c;
 
 	c = 0;
 	while (tkn)
@@ -39,7 +39,7 @@ int pipe_count(t_tkn *tkn)
 
 int	next_pipe_count(t_tkn *tkn)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (tkn && tkn->type != PIPE)
@@ -50,9 +50,9 @@ int	next_pipe_count(t_tkn *tkn)
 	return (count);
 }
 
-int single_command(t_data *data, t_tkn *cmd)
+int	single_command(t_data *data, t_tkn *cmd)
 {
-	int ret;
+	int	ret;
 
 	if (redirection(data, cmd))
 	{
@@ -62,7 +62,7 @@ int single_command(t_data *data, t_tkn *cmd)
 	if (!data->args)
 		return (127);
 	ret = child_process(data, cmd);
-		///
+	///
 	return (ret);
 }
 
@@ -76,20 +76,20 @@ void	mayday(int *pid, int i, int fd[2], int len)
 		close(fd[0]);
 		close(fd[1]);
 	}
-	while(j < i)
+	while (j < i)
 	{
 		waitpid(pid[j], NULL, 0);
 		j++;
 	}
 }
 
-int pipes(t_data *data, t_tkn *tkn)
+int	pipes(t_data *data, t_tkn *tkn)
 {
-	int fd[2];
-	int *pid;
-	int len;
-	int lastread;
-	int i;
+	int	fd[2];
+	int	*pid;
+	int	len;
+	int	lastread;
+	int	i;
 
 	i = 0;
 	lastread = 0;
@@ -115,6 +115,7 @@ int pipes(t_data *data, t_tkn *tkn)
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGINT, SIG_DFL);
 			free(pid);
+			close_unused_heredocs(data, tkn);
 			if (i != len)
 				close(fd[0]);
 			if (i)

@@ -123,10 +123,9 @@ int	main(int argc, char **argv, char **env)
 			print("Quit (core dumped)\n");
 		free(data->args);
 		data->args = NULL;
+		free_heredocs(data);
 		ft_tknclear(&data->tkn_list);
 		data->tkn_list = NULL;
-		free(data->hrdc);
-		data->hrdc = NULL;
 	}
 	rl_clear_history();
 	return (status);

@@ -16,6 +16,8 @@
 void	*ft_my_realloc(void *ptr, size_t old_size, size_t new_size);
 t_data	*data_init(void);
 void	free_data(t_data *data);
+void	free_heredocs(t_data *data);
+void	close_unused_heredocs(t_data *data, t_tkn *current_cmd);
 void	clear_data(t_data *data);
 void	free_split(char ***s);
 char	*ft_strglue(char *s1, char *s2);

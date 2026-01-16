@@ -37,8 +37,8 @@ char	*get_path(t_env *env)
 
 int	path_join(char *cmd, char *path, char **res)
 {
-	int		len;
-	int		i;
+	int	len;
+	int	i;
 
 	len = ft_strlen(path) + ft_strlen(cmd) + 1;
 	if (ft_strlen(path) && path[ft_strlen(path) - 1] != '/')
@@ -49,7 +49,7 @@ int	path_join(char *cmd, char *path, char **res)
 	i = 0;
 	while (*path)
 		(*res)[i++] = *(path++);
-	if (*(path - 1) != '/')//seg check
+	if (*(path - 1) != '/') // seg check
 		(*res)[i++] = '/';
 	while (*cmd)
 	{
@@ -97,11 +97,11 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 	return (free_split(&paths), 127);
 }
 
-int print_err(char *s)
+int	print_err(char *s)
 {
 	char	*str;
 	int		len;
-	
+
 	len = ft_strlen(s);
 	str = (char *)malloc(32 + len);
 	if (!str)
@@ -159,7 +159,7 @@ int	child_process(t_data *data, t_tkn *cmd)
 	{
 		if (path)
 			free(path);
-		return(print_err(cmd->token), free_split(&envp), ret);
+		return (print_err(cmd->token), free_split(&envp), ret);
 	}
 	args = convertion(cmd, arg_len(cmd));
 	if (!args)
@@ -197,7 +197,7 @@ int	red_in_out(t_tkn *cmd)
 {
 	int	redout;
 	int	redin;
-	
+
 	redout = 0;
 	redin = 0;
 	while (cmd)
@@ -243,8 +243,8 @@ int	builtin_call(t_data *data, t_tkn *cmd)
 
 int	no_pipes(t_data *data, t_tkn *cmd)
 {
-	int		pid;
-	int		ret;
+	int	pid;
+	int	ret;
 
 	pid = fork();
 	if (pid < 0)
@@ -253,6 +253,7 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		close_unused_heredocs(data, cmd);
 		ret = redirection(data, cmd);
 		if (ret)
 		{

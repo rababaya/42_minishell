@@ -27,6 +27,46 @@ t_data	*data_init(void)
 	return (data);
 }
 
+void	close_unused_heredocs(t_data *data, t_tkn *current_cmd)
+{
+	int		i;
+	int		count;
+	t_tkn	*last;
+
+	if (!data->hrdc)
+		return ;
+	count = count_heredocs(data);
+	last = current_cmd;
+	while (last && last->type != PIPE)
+		last = last->next;
+	i = 0;
+	while (i < count)
+	{
+		if (data->hrdc[i].tkn != last && data->hrdc[i].fd > 0)
+			close(data->hrdc[i].fd);
+		i++;
+	}
+}
+
+void	free_heredocs(t_data *data)
+{
+	int	i;
+	int	count;
+
+	if (!data->hrdc)
+		return ;
+	count = count_heredocs(data);
+	i = 0;
+	while (i < count)
+	{
+		if (data->hrdc[i].fd > 0)
+			close(data->hrdc[i].fd);
+		i++;
+	}
+	free(data->hrdc);
+	data->hrdc = NULL;
+}
+
 void	free_data(t_data *data)
 {
 	if (data->args != NULL)

@@ -26,8 +26,8 @@
 # include "ft_printf.h"
 # include "list_ops.h"
 # include "builtins.h"
-# include "utils.h"
 # include "tokenisation.h"
+# include "utils.h"
 # include "execution.h"
 
 extern int	g_sig_status;

@@ -30,5 +30,6 @@ int		expand_heredoc(char **line, t_data *data);
 int		heredoc_execution(t_data *data, t_tkn *tkn);
 int		open_heredocs(t_data *data);
 int		heredoc(t_data *data, t_tkn *hrdc, int i);
+int		count_heredocs(t_data *data);
 
 #endif

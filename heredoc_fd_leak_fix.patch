@@ -1,0 +1,287 @@
+diff --git a/Makefile b/Makefile
+index 1377428..c52be52 100644
+--- a/Makefile
++++ b/Makefile
+@@ -76,8 +76,8 @@ MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
+ 						$(ENV_OP_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXEC_SRC)\
+ 						$(EXPND_SRC) $(SIGNALS_SRC)
+ 
+-VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all  --suppressions=readline.supp
+- 
++VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --suppressions=readline.supp
++
+ MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
+ 
+ all:				$(NAME)
+diff --git a/execution/execution.c b/execution/execution.c
+index 3775bf0..921395c 100644
+--- a/execution/execution.c
++++ b/execution/execution.c
+@@ -37,8 +37,8 @@ char	*get_path(t_env *env)
+ 
+ int	path_join(char *cmd, char *path, char **res)
+ {
+-	int		len;
+-	int		i;
++	int	len;
++	int	i;
+ 
+ 	len = ft_strlen(path) + ft_strlen(cmd) + 1;
+ 	if (ft_strlen(path) && path[ft_strlen(path) - 1] != '/')
+@@ -49,7 +49,7 @@ int	path_join(char *cmd, char *path, char **res)
+ 	i = 0;
+ 	while (*path)
+ 		(*res)[i++] = *(path++);
+-	if (*(path - 1) != '/')//seg check
++	if (*(path - 1) != '/') // seg check
+ 		(*res)[i++] = '/';
+ 	while (*cmd)
+ 	{
+@@ -97,11 +97,11 @@ int	set_to_path(t_env *env, char *cmd, char **path)
+ 	return (free_split(&paths), 127);
+ }
+ 
+-int print_err(char *s)
++int	print_err(char *s)
+ {
+ 	char	*str;
+ 	int		len;
+-	
++
+ 	len = ft_strlen(s);
+ 	str = (char *)malloc(32 + len);
+ 	if (!str)
+@@ -159,7 +159,7 @@ int	child_process(t_data *data, t_tkn *cmd)
+ 	{
+ 		if (path)
+ 			free(path);
+-		return(print_err(cmd->token), free_split(&envp), ret);
++		return (print_err(cmd->token), free_split(&envp), ret);
+ 	}
+ 	args = convertion(cmd, arg_len(cmd));
+ 	if (!args)
+@@ -197,7 +197,7 @@ int	red_in_out(t_tkn *cmd)
+ {
+ 	int	redout;
+ 	int	redin;
+-	
++
+ 	redout = 0;
+ 	redin = 0;
+ 	while (cmd)
+@@ -243,8 +243,8 @@ int	builtin_call(t_data *data, t_tkn *cmd)
+ 
+ int	no_pipes(t_data *data, t_tkn *cmd)
+ {
+-	int		pid;
+-	int		ret;
++	int	pid;
++	int	ret;
+ 
+ 	pid = fork();
+ 	if (pid < 0)
+@@ -253,6 +253,7 @@ int	no_pipes(t_data *data, t_tkn *cmd)
+ 	{
+ 		signal(SIGINT, SIG_DFL);
+ 		signal(SIGQUIT, SIG_DFL);
++		close_unused_heredocs(data, cmd);
+ 		ret = redirection(data, cmd);
+ 		if (ret)
+ 		{
+diff --git a/execution/pipes.c b/execution/pipes.c
+index cbc45c6..bffd0fe 100644
+--- a/execution/pipes.c
++++ b/execution/pipes.c
+@@ -12,7 +12,7 @@
+ 
+ #include "minishell.h"
+ 
+-t_tkn *next_pipe(t_tkn *tkn)
++t_tkn	*next_pipe(t_tkn *tkn)
+ {
+ 	while (tkn && tkn->type != PIPE)
+ 	{
+@@ -21,9 +21,9 @@ t_tkn *next_pipe(t_tkn *tkn)
+ 	return (tkn);
+ }
+ 
+-int pipe_count(t_tkn *tkn)
++int	pipe_count(t_tkn *tkn)
+ {
+-	int c;
++	int	c;
+ 
+ 	c = 0;
+ 	while (tkn)
+@@ -39,7 +39,7 @@ int pipe_count(t_tkn *tkn)
+ 
+ int	next_pipe_count(t_tkn *tkn)
+ {
+-	int count;
++	int	count;
+ 
+ 	count = 0;
+ 	while (tkn && tkn->type != PIPE)
+@@ -50,9 +50,9 @@ int	next_pipe_count(t_tkn *tkn)
+ 	return (count);
+ }
+ 
+-int single_command(t_data *data, t_tkn *cmd)
++int	single_command(t_data *data, t_tkn *cmd)
+ {
+-	int ret;
++	int	ret;
+ 
+ 	if (redirection(data, cmd))
+ 	{
+@@ -62,7 +62,7 @@ int single_command(t_data *data, t_tkn *cmd)
+ 	if (!data->args)
+ 		return (127);
+ 	ret = child_process(data, cmd);
+-		///
++	///
+ 	return (ret);
+ }
+ 
+@@ -76,20 +76,20 @@ void	mayday(int *pid, int i, int fd[2], int len)
+ 		close(fd[0]);
+ 		close(fd[1]);
+ 	}
+-	while(j < i)
++	while (j < i)
+ 	{
+ 		waitpid(pid[j], NULL, 0);
+ 		j++;
+ 	}
+ }
+ 
+-int pipes(t_data *data, t_tkn *tkn)
++int	pipes(t_data *data, t_tkn *tkn)
+ {
+-	int fd[2];
+-	int *pid;
+-	int len;
+-	int lastread;
+-	int i;
++	int	fd[2];
++	int	*pid;
++	int	len;
++	int	lastread;
++	int	i;
+ 
+ 	i = 0;
+ 	lastread = 0;
+@@ -115,6 +115,7 @@ int pipes(t_data *data, t_tkn *tkn)
+ 			signal(SIGQUIT, SIG_DFL);
+ 			signal(SIGINT, SIG_DFL);
+ 			free(pid);
++			close_unused_heredocs(data, tkn);
+ 			if (i != len)
+ 				close(fd[0]);
+ 			if (i)
+diff --git a/includes/execution.h b/includes/execution.h
+index 72c4ad1..db62685 100644
+--- a/includes/execution.h
++++ b/includes/execution.h
+@@ -30,5 +30,6 @@ int		expand_heredoc(char **line, t_data *data);
+ int		heredoc_execution(t_data *data, t_tkn *tkn);
+ int		open_heredocs(t_data *data);
+ int		heredoc(t_data *data, t_tkn *hrdc, int i);
++int		count_heredocs(t_data *data);
+ 
+ #endif
+\ No newline at end of file
+diff --git a/includes/minishell.h b/includes/minishell.h
+index 41333a8..cde3a4d 100644
+--- a/includes/minishell.h
++++ b/includes/minishell.h
+@@ -26,8 +26,8 @@
+ # include "ft_printf.h"
+ # include "list_ops.h"
+ # include "builtins.h"
+-# include "utils.h"
+ # include "tokenisation.h"
++# include "utils.h"
+ # include "execution.h"
+ 
+ extern int	g_sig_status;
+diff --git a/includes/utils.h b/includes/utils.h
+index a3db169..cbcaab7 100644
+--- a/includes/utils.h
++++ b/includes/utils.h
+@@ -16,6 +16,8 @@
+ void	*ft_my_realloc(void *ptr, size_t old_size, size_t new_size);
+ t_data	*data_init(void);
+ void	free_data(t_data *data);
++void	free_heredocs(t_data *data);
++void	close_unused_heredocs(t_data *data, t_tkn *current_cmd);
+ void	clear_data(t_data *data);
+ void	free_split(char ***s);
+ char	*ft_strglue(char *s1, char *s2);
+diff --git a/main.c b/main.c
+index a81607f..2f8a9d0 100755
+--- a/main.c
++++ b/main.c
+@@ -118,10 +118,9 @@ int	main(int argc, char **argv, char **env)
+ 			print("Quit (core dumped)\n");
+ 		free(data->args);
+ 		data->args = NULL;
++		free_heredocs(data);
+ 		ft_tknclear(&data->tkn_list);
+ 		data->tkn_list = NULL;
+-		free(data->hrdc);
+-		data->hrdc = NULL;
+ 	}
+ 	rl_clear_history();
+ 	return (status);
+diff --git a/utils/free_data.c b/utils/free_data.c
+index 531e5d3..546e4d2 100644
+--- a/utils/free_data.c
++++ b/utils/free_data.c
+@@ -27,6 +27,46 @@ t_data	*data_init(void)
+ 	return (data);
+ }
+ 
++void	close_unused_heredocs(t_data *data, t_tkn *current_cmd)
++{
++	int		i;
++	int		count;
++	t_tkn	*last;
++
++	if (!data->hrdc)
++		return ;
++	count = count_heredocs(data);
++	last = current_cmd;
++	while (last && last->type != PIPE)
++		last = last->next;
++	i = 0;
++	while (i < count)
++	{
++		if (data->hrdc[i].tkn != last && data->hrdc[i].fd > 0)
++			close(data->hrdc[i].fd);
++		i++;
++	}
++}
++
++void	free_heredocs(t_data *data)
++{
++	int	i;
++	int	count;
++
++	if (!data->hrdc)
++		return ;
++	count = count_heredocs(data);
++	i = 0;
++	while (i < count)
++	{
++		if (data->hrdc[i].fd > 0)
++			close(data->hrdc[i].fd);
++		i++;
++	}
++	free(data->hrdc);
++	data->hrdc = NULL;
++}
++
+ void	free_data(t_data *data)
+ {
+ 	if (data->args != NULL)
