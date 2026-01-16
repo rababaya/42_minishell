@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 16:27:17 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 23:09:54 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 01:23:21 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ int	single_command(t_data *data, t_tkn *cmd)
 
 	if (redirection(data, cmd))
 	{
+		free_data(data);
 		return (127);
 	}
 	data->args = convertion(cmd, arg_len(cmd));
 	if (!data->args)
-		return (127);
+		return (free_data(data), 127);
 	ret = child_process(data, cmd);
-	///
+	free_data(data);
 	return (ret);
 }
 
