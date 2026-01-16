@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:09:56 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 22:01:52 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 02:08:42 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,10 @@ int	heredoc_cycle(t_data *data, const char *eof, int fd[2], int expand)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || g_sig_status == 130)
+		if (!line)
 		{
-			return (close(fd[0]), close(fd[1]), 1);
+			data->exit_status = -1;
+			return (1);
 		}
 		if (ft_strncmp(line, eof, ft_strlen(eof) + 1) == 0)
 		{
@@ -80,7 +81,7 @@ int	heredoc_cycle(t_data *data, const char *eof, int fd[2], int expand)
 		}
 		if (expand)
 			if (expand_heredoc(&line, data))
-				return (close(fd[0]), close(fd[1]), 1);
+				return (1);
 		write(fd[1], line, ft_strlen(line));
 		write(fd[1], "\n", 1);
 		free(line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 23:09:42 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 02:03:28 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,8 +265,8 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 		free_data(data);
 		exit(ret);
 	}
-	waitpid(pid, &data->exit_status, 0);
-	return (0);
+	waitpid(pid, &ret, 0);
+	return (ret);
 }
 
 int	execution(t_data *data, t_tkn *cmd)
@@ -275,23 +275,25 @@ int	execution(t_data *data, t_tkn *cmd)
 
 	ret = open_heredocs(data);
 	setup_prompt_signals();
+	if (data->exit_status == -1)
+	{
+		data->exit_status = 0;
+		return (0);
+	}
 	if (ret)
-		return (ret);
+		return (1);
 	if (!next_pipe(cmd))
 	{
 		if (is_builtin(data))
-		{
-			ret = builtin_call(data, cmd);
-			return (ret);
-		}
+			return (builtin_call(data, cmd));
 		else
 			ret = no_pipes(data, cmd);
 	}
 	else
 		ret = pipes(data, cmd);
-	if (WIFEXITED(data->exit_status))
-		data->exit_status = WEXITSTATUS(data->exit_status);
-	if (WIFSIGNALED(data->exit_status))
-		data->exit_status = WTERMSIG(data->exit_status) + 128;
-	return (data->exit_status);
+	if (WIFEXITED(ret))
+		data->exit_status = WEXITSTATUS(ret);
+	if (WIFSIGNALED(ret))
+		data->exit_status = WTERMSIG(ret) + 128;
+	return (0);
 }

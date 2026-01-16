@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/16 19:57:21 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 01:49:39 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,8 @@ int	main(int argc, char **argv, char **env)
 		// remove_empties(&(data->tkn_list));
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
-		data->exit_status = execution(data, data->tkn_list);
+		if (execution(data, data->tkn_list))
+			return (free_data(data), printf("Error in execution\n"), 1);
 		if (data->exit_status == 130)
 			write(1, "\n", 1);
 		if (data->exit_status == 131)
