@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 16:27:17 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 19:40:20 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:55:27 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,72 +89,65 @@ void	mayday(int *pid, int i, int fd[2], int len)
 		j++;
 	}
 }
-
-int	pipes(t_data *data, t_tkn *tkn)
+void	in_child(t_pipes *p, t_data *data, t_tkn *tkn)
 {
-	int	fd[2];
-	int	*pid;
-	int	len;
-	int	lastread;
-	int	i;
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	free(p->pid);
+	close_unused_heredocs(data, tkn);
+	if (p->i)
+	{
+		dup2(p->lastread, STDIN_FILENO);
+		close(p->lastread);
+	}
+	if (p->i != p->len)
+	{
+		dup2((p->fd)[1], STDOUT_FILENO);
+		close((p->fd)[1]);
+		close((p->fd)[0]);
+	}
+	exit(single_command(data, tkn));
+}
 
-	i = 0;
-	lastread = 0;
-	len = pipe_count(tkn);
-	pid = (int *)malloc(sizeof(int) * (len + 1));
-	if (!pid)
+t_tkn	*normi_xatr(t_pipes *p, t_tkn *tkn)
+{
+	if (p->i != p->len)
+		close((p->fd)[1]);
+	if (p->i)
+		close(p->lastread);
+	if (p->i != p->len)
+		p->lastread = (p->fd)[0];
+	(p->i)++;
+	tkn = next_pipe(tkn);
+	if (tkn)
+		tkn = tkn->next;
+	return (tkn);
+}
+
+int    pipes(t_data *data, t_tkn *tkn)
+{
+	t_pipes	p;
+
+	p.i = 0;
+	p.lastread = 0;
+	p.len = pipe_count(tkn);
+	p.pid = (int *)malloc(sizeof(int) * (p.len + 1));
+	if (!p.pid)
 		return (127);
-	while (i <= len)
+	while (p.i <= p.len)
 	{
-		if (i != len && pipe(fd))
-		{
-			mayday(pid, i, fd, i);
-			return (127);
-		}
-		pid[i] = fork();
-		if (pid[i] < 0)
-		{
-			mayday(pid, i, fd, len);
-			return (127);
-		}
-		if (pid[i] == 0)
-		{
-			signal(SIGQUIT, SIG_DFL);
-			signal(SIGINT, SIG_DFL);
-			free(pid);
-			close_unused_heredocs(data, tkn);
-			if (i != len)
-				close(fd[0]);
-			if (i)
-			{
-				dup2(lastread, STDIN_FILENO);
-				close(lastread);
-			}
-			if (i != len)
-			{
-				dup2(fd[1], STDOUT_FILENO);
-				close(fd[1]);
-			}
-			exit(single_command(data, tkn));
-		}
-		if (i != len)
-			close(fd[1]);
-		if (i)
-			close(lastread);
-		if (i != len)
-			lastread = fd[0];
-		i++;
-		tkn = next_pipe(tkn);
-		if (tkn)
-			tkn = tkn->next;
+		if (p.i != p.len && pipe(p.fd))
+			return (mayday(p.pid, p.i, p.fd, p.i), 127);
+		(p.pid)[p.i] = fork();
+		if ((p.pid)[p.i] < 0)
+			return (mayday(p.pid, p.i, p.fd, p.len), 127);
+		if ((p.pid)[p.i] == 0)
+			in_child(&p, data, tkn);
+		tkn = normi_xatr(&p, tkn);
 	}
-	(void)data;
-	i = 0;
-	while (i < len)
-	{
-		waitpid(pid[i++], NULL, 0);
-	}
-	waitpid(pid[i], &data->exit_status, 0);
-	free(pid);
-	return (data->exit_status);
+	p.i = 0;
+	while (p.i < p.len)
+		waitpid((p.pid)[(p.i)++], NULL, 0);
+	waitpid((p.pid)[p.i], &data->exit_status, 0);
+	return (free(p.pid), data->exit_status);
 }
