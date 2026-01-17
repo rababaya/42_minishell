@@ -1,5 +1,5 @@
 CC					=	cc
-CFLAGS				=	-Wall -Wextra -Werror -I 42_libft -I includes -g3
+CFLAGS				=	-Wall -Wextra -Werror -I 42_libft -I includes #-g3
 RM					=	rm -f
 NAME				=	minishell
 
@@ -80,7 +80,7 @@ MINISHELL_SRC		=	main.c main_utils.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
 						$(ENV_OP_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXEC_SRC)\
 						$(EXPND_SRC) $(SIGNALS_SRC)
 
-VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --suppressions=readline.supp
+# VALGRIND =	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --suppressions=readline.supp
 
 MINISHELL_OBJ		=	$(MINISHELL_SRC:%.c=obj/minishell/%.o)
 
@@ -108,8 +108,8 @@ clean:				lib_clean
 fclean:				clean lib_fclean
 					$(RM) $(NAME)
 
-val:				$(NAME)
-					$(VALGRIND) ./$(NAME)
+# val:				$(NAME)
+# 					$(VALGRIND) ./$(NAME)
 
 re:					fclean all
  
