@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 15:16:06 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 16:02:19 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		add_history(input);
 		if (!check_punctuation(input))
-		{	
+		{
 			free(input);
 			continue ;
 		}
@@ -112,9 +112,8 @@ int	main(int argc, char **argv, char **env)
 		{
 			data->exit_status = 2;
 			ft_tknclear(&(data->tkn_list));
-			continue;
+			continue ;
 		}
-		// remove_empties(&(data->tkn_list));
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		if (execution(data, data->tkn_list))

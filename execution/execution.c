@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/17 19:37:23 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:49:48 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	path_join(char *cmd, char *path, char **res)
 	i = 0;
 	while (*path)
 		(*res)[i++] = *(path++);
-	if (*(path - 1) != '/') // seg check
+	if (*(path - 1) != '/')
 		(*res)[i++] = '/';
 	while (*cmd)
 	{
@@ -59,7 +59,7 @@ int	path_join(char *cmd, char *path, char **res)
 	return (0);
 }
 
-int is_valid_exec(char *path)
+int	is_valid_exec(char *path)
 {
 	struct stat	st;
 
@@ -77,7 +77,7 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 	char	**paths;
 	char	*tmp;
 	int		i;
-	int 	ret;
+	int		ret;
 
 	tmp = NULL;
 	if (!cmd)
