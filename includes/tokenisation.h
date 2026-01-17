@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:13:52 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 00:26:13 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:49:26 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_tkn	*crt_tkn(char **str, int i);
 t_tkn	*tkn_arg(char **str);
 int		tokenise(t_tkn **tkn, char *str);
 int		check_punctuation(char *str);
-void	remove_empties(t_tkn **tkn);
 int		syntax_check(t_tkn *tkn);
 
 int		varname_len(char *tkn);

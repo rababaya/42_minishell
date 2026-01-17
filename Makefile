@@ -55,8 +55,7 @@ ENV_SRC				=	$(ENV_SRC_DIR)/env_parse.c
 
 TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c \
 						$(TKNSE_SRC_DIR)/punctuation.c \
-						$(TKNSE_SRC_DIR)/tokenisation_utils.c \
-						$(TKNSE_SRC_DIR)/remove_empties.c
+						$(TKNSE_SRC_DIR)/tokenisation_utils.c
 
 EXEC_SRC			=	$(EXEC_SRC_DIR)/execution.c \
 						$(EXEC_SRC_DIR)/exec_utils.c \
