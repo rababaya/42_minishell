@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 20:45:00 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 19:31:07 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:39:19 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ int	child_process(t_data *data, t_tkn *cmd)
 	args = convertion(cmd, arg_len(cmd));
 	if (!args)
 		return (free(path), free_split(&envp), 1);
-	cleanup(&data, args);
 	execve(path, args, envp);
-	return (free_split(&args), free_split(&envp), 2);
+	return (free(args), free_split(&envp), 2);
 }
 
 int	no_pipes(t_data *data, t_tkn *cmd)
@@ -61,8 +60,7 @@ int	no_pipes(t_data *data, t_tkn *cmd)
 			exit(ret);
 		}
 		ret = child_process(data, cmd);
-		if (ret != 2)
-			free_data(data);
+		free_data(data);
 		exit(ret);
 	}
 	waitpid(pid, &ret, 0);
