@@ -6,71 +6,11 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/17 15:49:48 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:25:10 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_cmd(t_tkn *cmd)
-{
-	while (cmd && cmd->type != PIPE)
-	{
-		if (cmd->type != ARG)
-			cmd = cmd->next->next;
-		else
-			return (cmd->token);
-	}
-	return (NULL);
-}
-
-char	*get_path(t_env *env)
-{
-	if (!env)
-		return (NULL);
-	while (env && ft_strncmp(env->key, "PATH", 5))
-		env = env->next;
-	if (!env)
-		return (NULL);
-	return (env->value);
-}
-
-int	path_join(char *cmd, char *path, char **res)
-{
-	int	len;
-	int	i;
-
-	len = ft_strlen(path) + ft_strlen(cmd) + 1;
-	if (ft_strlen(path) && path[ft_strlen(path) - 1] != '/')
-		len++;
-	*res = (char *)malloc(len);
-	if (!*res)
-		return (1);
-	i = 0;
-	while (*path)
-		(*res)[i++] = *(path++);
-	if (*(path - 1) != '/')
-		(*res)[i++] = '/';
-	while (*cmd)
-	{
-		(*res)[i++] = *(cmd++);
-	}
-	(*res)[i] = 0;
-	return (0);
-}
-
-int	is_valid_exec(char *path)
-{
-	struct stat	st;
-
-	if (stat(path, &st) != 0)
-		return (errno);
-	if (!S_ISREG(st.st_mode))
-		return (126);
-	if (access(path, X_OK) != 0)
-		return (errno);
-	return (0);
-}
 
 int	set_to_path(t_env *env, char *cmd, char **path)
 {
@@ -112,50 +52,6 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 	return (free_split(&paths), 127);
 }
 
-int	print_err(char *s)
-{
-	char	*str;
-	int		len;
-
-	len = ft_strlen(s);
-	str = (char *)malloc(32 + len);
-	if (!str)
-		return (1);
-	ft_memcpy(str, "minishell: ", 11);
-	ft_memcpy(str + 11, s, len);
-	ft_memcpy(str + 11 + len, ": command not found\n", 20);
-	str[31 + len] = 0;
-	write(2, str, len + 31);
-	free(str);
-	return (0);
-}
-
-void	tkn_cleanup(t_tkn *tkn_list, char **cmd)
-{
-	if (!tkn_list)
-		return ;
-	if (cmd && tkn_list->token == *cmd)
-	{
-		tkn_list->token = NULL;
-		cmd++;
-	}
-	tkn_cleanup(tkn_list->next, cmd);
-	if (tkn_list->token)
-		free(tkn_list->token);
-	free(tkn_list);
-}
-
-void	cleanup(t_data *data, char **cmd)
-{
-	tkn_cleanup(data->tkn_list, cmd);
-	if (data->env_list != NULL)
-		ft_envclear(&(data->env_list));
-	if (data->hrdc)
-		free(data->hrdc);
-	if (data)
-		free(data);
-}
-
 int	child_process(t_data *data, t_tkn *cmd)
 {
 	char	*path;
@@ -182,48 +78,6 @@ int	child_process(t_data *data, t_tkn *cmd)
 	cleanup(data, args);
 	execve(path, args, envp);
 	return (127);
-}
-
-int	is_builtin(t_tkn *tkn)
-{
-	char	*cmd;
-
-	cmd = get_cmd(tkn);
-	if (!cmd)
-		return (0);
-	if (!ft_strncmp(cmd, "echo", 5))
-		return (1);
-	else if (!ft_strncmp(cmd, "pwd", 4))
-		return (1);
-	else if (!ft_strncmp(cmd, "env", 4))
-		return (1);
-	else if (!ft_strncmp(cmd, "export", 7))
-		return (1);
-	else if (!ft_strncmp(cmd, "unset", 6))
-		return (1);
-	else if (!ft_strncmp(cmd, "cd", 3))
-		return (1);
-	else if (!ft_strncmp(cmd, "exit", 5))
-		return (1);
-	return (0);
-}
-
-int	red_in_out(t_tkn *cmd)
-{
-	int	redout;
-	int	redin;
-
-	redout = 0;
-	redin = 0;
-	while (cmd)
-	{
-		if (cmd->type == RED_OUT || cmd->type == APPND)
-			redout = 1;
-		if (cmd->type == RED_IN || cmd->type == HRDC)
-			redin = 2;
-		cmd = cmd->next;
-	}
-	return (redin + redout);
 }
 
 int	builtin_call(t_data *data, t_tkn *cmd)

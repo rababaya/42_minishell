@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 10:21:52 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/17 18:14:11 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:24:42 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,15 @@ int		heredoc(t_data *data, t_tkn *hrdc, int i);
 int		count_heredocs(t_data *data);
 int		builtin_call(t_data *data, t_tkn *cmd);
 int		is_builtin(t_tkn *tkn);
+
+char	*get_path(t_env *env);
+int		path_join(char *cmd, char *path, char **res);
+int		is_valid_exec(char *path);
+int		print_err(char *s);
+char	*get_cmd(t_tkn *cmd);
+void	tkn_cleanup(t_tkn *tkn_list, char **cmd);
+void	cleanup(t_data *data, char **cmd);
+int		is_builtin(t_tkn *tkn);
+int		red_in_out(t_tkn *cmd);
 
 #endif
