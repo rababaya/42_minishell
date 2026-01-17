@@ -110,7 +110,7 @@ fclean:				clean lib_fclean
 
 val:				$(NAME)
 					$(VALGRIND) ./$(NAME)
- 
+
 re:					fclean all
  
 .PHONY:				all lib_clean lib_fclean clean fclean re val

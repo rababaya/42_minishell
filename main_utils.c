@@ -6,22 +6,24 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 18:06:48 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 18:09:34 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:10:46 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_input_validation(char *input)
+int	handle_input_validation(char *input, t_data *data)
 {
 	if (!check_input(input))
 	{
+		data->exit_status = 2;
 		free(input);
 		return (0);
 	}
 	add_history(input);
 	if (!check_punctuation(input))
 	{
+		data->exit_status = 2;
 		free(input);
 		return (0);
 	}
@@ -45,6 +47,7 @@ int	process_tokenization(t_data *data, char *input)
 	if (syntax_check(data->tkn_list))
 	{
 		data->exit_status = 2;
+		ft_putstr_fd("Syntax error\n", 2);
 		ft_tknclear(&(data->tkn_list));
 		return (0);
 	}
@@ -72,7 +75,7 @@ int	process_input(t_data *data, char *input)
 {
 	int	status;
 
-	if (!handle_input_validation(input))
+	if (!handle_input_validation(input, data))
 		return (0);
 	status = process_tokenization(data, input);
 	if (status != 2)
