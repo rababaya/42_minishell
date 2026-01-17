@@ -61,6 +61,7 @@ TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c \
 EXEC_SRC			=	$(EXEC_SRC_DIR)/execution.c \
 						$(EXEC_SRC_DIR)/exec_utils.c \
 						$(EXEC_SRC_DIR)/exec_utils2.c \
+						$(EXEC_SRC_DIR)/exec_utils3.c \
 						$(EXEC_SRC_DIR)/redirection.c \
 						$(EXEC_SRC_DIR)/pipes_utils.c \
 						$(EXEC_SRC_DIR)/pipes.c \

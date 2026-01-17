@@ -12,16 +12,10 @@
 
 #include "minishell.h"
 
-int	set_to_path(t_env *env, char *cmd, char **path)
+static int	check_direct_path(char *cmd, char **path)
 {
-	char	**paths;
-	char	*tmp;
-	int		i;
-	int		ret;
+	int	ret;
 
-	tmp = NULL;
-	if (!cmd)
-		return (1);
 	if (cmd[0] == '.' || cmd[0] == '/')
 	{
 		ret = is_valid_exec(cmd);
@@ -30,12 +24,14 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 		*path = cmd;
 		return (0);
 	}
-	if (get_path(env))
-		paths = ft_split(get_path(env), ':');
-	else
-		return (127);
-	if (!paths)
-		return (1);
+	return (-1);
+}
+
+static int	search_in_paths(char *cmd, char **paths, char **path)
+{
+	char	*tmp;
+	int		i;
+
 	i = 0;
 	while (paths[i])
 	{
@@ -52,32 +48,23 @@ int	set_to_path(t_env *env, char *cmd, char **path)
 	return (free_split(&paths), 127);
 }
 
-int	child_process(t_data *data, t_tkn *cmd)
+int	set_to_path(t_env *env, char *cmd, char **path)
 {
-	char	*path;
-	char	**envp;
-	char	**args;
+	char	**paths;
 	int		ret;
 
-	path = NULL;
-	if (!get_cmd(cmd))
-		return (0);
-	envp = lst_to_str(data->env_list);
-	if (!envp)
+	if (!cmd)
 		return (1);
-	ret = set_to_path(data->env_list, get_cmd(cmd), &path);
-	if (ret)
-	{
-		if (path)
-			free(path);
-		return (print_err(cmd->token), free_split(&envp), ret);
-	}
-	args = convertion(cmd, arg_len(cmd));
-	if (!args)
-		return (free(path), free_split(&envp), 1);
-	cleanup(data, args);
-	execve(path, args, envp);
-	return (127);
+	ret = check_direct_path(cmd, path);
+	if (ret != -1)
+		return (ret);
+	if (get_path(env))
+		paths = ft_split(get_path(env), ':');
+	else
+		return (127);
+	if (!paths)
+		return (1);
+	return (search_in_paths(cmd, paths, path));
 }
 
 int	builtin_call(t_data *data, t_tkn *cmd)
@@ -107,34 +94,6 @@ int	builtin_call(t_data *data, t_tkn *cmd)
 	if (redtype == 2 || redtype == 3)
 		close(fd[0]);
 	return (0);
-}
-
-int	no_pipes(t_data *data, t_tkn *cmd)
-{
-	int	pid;
-	int	ret;
-
-	pid = fork();
-	if (pid < 0)
-		return (perror("minishell"), 1);
-	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		close_unused_heredocs(data, cmd);
-		ret = redirection(data, cmd);
-		if (ret)
-		{
-			free_data(data);
-			write(2, "Redirection error\n", 18);
-			exit(ret);
-		}
-		ret = child_process(data, cmd);
-		free_data(data);
-		exit(ret);
-	}
-	waitpid(pid, &ret, 0);
-	return (ret);
 }
 
 int	execution(t_data *data, t_tkn *cmd)
