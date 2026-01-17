@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 14:23:20 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 02:13:01 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:29:49 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	free_heredocs(t_data *data)
 
 void	free_data(t_data *data)
 {
+	if (!data)
+		return ;
 	if (data->args != NULL)
 		free(data->args);
 	if (data->env_list != NULL)

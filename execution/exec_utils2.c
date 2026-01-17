@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 18:22:40 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 18:23:42 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:27:27 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,19 @@ void	tkn_cleanup(t_tkn *tkn_list, char **cmd)
 	free(tkn_list);
 }
 
-void	cleanup(t_data *data, char **cmd)
+void	cleanup(t_data **data, char **cmd)
 {
-	tkn_cleanup(data->tkn_list, cmd);
-	if (data->env_list != NULL)
-		ft_envclear(&(data->env_list));
-	if (data->hrdc)
-		free(data->hrdc);
-	if (data)
-		free(data);
+	tkn_cleanup((*data)->tkn_list, cmd);
+	(*data)->tkn_list = NULL;
+	if ((*data)->env_list != NULL)
+		ft_envclear(&((*data)->env_list));
+	(*data)->env_list = NULL;
+	if ((*data)->hrdc)
+		free((*data)->hrdc);
+	(*data)->hrdc = NULL;
+	if (*data)
+		free(*data);
+	*data = NULL;
 }
 
 int	is_builtin(t_tkn *tkn)

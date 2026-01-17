@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:25:02 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 22:06:12 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:35:06 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	appnd(t_tkn *cmd)
 {
 	int		fd;
 
-	fd = open(cmd->next->token, O_WRONLY | O_TRUNC | O_CREAT | O_APPEND, 0644);
+	fd = open(cmd->next->token, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 		return (errno);
 	if (dup2(fd, STDOUT_FILENO) < 0)
