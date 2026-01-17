@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sigint.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/22 20:59:51 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 01:54:00 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:04:58 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,11 @@ void	setup_heredoc_signals(void)
 void	setup_prompt_signals(void)
 {
 	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	setup_main_signals(void)
+{
+	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

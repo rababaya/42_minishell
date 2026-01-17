@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 10:21:52 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/17 17:56:06 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:14:11 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int		execution(t_data *data, t_tkn *cmd);
 int		child_process(t_data *data, t_tkn *cmd);
 int		redirection(t_data *data, t_tkn *cmd);
 t_tkn	*next_pipe(t_tkn *tkn);
+int		pipe_count(t_tkn *tkn);
+int		next_pipe_count(t_tkn *tkn);
 int		pipes(t_data *data, t_tkn *tkn);
 int		arg_len(t_tkn *tkn);
 int		heredoc_exec(t_data *data);

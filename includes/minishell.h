@@ -6,7 +6,7 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:00:16 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 15:21:54 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:08:48 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,12 @@ char	**lst_to_str(t_env *env);
 
 void	heredoc_sigint(int sig);
 void	setup_heredoc_signals(void);
+void	setup_main_signals(void);
 void	setup_prompt_signals(void);
 void	sigint_handler(int sig);
+int		start_expansion(t_data *data);
+int		check_input(char *input);
+
+int		process_input(t_data *data, char *input);
 
 #endif

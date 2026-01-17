@@ -60,6 +60,7 @@ TKNSE_SRC			=	$(TKNSE_SRC_DIR)/tokenise.c \
 
 EXEC_SRC			=	$(EXEC_SRC_DIR)/execution.c \
 						$(EXEC_SRC_DIR)/redirection.c \
+						$(EXEC_SRC_DIR)/pipes_utils.c \
 						$(EXEC_SRC_DIR)/pipes.c \
 						$(EXEC_SRC_DIR)/expand_heredoc.c \
 						$(EXEC_SRC_DIR)/heredoc_exec.c \
@@ -72,7 +73,7 @@ EXPND_SRC			=	$(EXPND_SRC_DIR)/expansion.c \
 						$(EXPND_SRC_DIR)/expansion_utils.c \
 						$(EXPND_SRC_DIR)/convertion.c
 
-MINISHELL_SRC		=	main.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
+MINISHELL_SRC		=	main.c main_utils.c $(ENV_SRC) $(UTILS_SRC) $(BUILTINS_SRC) \
 						$(ENV_OP_SRC) $(TKN_SRC) $(TKNSE_SRC) $(EXEC_SRC)\
 						$(EXPND_SRC) $(SIGNALS_SRC)
 

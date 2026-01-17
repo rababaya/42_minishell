@@ -6,49 +6,11 @@
 /*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 16:27:17 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 17:55:27 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 18:14:26 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_tkn	*next_pipe(t_tkn *tkn)
-{
-	while (tkn && tkn->type != PIPE)
-	{
-		tkn = tkn->next;
-	}
-	return (tkn);
-}
-
-int	pipe_count(t_tkn *tkn)
-{
-	int	c;
-
-	c = 0;
-	while (tkn)
-	{
-		if (tkn->type == PIPE)
-		{
-			c++;
-		}
-		tkn = tkn->next;
-	}
-	return (c);
-}
-
-int	next_pipe_count(t_tkn *tkn)
-{
-	int	count;
-
-	count = 0;
-	while (tkn && tkn->type != PIPE)
-	{
-		count++;
-		tkn = tkn->next;
-	}
-	return (count);
-}
 
 int	single_command(t_data *data, t_tkn *cmd)
 {
@@ -89,6 +51,7 @@ void	mayday(int *pid, int i, int fd[2], int len)
 		j++;
 	}
 }
+
 void	in_child(t_pipes *p, t_data *data, t_tkn *tkn)
 {
 	signal(SIGQUIT, SIG_DFL);
@@ -124,7 +87,7 @@ t_tkn	*normi_xatr(t_pipes *p, t_tkn *tkn)
 	return (tkn);
 }
 
-int    pipes(t_data *data, t_tkn *tkn)
+int	pipes(t_data *data, t_tkn *tkn)
 {
 	t_pipes	p;
 
