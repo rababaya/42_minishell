@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/17 02:03:28 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:23:12 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,34 @@ int	path_join(char *cmd, char *path, char **res)
 	return (0);
 }
 
+int is_valid_exec(char *path)
+{
+	struct stat	st;
+
+	if (stat(path, &st) != 0)
+		return (errno);
+	if (!S_ISREG(st.st_mode))
+		return (126);
+	if (access(path, X_OK) != 0)
+		return (errno);
+	return (0);
+}
+
 int	set_to_path(t_env *env, char *cmd, char **path)
 {
 	char	**paths;
 	char	*tmp;
 	int		i;
+	int 	ret;
 
 	tmp = NULL;
 	if (!cmd)
 		return (1);
 	if (cmd[0] == '.' || cmd[0] == '/')
 	{
-		if (access(cmd, F_OK) || access(cmd, X_OK))
-			return (errno);
+		ret = is_valid_exec(cmd);
+		if (ret)
+			return (ret);
 		*path = cmd;
 		return (0);
 	}

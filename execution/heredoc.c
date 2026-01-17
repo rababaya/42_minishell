@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 22:09:56 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 02:08:42 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:25:03 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	heredoc(t_data *data, t_tkn *hr, int i)
 	g_sig_status = 0;
 	setup_heredoc_signals();
 	if (heredoc_cycle(data, eof, fd, expand))
-		return (1);
+		return (close(fd[1]), (data->hrdc)[i].fd = fd[0], 1);
 	close(fd[1]);
 	(data->hrdc)[i].fd = fd[0];
 	return (0);

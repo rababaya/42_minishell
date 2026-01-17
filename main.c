@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 14:59:43 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 01:49:39 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 15:16:06 by rababaya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	main(int argc, char **argv, char **env)
 			return (free_data(data), 1);
 		if (syntax_check(data->tkn_list))
 		{
+			data->exit_status = 2;
 			ft_tknclear(&(data->tkn_list));
 			continue;
 		}
