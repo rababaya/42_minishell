@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 17:01:24 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 13:59:17 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 17:42:56 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static char	*find_vars(char *tkn, t_data *data)
 	len = varname_len(tkn);
 	while (env)
 	{
-		if (!ft_strncmp(tkn, env->key, len))
-			return (env->value);
+		if ((size_t)len == ft_strlen(env->key))
+			if (!ft_strncmp(tkn, env->key, len))
+				return (env->value);
 		env = env->next;
 	}
 	return (NULL);
