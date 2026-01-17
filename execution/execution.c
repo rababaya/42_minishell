@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 17:01:00 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/17 15:23:12 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:37:23 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,11 +184,11 @@ int	child_process(t_data *data, t_tkn *cmd)
 	return (127);
 }
 
-int	is_builtin(t_data *data)
+int	is_builtin(t_tkn *tkn)
 {
 	char	*cmd;
 
-	cmd = get_cmd(data->tkn_list);
+	cmd = get_cmd(tkn);
 	if (!cmd)
 		return (0);
 	if (!ft_strncmp(cmd, "echo", 5))
@@ -229,15 +229,14 @@ int	red_in_out(t_tkn *cmd)
 int	builtin_call(t_data *data, t_tkn *cmd)
 {
 	int	redtype;
-	int	fd_in;
-	int	fd_out;
+	int	fd[2];
 	int	ret;
 
 	redtype = red_in_out(cmd);
 	if (redtype == 1 || redtype == 3)
-		fd_out = dup(STDOUT_FILENO);
+		fd[1] = dup(STDOUT_FILENO);
 	if (redtype == 2 || redtype == 3)
-		fd_in = dup(STDIN_FILENO);
+		fd[0] = dup(STDIN_FILENO);
 	ret = redirection(data, cmd);
 	if (ret)
 		return (ret);
@@ -245,14 +244,14 @@ int	builtin_call(t_data *data, t_tkn *cmd)
 	if (!data->args)
 		return (1);
 	data->exit_status = call(data);
-	if ((redtype == 1 || redtype == 3) && dup2(fd_out, STDOUT_FILENO) < 0)
-		return (close(fd_out), errno);
-	if ((redtype == 2 || redtype == 3) && dup2(fd_in, STDIN_FILENO) < 0)
-		return (close(fd_in), errno);
+	if ((redtype == 1 || redtype == 3) && dup2(fd[1], STDOUT_FILENO) < 0)
+		return (close(fd[1]), errno);
+	if ((redtype == 2 || redtype == 3) && dup2(fd[0], STDIN_FILENO) < 0)
+		return (close(fd[0]), errno);
 	if (redtype == 1 || redtype == 3)
-		close(fd_out);
+		close(fd[1]);
 	if (redtype == 2 || redtype == 3)
-		close(fd_in);
+		close(fd[0]);
 	return (0);
 }
 
@@ -299,7 +298,7 @@ int	execution(t_data *data, t_tkn *cmd)
 		return (1);
 	if (!next_pipe(cmd))
 	{
-		if (is_builtin(data))
+		if (is_builtin(data->tkn_list))
 			return (builtin_call(data, cmd));
 		else
 			ret = no_pipes(data, cmd);

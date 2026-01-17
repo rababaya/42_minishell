@@ -6,7 +6,7 @@
 /*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 16:27:17 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/17 01:23:21 by dgrigor2         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:33:11 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ int	single_command(t_data *data, t_tkn *cmd)
 	data->args = convertion(cmd, arg_len(cmd));
 	if (!data->args)
 		return (free_data(data), 127);
+	if (is_builtin(cmd))
+	{
+		ret = builtin_call(data, cmd);
+		free_data(data);
+		exit(ret);
+	}
 	ret = child_process(data, cmd);
 	free_data(data);
 	return (ret);

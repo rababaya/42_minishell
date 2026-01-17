@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/13 10:21:52 by dgrigor2          #+#    #+#             */
-/*   Updated: 2026/01/15 21:12:56 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:33:40 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ int		heredoc_execution(t_data *data, t_tkn *tkn);
 int		open_heredocs(t_data *data);
 int		heredoc(t_data *data, t_tkn *hrdc, int i);
 int		count_heredocs(t_data *data);
+int		builtin_call(t_data *data, t_tkn *cmd);
+int		is_builtin(t_tkn *tkn);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenisation_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rababaya <rababaya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dgrigor2 <dgrigor2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/11 16:07:29 by rababaya          #+#    #+#             */
-/*   Updated: 2026/01/15 22:55:28 by rababaya         ###   ########.fr       */
+/*   Updated: 2026/01/17 19:29:47 by dgrigor2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	is_red(char *str)
 {
-	if (!strncmp (str, "<<", 2))
+	if (!ft_strncmp (str, "<<", 2))
 		return (2);
-	if (!strncmp (str, ">>", 2))
+	if (!ft_strncmp (str, ">>", 2))
 		return (2);
 	if (*str == '<')
 		return (1);
@@ -29,9 +29,9 @@ int	is_red(char *str)
 
 int	red_type(char *str)
 {
-	if (!strncmp (str, "<<", 2))
+	if (!ft_strncmp (str, "<<", 2))
 		return (HRDC);
-	if (!strncmp (str, ">>", 2))
+	if (!ft_strncmp (str, ">>", 2))
 		return (APPND);
 	if (*str == '<')
 		return (RED_IN);
